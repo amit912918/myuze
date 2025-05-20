@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export function middleware(request: any) {
+export function middleware(request: NextRequest) {
     const isLoggedIn = false; // Replace with real auth check
 
     if (request.nextUrl.pathname.startsWith('/dashboard') && !isLoggedIn) {

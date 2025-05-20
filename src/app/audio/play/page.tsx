@@ -1,6 +1,7 @@
 'use client'; // Only for app directory (remove if using pages/ directory)
 import { FaArrowLeft, FaPlay, FaPause, FaForward, FaBackward } from "react-icons/fa";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function PodcastPlayer() {
     const [isPlaying, setIsPlaying] = useState(true);
@@ -18,7 +19,7 @@ export default function PodcastPlayer() {
 
             {/* Podcast Cover */}
             <div className="mb-4">
-                <img
+                <Image
                     src="/images/audio.png"
                     alt="Ikigai Cover"
                     className="w-full rounded-2xl"

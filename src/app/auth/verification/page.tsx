@@ -1,6 +1,31 @@
+'use client';
 import Link from "next/link";
+import { useRef, useState } from "react";
 
-export default function OTPVerification() {
+const OTPVerification: React.FC = () => {
+
+    const [otp, setOtp] = useState(["", "", "", ""]);
+    const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const val = e.target.value;
+        if (!/^\d?$/.test(val)) return;
+
+        const newOtp = [...otp];
+        newOtp[index] = val;
+        setOtp(newOtp);
+
+        if (val && index < 3) {
+            inputsRef.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        if (e.key === "Backspace" && !otp[index] && index > 0) {
+            inputsRef.current[index - 1]?.focus();
+        }
+    };
+
     return (
         <div className="min-h-screen relative w-[350px] m-auto bg-white shadow-lg my-8 border-gray-400 rounded-lg flex flex-col justify-center items-center px-4">
             <Link href="/auth/login">
@@ -14,34 +39,24 @@ export default function OTPVerification() {
             </p>
 
             <div className="flex gap-6 mb-6">
-                <div className="w-12 h-12 border rounded-lg flex justify-between text-xl font-semibold">
-                    <input
-                        type="tel"
-                        placeholder=""
-                        className="w-full bg-gray-100 rounded-lg text-center px-4 py-2 outline-none"
-                    />
-                </div>
-                <div className="w-12 h-12 border rounded-lg flex items-center justify-center text-xl font-semibold">
-                    <input
-                        type="tel"
-                        placeholder=""
-                        className="w-full bg-gray-100 rounded-lg text-center px-4 py-2 outline-none"
-                    />
-                </div>
-                <div className="w-12 h-12 border rounded-lg flex items-center justify-center text-xl font-semibold">
-                    <input
-                        type="tel"
-                        placeholder=""
-                        className="w-full bg-gray-100 rounded-lg text-center px-4 py-2 outline-none"
-                    />
-                </div>
-                <div className="w-12 h-12 border rounded-lg flex items-center justify-center text-xl font-semibold">
-                    <input
-                        type="tel"
-                        placeholder=""
-                        className="w-full bg-gray-100 rounded-lg text-center px-4 py-2 outline-none"
-                    />
-                </div>
+                {otp.map((digit, index) => (
+                    <div
+                        key={index}
+                        className="w-12 h-12 border rounded-lg flex items-center justify-center text-xl font-semibold"
+                    >
+                        <input
+                            ref={(el) => {
+                                inputsRef.current[index] = el;
+                            }}
+                            type="tel"
+                            maxLength={1}
+                            value={digit}
+                            onChange={(e) => handleChange(e, index)}
+                            onKeyDown={(e) => handleKeyDown(e, index)}
+                            className="w-full bg-gray-100 rounded-lg text-center text-black px-4 py-2 outline-none"
+                        />
+                    </div>
+                ))}
             </div>
 
             <button className="w-full cursor-pointer max-w-xs py-3 rounded-full text-white font-semibold bg-gradient-to-r from-purple-500 to-pink-500 mb-4">
@@ -55,3 +70,5 @@ export default function OTPVerification() {
         </div>
     );
 }
+
+export default OTPVerification;

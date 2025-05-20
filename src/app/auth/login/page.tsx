@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
@@ -10,10 +11,10 @@ export default function LoginPage() {
     return (
         <div className="overFlowscroll my-12 w-[350px] m-auto">
             <div className="relative bgImage">
-                <img src="/images/loginImage.png" />
+                <Image alt='login' src="/images/loginImage.png" />
                 <div className="absolute loginContainer z-10 bg-white/90 backdrop-blur-md px-6 pb-10 rounded-2xl shadow-md w-[100%] text-center">
                     <div className="flex justify-center mb-4">
-                        <img src="/images/loginLogo.png" alt="Logo" className="h-12 w-12" />
+                        <Image src="/images/loginLogo.png" alt="Logo" className="h-12 w-12" />
                     </div>
                     <h2 className="text-xl font-semibold">Login to your account</h2>
                     <p className="text-sm text-gray-600 mb-6">Enjoy Audio Books you like</p>

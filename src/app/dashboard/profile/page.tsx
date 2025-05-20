@@ -1,11 +1,19 @@
 // For app directory (Next.js 13+), or rename to profile.js for pages/ directory
 
-import { FaUser, FaGlobe, FaHeadset, FaFileAlt, FaSignOutAlt, FaCogs } from "react-icons/fa";
+import { FaUser, FaHeadset, FaFileAlt, FaSignOutAlt } from "react-icons/fa";
 import { MdSubscriptions } from "react-icons/md";
 import { IoLanguage } from "react-icons/io5";
 import { BsShieldLock } from "react-icons/bs";
+import Image from "next/image";
 
-function MenuItem({ icon, label, value, textColor = "text-gray-900" }: any) {
+type MenuItemProps = {
+    icon: React.ReactNode;
+    label: string;
+    value?: string;
+    textColor?: string;
+};
+
+function MenuItem({ icon, label, value, textColor = "text-gray-900" }: MenuItemProps) {
     return (
         <div className="flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 px-2 rounded">
             <div className="flex items-center space-x-3">
@@ -37,7 +45,7 @@ export default function ProfilePage() {
                             StoryStream Pro
                         </button>
                     </div>
-                    <img
+                    <Image
                         src="/girl-listening.png"
                         alt="Listening"
                         className="w-24 h-24 object-cover rounded-xl ml-4"

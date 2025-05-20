@@ -1,12 +1,13 @@
 import React from 'react';
 import { ArrowLeft, Share2, Play, Download, BookOpen, Lightbulb, User } from 'lucide-react';
+import Image from 'next/image';
 
 const ClimateBookDetail = () => {
     return (
         <div className="bg-white min-h-screen p-4 max-w-md mx-auto">
             {/* Header Image & Top Icons */}
             <div className="relative rounded-2xl overflow-hidden">
-                <img
+                <Image
                     src="/images/climate-book-cover.png"
                     alt="The Climate Book"
                     className="w-full h-100 object-cover"

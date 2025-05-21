@@ -1,10 +1,12 @@
 import React from "react";
 import { Play, MoreHorizontal, Download, List } from 'lucide-react';
 import Menubar from "../menubar/page";
+import HeaderSlider from "../../../components/dashboard/DashboardHeader";
 
 const page = () => {
     return (
         <div className="p-4 w-[400px] m-auto border border-gray-200 rounded-lg my-12">
+            <HeaderSlider />
             <div className="flex justify-between items-center mb-3">
                 <h2 className="text-lg font-semibold">Subscriptions</h2>
                 <a href="#" className="text-purple-600 text-sm font-medium">See All</a>

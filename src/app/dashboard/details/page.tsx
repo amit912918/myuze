@@ -7,11 +7,14 @@ const ClimateBookDetail = () => {
         <div className="bg-white min-h-screen p-4 max-w-md mx-auto">
             {/* Header Image & Top Icons */}
             <div className="relative rounded-2xl overflow-hidden">
+                <div className='relative w-full h-full'>
                 <Image
                     src="/images/climate-book-cover.png"
                     alt="The Climate Book"
-                    className="w-full h-100 object-cover"
+                    fill
+                    className="object-contain"
                 />
+                </div>
                 <div className="absolute top-4 left-4 bg-white rounded-full p-1">
                     <ArrowLeft size={20} />
                 </div>

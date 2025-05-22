@@ -52,8 +52,8 @@ export default function HeaderSlider() {
                                 fill
                                 className="rounded-xl object-cover"
                             />
-                            <div className="absolute bottom-4 left-4 py-2 rounded-lg">
-                                <Button onClick={handleListen} className="bg-white">Listen Now</Button>
+                            <div style={{ marginTop: "40%" }} className="absolute inset-0 flex items-center justify-center text-sm">
+                                <Button onClick={handleListen} size='small' className="bg-white">Listen Now</Button>
                             </div>
                         </div>
                     </SwiperSlide>

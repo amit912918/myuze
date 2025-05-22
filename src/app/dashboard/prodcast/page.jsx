@@ -3,6 +3,7 @@ import { FaBackward, FaForward, FaPlay, FaPause } from "react-icons/fa";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MdArrowBack } from "react-icons/md";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function prodcast() {
     const [isPlaying, setIsPlaying] = useState(true);
@@ -19,8 +20,10 @@ export default function prodcast() {
             </div>
 
             <div className="w-full max-w-xs rounded-xl overflow-hidden shadow-lg">
-                <img
-                    src="/images/playImage.png" 
+                <Image
+                    src="/images/playImage.png"
+                    width={200}
+                    height={200}
                     alt="Ikigai Cover"
                     className="w-full"
                 />

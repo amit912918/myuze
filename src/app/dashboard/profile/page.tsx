@@ -17,11 +17,11 @@ type MenuItemProps = {
 function MenuItem({ icon, label, value, textColor = "text-gray-900" }: MenuItemProps) {
 
     const router = useRouter();
-    const handleLogout = () => {
-        if (label === "logout") {
-            router.push('/auth/login')
-        }
-    }
+    // const handleLogout = () => {
+    //     if (label === "logout") {
+    //         router.push('/auth/login')
+    //     }
+    // }
     return (
         <div className="flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 px-2 rounded">
             <div className="flex items-center space-x-3">

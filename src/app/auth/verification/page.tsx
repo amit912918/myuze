@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FaArrowLeft } from "react-icons/fa";
 
 const OTPVerification: React.FC = () => {
 
@@ -36,7 +37,7 @@ const OTPVerification: React.FC = () => {
         <div className="min-h-screen relative bg-white shadow-lg border border-gray-200 rounded-lg flex flex-col justify-center items-center px-4">
             <Link href="/auth/login">
                 <div className="text-xl cursor-pointer absolute left-[10px] top-[10px]">
-                    ←
+                    <FaArrowLeft />
                 </div>
             </Link>
             <h1 className="text-xl text-black font-bold mb-2">OTP Verification</h1>

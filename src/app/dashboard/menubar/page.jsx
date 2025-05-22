@@ -15,10 +15,13 @@ const Menubar = () => {
         else if (des === "home") {
             router.push('/dashboard/home');
         }
+        else if (des === "search") {
+            router.push('/dashboard/search');
+        }
     }
     return (
         <div className='mt-12'>
-            <nav className="fixed bottom-0 inset-x-0 bg-white border-t w-[400px] m-auto mt-4 shadow-md rounded-t-3xl px-6 py-2 z-50">
+            <nav className="fixed bottom-0 inset-x-0 bg-white border-t w-[400px] m-auto mt-4 shadow-md rounded-t-2xl px-6 py-2 z-50">
                 <div className="flex justify-between items-center">
                     <div onClick={() => handleMenuBar('home')} className="flex flex-col items-center text-gray-500 text-xs font-medium text-black cursor-pointer">
                         <Home className="h-5 w-5" />

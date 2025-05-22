@@ -1,9 +1,18 @@
+'use client'
+
 import React from "react";
 import { Play, MoreHorizontal, Download, List } from 'lucide-react';
 import Menubar from "../menubar/page";
 import HeaderSlider from "../../../components/dashboard/DashboardHeader";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
+
+    const router = useRouter();
+    const handlePlay = () => {
+        router.push('/dashboard/subscription');
+    }
     return (
         <div className="p-4 border border-gray-200 rounded-lg">
             <HeaderSlider />
@@ -14,16 +23,20 @@ const page = () => {
 
             <div className="flex gap-8">
                 <div>
-                    <img
+                    <Image
                         src="/images/subImage1.png"
                         alt="indistractable cover"
+                        width={200}
+                        height={200}
                         className="w-40 h-40 rounded-lg object-cover"
                     />
                 </div>
                 <div>
-                    <img
+                    <Image
                         src="/images/subImage2.png"
                         alt="indistractable cover"
+                        width={200}
+                        height={200}
                         className="w-40 h-40 rounded-lg object-cover"
                     />
                 </div>
@@ -35,9 +48,11 @@ const page = () => {
             </div>
 
             <div className="flex gap-4 items-center bg-white rounded-xl shadow p-4">
-                <img
+                <Image
                     src="/images/playListImage.png"
                     alt="indistractable cover"
+                    width={200}
+                    height={200}
                     className="w-40 h-40 rounded-lg object-cover"
                 />
 
@@ -46,7 +61,7 @@ const page = () => {
                     <p className="text-sm text-gray-500">Apple Talk &nbsp; | &nbsp; 52:27 mins</p>
 
                     <div className="flex items-center mt-3 gap-2">
-                        <button className="bg-pink-600 text-white text-sm px-4 py-1.5 rounded-full flex items-center gap-2">
+                        <button onClick={handlePlay} className="bg-pink-600 text-white text-sm px-4 py-1.5 rounded-full flex items-center gap-2 cursor-pointer">
                             <Play size={16} /> Play
                         </button>
                         <button><List size={20} className="text-gray-600" /></button>
@@ -57,9 +72,11 @@ const page = () => {
             </div>
 
             <div className="flex gap-4 items-center bg-white rounded-xl shadow p-4 my-8">
-                <img
+                <Image
                     src="/images/playListImage.png"
                     alt="indistractable cover"
+                    width={200}
+                    height={200}
                     className="w-40 h-40 rounded-lg object-cover"
                 />
 
@@ -82,4 +99,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

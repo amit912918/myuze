@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import { Button as PrimeButton } from 'primereact/button';
+import Image from 'next/image';
 
 export default function SubscriptionCard() {
     const toast = useRef(null);
@@ -33,7 +34,7 @@ export default function SubscriptionCard() {
             message: (
                 <div className="bg-white rounded-2xl w-[350px] text-center">
                     <div className="w-[60px] h-[60px] m-auto">
-                        <img className='w-full h-full' src='/images/subscriptionLogo.png' alt='subscription Logo' />
+                        <Image width={200} height={200} className='w-full h-full' src='/images/subscriptionLogo.png' alt='subscription Logo' />
                     </div>
                     <h2 className="text-xl font-semibold text-purple-600 mt-4">StoryStream Pro</h2>
                     <p className="text-lg font-bold text-gray-900 my-3">
@@ -41,7 +42,7 @@ export default function SubscriptionCard() {
                     </p>
                     <div className='border border-gray-200'></div>
                     <p className="text-gray-600 mt-3">Subscribe now to enjoy Unlimited Access</p>
-                  
+
                     <button className="bg-gradient-to-r mt-4 from-purple-500 to-pink-500 text-white py-3 px-6 rounded-xl text-lg font-medium w-full transition hover:opacity-90">
                         Subscribe Now ({timer} Sec)
                     </button>

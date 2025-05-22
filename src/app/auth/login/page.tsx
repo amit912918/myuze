@@ -24,7 +24,7 @@ export default function LoginPage() {
                         </div>
                         {/* <Image src="/images/loginLogo.png" height={1000} width={1000} alt="Logo" className="h-12 w-12" /> */}
                     </div>
-                    <h2 className="text-xl font-semibold">Login to your account</h2>
+                    <h2 className="text-xl text-black font-semibold">Login to your account</h2>
                     <p className="text-sm text-gray-600 mb-6">Enjoy Audio Books you like</p>
                     <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden mb-4">
                         <input

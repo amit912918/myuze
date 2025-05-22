@@ -64,7 +64,7 @@ const page = () => {
                 />
 
                 <div className="flex flex-col flex-1">
-                    <h3 className="text-lg font-semibold leading-tight">indistractable</h3>
+                    <h3 className="text-lg text-black font-semibold leading-tight">indistractable</h3>
                     <p className="text-sm text-gray-500">Apple Talk &nbsp; | &nbsp; 52:27 mins</p>
 
                     <div className="flex items-center mt-3 gap-2">

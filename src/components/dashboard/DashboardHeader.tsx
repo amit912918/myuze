@@ -6,6 +6,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Button } from 'primereact/button';
+import { useRouter } from 'next/navigation';
 
 const slides = [
     {
@@ -26,6 +27,11 @@ const slides = [
 ];
 
 export default function HeaderSlider() {
+
+    const router = useRouter();
+    const handleListen = () => {
+        router.push('/dashboard/details');
+    }
     return (
         <div className="w-full max-w-sm mx-auto">
             <Swiper
@@ -47,7 +53,7 @@ export default function HeaderSlider() {
                                 className="rounded-xl object-cover"
                             />
                             <div className="absolute bottom-4 left-4 py-2 rounded-lg">
-                                <Button className="bg-white">Listen Now</Button>
+                                <Button onClick={handleListen} className="bg-white">Listen Now</Button>
                             </div>
                         </div>
                     </SwiperSlide>

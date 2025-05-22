@@ -1,9 +1,11 @@
 'use client';
-import Link from "next/link";
 import { useRef, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const OTPVerification: React.FC = () => {
 
+    const router = useRouter();
     const [otp, setOtp] = useState(["", "", "", ""]);
     const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -25,6 +27,10 @@ const OTPVerification: React.FC = () => {
             inputsRef.current[index - 1]?.focus();
         }
     };
+
+    const handleVerify = () => {
+        router.push('/dashboard/home');
+    }
 
     return (
         <div className="min-h-screen relative w-[350px] m-auto bg-white shadow-lg my-8 border-gray-400 rounded-lg flex flex-col justify-center items-center px-4">
@@ -59,7 +65,7 @@ const OTPVerification: React.FC = () => {
                 ))}
             </div>
 
-            <button className="w-full cursor-pointer max-w-xs py-3 rounded-full text-white font-semibold bg-gradient-to-r from-purple-500 to-pink-500 mb-4">
+            <button onClick={handleVerify} className="w-full cursor-pointer max-w-xs py-3 rounded-full text-white font-semibold bg-gradient-to-r from-purple-500 to-pink-500 mb-4">
                 Verify
             </button>
 

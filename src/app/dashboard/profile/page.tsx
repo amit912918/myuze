@@ -48,6 +48,7 @@ export default function ProfilePage() {
                     <Image
                         src="/girl-listening.png"
                         alt="Listening"
+                        fill
                         className="w-24 h-24 object-cover rounded-xl ml-4"
                     />
                 </div>

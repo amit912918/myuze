@@ -1,10 +1,11 @@
 // For app directory (Next.js 13+), or rename to profile.js for pages/ directory
-
+'use client';
 import { FaUser, FaHeadset, FaFileAlt, FaSignOutAlt } from "react-icons/fa";
 import { MdSubscriptions } from "react-icons/md";
 import { IoLanguage } from "react-icons/io5";
 import { BsShieldLock } from "react-icons/bs";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type MenuItemProps = {
     icon: React.ReactNode;
@@ -14,6 +15,13 @@ type MenuItemProps = {
 };
 
 function MenuItem({ icon, label, value, textColor = "text-gray-900" }: MenuItemProps) {
+
+    const router = useRouter();
+    const handleLogout = () => {
+        if (label === "logout") {
+            router.push('/auth/login')
+        }
+    }
     return (
         <div className="flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 px-2 rounded">
             <div className="flex items-center space-x-3">
@@ -27,11 +35,12 @@ function MenuItem({ icon, label, value, textColor = "text-gray-900" }: MenuItemP
 
 
 export default function ProfilePage() {
+
     return (
         <div className="min-h-screen bg-white p-4 pt-8 max-w-md mx-auto font-sans">
             {/* Top Bar */}
             <div className="flex justify-between items-center mb-4">
-                <h1 className="text-xl font-semibold">Profile</h1>
+                <h1 className="text-xl text-black font-semibold">Profile</h1>
                 <div className="w-8 h-8 rounded-full bg-gray-200" />
             </div>
 

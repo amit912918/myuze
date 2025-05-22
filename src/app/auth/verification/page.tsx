@@ -39,7 +39,7 @@ const OTPVerification: React.FC = () => {
                     ←
                 </div>
             </Link>
-            <h1 className="text-xl font-bold mb-2">OTP Verification</h1>
+            <h1 className="text-xl text-black font-bold mb-2">OTP Verification</h1>
             <p className="text-sm text-center text-gray-600 mb-6">
                 We have sent you an 4-digit verification code on your mobile number
             </p>

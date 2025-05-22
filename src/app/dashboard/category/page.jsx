@@ -19,7 +19,7 @@ const categories = [
 
 export default function CategoryGrid() {
     return (
-        <div className="max-w-4xl mx-auto p-6 w-[450px] border border-gray-200 my-12 rounded-lg">
+        <div className="max-w-4xl p-6 border border-gray-200 rounded-lg">
             <div className="flex items-center mb-6">
                 <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-md mr-2"></div>
                 <h1 className="text-2xl font-bold text-gray-900">Category</h1>

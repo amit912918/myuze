@@ -1,6 +1,7 @@
 // components/SearchPage.js
 import { FaPlay, FaEllipsisV, FaListUl } from "react-icons/fa";
 import Menubar from "../menubar/page";
+import Image from "next/image";
 
 const authors = [
     { id: 1, img: "/images/s1.png" },
@@ -51,9 +52,11 @@ export default function SearchPage() {
                 </div>
                 <div className="flex gap-4 overflow-x-auto pb-2">
                     {authors.map((author) => (
-                        <img
+                        <Image
                             key={author.id}
                             src={author.img}
+                            width={200}
+                            height={200}
                             alt="Author"
                             className="w-24 h-24 rounded-lg object-cover"
                         />
@@ -69,8 +72,10 @@ export default function SearchPage() {
                 <div className="space-y-4">
                     {podcasts.map((podcast) => (
                         <div key={podcast.id} className="flex items-center gap-4">
-                            <img
+                            <Image
                                 src={podcast.img}
+                                width={200}
+                                height={200}
                                 alt="Podcast"
                                 className="w-40 h-40 rounded-md object-cover"
                             />

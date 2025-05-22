@@ -5,7 +5,7 @@ import HeaderSlider from "../../../components/dashboard/DashboardHeader";
 
 const page = () => {
     return (
-        <div className="p-4 w-[400px] m-auto border border-gray-200 rounded-lg my-12">
+        <div className="p-4 border border-gray-200 rounded-lg">
             <HeaderSlider />
             <div className="flex justify-between items-center mb-3">
                 <h2 className="text-lg font-semibold">Subscriptions</h2>

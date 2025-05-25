@@ -41,8 +41,8 @@ export default function ProfilePage() {
             {/* Top Bar */}
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-xl text-black font-semibold">Profile</h1>
-                <div className="rounded-full bg-gray-200 cursor-pointer">
-                    <HiOutlineDotsCircleHorizontal className="w-7 h-7" />
+                <div className="rounded-full cursor-pointer">
+                    <HiOutlineDotsCircleHorizontal className="text-black w-7 h-7" />
                 </div>
             </div>
 

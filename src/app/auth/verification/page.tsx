@@ -36,7 +36,7 @@ const OTPVerification: React.FC = () => {
     return (
         <div className="min-h-screen relative bg-white shadow-lg border border-gray-200 rounded-lg flex flex-col justify-center items-center px-4">
             <Link href="/auth/login">
-                <div className="text-xl cursor-pointer absolute left-[10px] top-[10px]">
+                <div className="text-xl text-black cursor-pointer absolute left-[10px] top-[10px]">
                     <FaArrowLeft />
                 </div>
             </Link>

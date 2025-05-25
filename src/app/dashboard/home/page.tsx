@@ -11,8 +11,9 @@ const Page = () => {
 
     const router = useRouter();
     const handlePlay = () => {
-        router.push('/dashboard/subscription');
+        router.push('/dashboard/prodcast');
     }
+
     return (
         <div className="p-4 border border-gray-200 rounded-lg">
             <HeaderSlider />
@@ -57,7 +58,7 @@ const Page = () => {
                 />
 
                 <div className="flex flex-col flex-1">
-                    <h3 className="text-lg font-semibold leading-tight">indistractable</h3>
+                    <h3 className="text-lg text-black font-semibold leading-tight">indistractable</h3>
                     <p className="text-sm text-gray-500">Apple Talk &nbsp; | &nbsp; 52:27 mins</p>
 
                     <div className="flex items-center mt-3 gap-2">

@@ -45,7 +45,7 @@ export default function LoginPage() {
                         <PhoneInput
                             country={'in'}
                             enableSearch={true}
-                            containerClass="w-full rounded-lg border border-gray-300 focus-within:border-purple-500 shadow-sm"
+                            containerClass="w-full text-black rounded-lg border border-gray-300 focus-within:border-purple-500 shadow-sm"
                             inputClass="w-full !py-2 !pl-14 !pr-4 !text-sm !rounded-lg !border-none focus:!ring-0"
                             buttonClass="!bg-transparent !border-none !left-3 absolute z-10"
                             dropdownClass="!z-50"

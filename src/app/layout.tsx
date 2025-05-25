@@ -6,6 +6,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { usePathname } from 'next/navigation'
 import Menubar from './dashboard/menubar/page';
+import { DashboardProvider } from '../context/DashboardProvider';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 
@@ -18,8 +19,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className='w-[400px] m-auto mt-2'>
-        {children}
-        {shouldShowNavbar && <Menubar />}
+        <DashboardProvider>
+          {children}
+          {shouldShowNavbar && <Menubar />}
+        </DashboardProvider>
       </body>
     </html>
   );

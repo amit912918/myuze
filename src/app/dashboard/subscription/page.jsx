@@ -3,10 +3,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
-import { Button as PrimeButton } from 'primereact/button';
 import Image from 'next/image';
+import useDashboard from '../../../hooks/useDashboard';
 
 export default function SubscriptionCard() {
+
+    const { subScriptionButton } = useDashboard();
     const toast = useRef(null);
     const [timer, setTimer] = useState(5);
 
@@ -26,9 +28,9 @@ export default function SubscriptionCard() {
         toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
     };
 
-    const confirm = (position) => {
+    const confirm = () => {
         confirmDialog({
-            position,
+            position: subScriptionButton,
             accept,
             reject,
             message: (
@@ -63,14 +65,14 @@ export default function SubscriptionCard() {
             <div className="text-center space-y-6">
                 <Toast ref={toast} />
                 <ConfirmDialog />
-                <div className="flex justify-center mt-2">
+                {/* <div className="flex justify-center mt-2">
                     <PrimeButton
                         label="Subscription Modal"
                         onClick={() => confirm('bottom')}
                         className="p-button-danger"
                         style={{ minWidth: '10rem' }}
                     />
-                </div>
+                </div> */}
             </div>
         </div>
     );

@@ -1,8 +1,16 @@
+'use client'
 import React from 'react';
 import { ArrowLeft, Share2, Play, Download, BookOpen, Lightbulb, User } from 'lucide-react';
 import Image from 'next/image';
+import useDashboard from '../../../hooks/useDashboard';
 
 const ClimateBookDetail = () => {
+
+    const { setOpenPlayButton } = useDashboard();
+    const handlePlayButton = () => {
+        setOpenPlayButton(prev => !prev);
+    };
+
     return (
         <div className="bg-white min-h-screen p-4 max-w-md mx-auto">
             {/* Header Image & Top Icons */}
@@ -55,7 +63,7 @@ const ClimateBookDetail = () => {
                 <button className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-purple-200 to-purple-400 text-purple-900 font-semibold flex items-center justify-center gap-2">
                     <Download size={18} /> Download Now
                 </button>
-                <button className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold flex items-center justify-center gap-2">
+                <button onClick={handlePlayButton} className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold flex items-center justify-center gap-2 cursor-pointer">
                     <Play size={18} /> Play Now
                 </button>
             </div>

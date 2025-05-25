@@ -5,6 +5,7 @@ import { MdArrowBack } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Clock3, History, Share2, MoreVertical } from 'lucide-react';
 
 export default function prodcast() {
 
@@ -31,10 +32,10 @@ export default function prodcast() {
     const confirm = () => {
         confirmDialog({
             position: "bottom",
-            accept,
-            reject,
+            // accept,
+            // reject,
             message: (
-                <div className="bg-white rounded-2xl w-[400px] text-center">
+                <div className="bg-white rounded-3xl text-center">
                     <div className="w-[60px] h-[60px] m-auto">
                         <Image width={200} height={200} className='w-full h-full' src='/images/subscriptionLogo.png' alt='subscription Logo' />
                     </div>
@@ -52,11 +53,12 @@ export default function prodcast() {
                     <div className="text-sm text-gray-600 mt-2 cursor-pointer hover:underline" onClick={reject}>
                         &larr; I’ll try this later, take me back
                     </div>
-                    <div className="text-xs text-white bg-black px-3 py-1 rounded-full inline-block mt-2">
+                    {/* <div className="text-xs text-white bg-black px-3 py-1 rounded-full inline-block mt-2">
                         11 / 46
-                    </div>
+                    </div> */}
                 </div>
             ),
+            footer: <></>, // ✅ This hides default Yes/No buttons
         });
     };
 
@@ -66,7 +68,7 @@ export default function prodcast() {
 
 
     return (
-        <main className="flex flex-col items-center justify-center w-[450px] m-auto border border-gray-200 my-12 rounded-lg min-h-screen bg-white p-4">
+        <main className="flex flex-col items-center justify-center border border-gray-200 rounded-lg min-h-screen bg-white p-4">
             <ConfirmDialog />
             <div className="w-full flex items-center justify-between mb-4">
                 <button>
@@ -124,6 +126,12 @@ export default function prodcast() {
                 <button>
                     <FaForward className="text-2xl" />
                 </button>
+            </div>
+            <div className="w-full flex justify-around items-center py-3 bg-white mt-6">
+                <History className="w-5 h-5 text-gray-600 cursor-pointer" />
+                <Clock3 className="w-5 h-5 text-gray-600 cursor-pointer" />
+                <Share2 className="w-5 h-5 text-gray-600 cursor-pointer" />
+                <MoreVertical className="w-5 h-5 text-gray-600 cursor-pointer" />
             </div>
         </main>
     );

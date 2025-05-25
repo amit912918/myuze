@@ -1,9 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Home, Search, Grid, Library, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import NowPlaying from '../../../components/audio/PlayIcon';
 import useDashboard from '../../../hooks/useDashboard';
+import { MdHome, MdLibraryBooks } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
+import { BiSolidCategory } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 
 const Menubar = () => {
     const router = useRouter();
@@ -25,7 +28,7 @@ const Menubar = () => {
             {openPlayButton && <NowPlaying title='The like ted' artist='Camine Galb' image='playImage.png' />}
 
             {/* Bottom Navigation */}
-            <nav className="fixed bottom-0 inset-x-0 bg-white border-t w-[400px] m-auto mt-4 shadow-md rounded-t-2xl px-6 py-2 z-50">
+            <nav className="fixed bottom-0 inset-x-0 bg-white w-[400px] m-auto mt-4 shadow-md px-6 py-2 z-50">
                 <div className="flex justify-between items-center">
 
                     {/* Home */}
@@ -33,8 +36,11 @@ const Menubar = () => {
                         onClick={() => handleMenuBar('home')}
                         className="flex flex-col items-center cursor-pointer"
                     >
-                        <Home
-                            className={`h-5 w-5 ${activeMenu === 'home' ? 'text-[radial-gradient(circle_at_top_left,_#6B0DFF,_#FF6B79)]' : 'text-gray-500'}`}
+                        <MdHome
+                            className={`h-6 w-6 ${activeMenu === 'home'
+                                ? 'text-purple-700' // just test with solid color first
+                                : 'text-gray-500'
+                                }`}
                         />
                         <span className={`text-[13px] ${activeMenu === 'home' ? 'font-semibold text-black' : 'text-gray-500'}`}>
                             Home
@@ -46,8 +52,11 @@ const Menubar = () => {
                         onClick={() => handleMenuBar('search')}
                         className="flex flex-col items-center cursor-pointer"
                     >
-                        <Search
-                            className={`h-5 w-5 ${activeMenu === 'search' ? 'text-[radial-gradient(circle_at_top_left,_#6B0DFF,_#FF6B79)]' : 'text-gray-500'}`}
+                        <FaSearch
+                            className={`h-5 w-5 ${activeMenu === 'search'
+                                ? 'text-purple-700'
+                                : 'text-gray-500'
+                                }`}
                         />
                         <span className={`text-[13px] ${activeMenu === 'search' ? 'font-semibold text-black' : 'text-gray-500'}`}>
                             Search
@@ -59,8 +68,11 @@ const Menubar = () => {
                         onClick={() => handleMenuBar('category')}
                         className="flex flex-col items-center cursor-pointer"
                     >
-                        <Grid
-                            className={`h-5 w-5 ${activeMenu === 'category' ? 'text-[radial-gradient(circle_at_top_left,_#6B0DFF,_#FF6B79)]' : 'text-gray-500'}`}
+                        <BiSolidCategory
+                            className={`h-5 w-5 ${activeMenu === 'category'
+                                ? 'text-purple-700'
+                                : 'text-gray-500'
+                                }`}
                         />
                         <span className={`text-[13px] ${activeMenu === 'category' ? 'font-semibold text-black' : 'text-gray-500'}`}>
                             Category
@@ -72,8 +84,13 @@ const Menubar = () => {
                         onClick={() => handleMenuBar('library')}
                         className="flex flex-col items-center cursor-pointer"
                     >
-                        <Library className={`h-5 w-5 ${activeMenu === 'library' ? 'text-[radial-gradient(circle_at_top_left,_#6B0DFF,_#FF6B79)]' : 'text-gray-500'}`} />
-                        <span className="text-[13px]">
+                        <MdLibraryBooks
+                            className={`h-5 w-5 ${activeMenu === 'library'
+                                ? 'text-purple-700'
+                                : 'text-gray-500'
+                                }`}
+                        />
+                        <span className={`text-[13px]  ${activeMenu === 'library' ? 'font-semibold text-black' : 'text-gray-500'}`}>
                             Library
                         </span>
                     </div>
@@ -83,8 +100,11 @@ const Menubar = () => {
                         onClick={() => handleMenuBar('profile')}
                         className="flex flex-col items-center cursor-pointer"
                     >
-                        <User
-                            className={`h-5 w-5 ${activeMenu === 'profile' ? 'text-[radial-gradient(circle_at_top_left,_#6B0DFF,_#FF6B79)]' : 'text-gray-500'}`}
+                        <CgProfile
+                            className={`h-5 w-5 ${activeMenu === 'profile'
+                                ? 'text-purple-700'
+                                : 'text-gray-500'
+                                }`}
                         />
                         <span className={`text-[13px] ${activeMenu === 'profile' ? 'font-semibold text-black' : 'text-gray-500'}`}>
                             Profile

@@ -18,7 +18,7 @@ type MenuItemProps = {
 function MenuItem({ icon, label, value, textColor = "text-gray-900" }: MenuItemProps) {
 
     return (
-        <div className="flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 px-2 rounded">
+        <div className="flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer px-2 rounded">
             <div className="flex items-center space-x-3">
                 <div className="text-gray-400">{icon}</div>
                 <span className={`text-base ${textColor}`}>{label}</span>
@@ -37,7 +37,7 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="min-h-screen bg-white p-4 pt-8 max-w-md mx-auto font-sans">
+        <div className="min-h-screen bg-white dark:bg-black p-4 pt-8 max-w-md mx-auto font-sans">
             {/* Top Bar */}
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-xl text-black font-semibold">Profile</h1>
@@ -67,12 +67,12 @@ export default function ProfilePage() {
 
             {/* Options */}
             <div className="space-y-4">
-                <MenuItem icon={<FaUser />} label="Manage Account" value={<IoIosArrowForward />} />
-                <MenuItem icon={<MdSubscriptions />} label="Manage Subscription" value={<IoIosArrowForward />} />
-                <MenuItem icon={<IoLanguage />} label="Language" value={<div className="flex px-2"><div className="mx-4">English</div><div><IoIosArrowForward /></div></div>} />
-                <MenuItem icon={<FaHeadset />} label="Contact Us" value={<IoIosArrowForward />} />
-                <MenuItem icon={<BsShieldLock />} label="Privacy Policy" value={<IoIosArrowForward />} />
-                <MenuItem icon={<FaFileAlt />} label="Terms of Service" value={<IoIosArrowForward />} />
+                <MenuItem icon={<FaUser />} label="Manage Account" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
+                <MenuItem icon={<MdSubscriptions />} label="Manage Subscription" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
+                <MenuItem icon={<IoLanguage />} label="Language" value={<div className="flex px-2"><div className="mx-4">English</div><div><IoIosArrowForward /></div></div>} textColor="text-black dark:text-white" />
+                <MenuItem icon={<FaHeadset />} label="Contact Us" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
+                <MenuItem icon={<BsShieldLock />} label="Privacy Policy" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
+                <MenuItem icon={<FaFileAlt />} label="Terms of Service" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
                 <MenuItem icon={<FaSignOutAlt />} label={<div onClick={handleLogout} className="font-semibold">Logout</div>} textColor="text-red-500" />
             </div>
         </div>

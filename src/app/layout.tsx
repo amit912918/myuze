@@ -17,10 +17,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
   const shouldShowNavbar = !hideNavbarOnRoutes.includes(pathname);
   return (
-    <html lang="en">
-      <body className='w-[400px] m-auto mt-2'>
+    <html lang="en" className="dark">
+      <body className="min-h-screen w-[400px] m-auto">
         <DashboardProvider>
-          {children}
+          <main className="flex-1">
+            {children}
+          </main>
           {shouldShowNavbar && <Menubar />}
         </DashboardProvider>
       </body>

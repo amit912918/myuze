@@ -22,7 +22,7 @@ export default function CategoryGrid() {
         <div className="max-w-4xl p-6 border border-gray-200 rounded-lg">
             <div className="flex items-center mb-6">
                 <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-md mr-2"></div>
-                <h1 className="text-2xl font-bold text-gray-900">Category</h1>
+                <h1 className="text-2xl text-black font-bold text-gray-900">Category</h1>
             </div>
 
             <div className="grid grid-cols-2 gap-4">

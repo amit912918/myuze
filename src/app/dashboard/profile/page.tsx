@@ -23,7 +23,7 @@ function MenuItem({ icon, label, value, textColor = "text-gray-900" }: MenuItemP
                 <div className="text-gray-400">{icon}</div>
                 <span className={`text-base ${textColor}`}>{label}</span>
             </div>
-            {value && <span className="text-sm text-gray-900 font-bold">{value}</span>}
+            {value && <span className="text-sm text-black dark:text-white font-bold">{value}</span>}
         </div>
     );
 }

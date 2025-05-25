@@ -18,18 +18,8 @@ export default function LoginPage() {
     return (
         <div className="overFlowscroll">
             <div className="relative bgImage">
-                <Image alt='login' height={1000} width={1000} src="/images/loginImage.png" />
+                <Image alt='login' height={1000} width={1000} src="/images/loginImage2.png" />
                 <div className="absolute loginContainer z-10 bg-white/90 backdrop-blur-md px-6 pb-10 rounded-2xl shadow-md w-[100%] text-center">
-                    {/* <div className="justify-center mb-4">
-                        <div className="relative w-full h-full">
-                            <Image
-                                src="/images/loginLogo.png"
-                                alt="Logo"
-                                fill
-                                className="object-contain"
-                            />
-                        </div>
-                    </div> */}
                     <div className="flex justify-center mb-4">
                         <Image
                             src="/images/loginLogo.png"

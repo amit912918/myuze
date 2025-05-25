@@ -10,8 +10,8 @@ export default function NotFound() {
                 height={200}
                 className="w-40 h-40 mb-6"
             />
-            <h2 className="text-xl font-semibold mb-2">Not Found</h2>
-            <p className="text-sm text-gray-500 max-w-xs">
+            <h2 className="text-xl font-semibold mb-2 text-black dark:text-gray-100">Not Found</h2>
+            <p className="text-sm text-black dark:text-gray-100 max-w-xs">
                 Sorry, the keyword you entered cannot be found, please check again or
                 search with another keyword.
             </p>

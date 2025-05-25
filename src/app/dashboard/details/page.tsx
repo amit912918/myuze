@@ -12,7 +12,7 @@ const ClimateBookDetail = () => {
     };
 
     return (
-        <div className="bg-white min-h-screen p-4 max-w-md mx-auto">
+        <div className="min-h-screen p-4 max-w-md mx-auto">
             {/* Header Image & Top Icons */}
             <div className="relative rounded-2xl overflow-hidden">
                 {/* <div className='relative w-full h-full'>
@@ -30,11 +30,11 @@ const ClimateBookDetail = () => {
                     width={1000}
                     className="object-contain"
                 />
-                <div className="absolute top-4 left-4 bg-white rounded-full p-1">
-                    <ArrowLeft size={20} />
+                <div className="absolute top-4 left-4 rounded-full p-1">
+                    <ArrowLeft size={20} className='dark:text-black' />
                 </div>
-                <div className="absolute top-4 right-4 bg-white rounded-full p-1">
-                    <Share2 size={20} />
+                <div className="absolute top-4 right-4 rounded-full p-1">
+                    <Share2 size={20} className='dark:text-black' />
                 </div>
             </div>
 
@@ -47,13 +47,13 @@ const ClimateBookDetail = () => {
 
             {/* Tags */}
             <div className="flex justify-center gap-2 mt-4 flex-wrap">
-                <div className="flex items-center gap-1 px-3 py-1 rounded-md bg-gray-100 text-sm">
+                <div className="flex items-center gap-1 px-3 py-1 rounded-md text-black dark:text-white text-sm">
                     <User size={14} /> Self Growth
                 </div>
-                <div className="flex items-center gap-1 px-3 py-1 rounded-md bg-gray-100 text-sm">
+                <div className="flex items-center gap-1 px-3 py-1 rounded-md text-black dark:text-white text-sm">
                     <BookOpen size={14} /> 8 Chapters
                 </div>
-                <div className="flex items-center gap-1 px-3 py-1 rounded-md bg-gray-100 text-sm">
+                <div className="flex items-center gap-1 px-3 py-1 rounded-md text-black dark:text-white text-sm">
                     <Lightbulb size={14} /> 16 Insights
                 </div>
             </div>
@@ -70,8 +70,8 @@ const ClimateBookDetail = () => {
 
             {/* Description */}
             <div className="mt-6">
-                <h3 className="font-semibold text-lg">Description</h3>
-                <p className="text-sm text-gray-600 mt-2">
+                <h3 className="font-semibold text-lg text-black dark:text-white">Description</h3>
+                <p className="text-sm text-black dark:text-white mt-2">
                     We still have time to change the world. From Greta Thunberg, the world’s leading climate activist,
                     comes the essential handbook for making it happen...
                 </p>
@@ -86,7 +86,7 @@ const ClimateBookDetail = () => {
                             <Play size={20} className="text-white" />
                         </div>
                         <div>
-                            <p className="font-semibold text-sm">1. Protocol to Improve your Sleep</p>
+                            <p className="font-semibold text-sm text-black">1. Protocol to Improve your Sleep</p>
                             <p className="text-xs text-gray-500">3 mins</p>
                         </div>
                     </div>

@@ -68,13 +68,13 @@ export default function prodcast() {
 
 
     return (
-        <main className="flex flex-col items-center justify-center border border-gray-200 rounded-lg min-h-screen bg-white p-4">
+        <main className="flex flex-col items-center justify-center border border-gray-200 rounded-lg min-h-screen p-4">
             <ConfirmDialog />
             <div className="w-full flex items-center justify-between mb-4">
                 <button>
                     <MdArrowBack className="text-2xl" />
                 </button>
-                <h1 className="font-semibold text-lg">Talking to Strangers</h1>
+                <h1 className="font-semibold text-lg text-black dark:text-white">Talking to Strangers</h1>
                 <button>
                     <HiOutlineDotsVertical className="text-2xl" />
                 </button>
@@ -91,8 +91,8 @@ export default function prodcast() {
             </div>
 
             <div className="text-center mt-4">
-                <h2 className="font-bold text-lg">Question Assumptions to Uncover the Truth</h2>
-                <p className="text-sm text-gray-500">Ikigai</p>
+                <h2 className="font-bold text-lg text-black dark:text-white">Question Assumptions to Uncover the Truth</h2>
+                <p className="text-sm text-gray-500 text-black dark:text-white">Ikigai</p>
             </div>
 
             {/* Progress bar */}
@@ -127,7 +127,7 @@ export default function prodcast() {
                     <FaForward className="text-2xl" />
                 </button>
             </div>
-            <div className="w-full flex justify-around items-center py-3 bg-white mt-6">
+            <div className="w-full flex justify-around items-center py-3 mt-6">
                 <History className="w-5 h-5 text-gray-600 cursor-pointer" />
                 <Clock3 className="w-5 h-5 text-gray-600 cursor-pointer" />
                 <Share2 className="w-5 h-5 text-gray-600 cursor-pointer" />

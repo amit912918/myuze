@@ -4,15 +4,33 @@ import { useRouter } from 'next/navigation';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import './login.css';
+import { handleLogin } from '../../api/auth';
+import { showError, showSuccess } from '../../../utils/toastService';
 
 export default function LoginPage() {
     const router = useRouter();
-    const handleSendOtp = () => {
+    const handleSendOtp = async () => {
         router.push('/auth/verification');
+        try {
+            const payload = {
+                deviceId: "C69A684F-159A-43EE-B21500F",
+                langCode: "en",
+                mobileNo: "100",
+                isdCode: "91"
+            };
+
+            const res = await handleLogin(payload);
+            console.log(res.data, "result");
+            showSuccess('Otp sent successfully!');
+            // router.push('/auth/verification');
+        } catch (error) {
+            console.log("Error in login api", error);
+            showError("Otp sent failed");
+        }
     };
 
     const handlePhoneChange = (value: string) => {
-        console.log(value); // full phone number
+        console.log(value);
     };
 
     return (

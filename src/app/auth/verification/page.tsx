@@ -3,9 +3,13 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
+import { handleVerification } from "../../api/auth";
+import { showError, showSuccess } from "../../../utils/toastService";
+import useAuth from "../../../hooks/useAuth";
 
 const OTPVerification: React.FC = () => {
 
+    const { setAuth } = useAuth()
     const router = useRouter();
     const [otp, setOtp] = useState(["", "", "", ""]);
     const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
@@ -29,8 +33,28 @@ const OTPVerification: React.FC = () => {
         }
     };
 
-    const handleVerify = () => {
+    const handleVerify = async () => {
         router.push('/dashboard/home');
+        try {
+            const payload = {
+                deviceId: "9463215E-F9D0-4AAB-BBEA-68C74F7F9A52",
+                langCode: "en",
+                mobileNo: "9999999999",
+                isdCode: "91",
+                otp: "3504",
+                last_login_source: ""
+            };
+
+            const res = await handleVerification(payload);
+            console.log(res.data, "result");
+            setAuth({
+                userInfo: res.data
+            })
+            showSuccess('Login successfully!');
+        } catch (error) {
+            console.log("Error in login api", error);
+            showError("Login failed");
+        }
     }
 
     return (

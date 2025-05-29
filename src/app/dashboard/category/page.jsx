@@ -1,3 +1,4 @@
+import { BiCategory } from 'react-icons/bi';
 import { FaGlobe, FaUsers, FaPalette, FaBook, FaBriefcase, FaMicrochip, FaNewspaper, FaFlask } from 'react-icons/fa';
 
 const categories = [
@@ -21,7 +22,9 @@ export default function CategoryGrid() {
     return (
         <div className="max-w-4xl p-6 border border-gray-200 rounded-lg">
             <div className="flex items-center mb-6">
-                <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-md mr-2"></div>
+                <div>
+                    <BiCategory className="w-6 h-6 text-gradient-to-r text-purple-500 text-pink-500 rounded-md mr-2" />
+                </div>
                 <h1 className="text-2xl font-bold text-black dark:text-gray-100">Category</h1>
             </div>
 

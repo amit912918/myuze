@@ -60,10 +60,10 @@ const ClimateBookDetail = () => {
 
             {/* Buttons */}
             <div className="flex justify-between mt-6 gap-3">
-                <button className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-purple-200 to-purple-400 text-purple-900 font-semibold flex items-center justify-center gap-2">
+                <button className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-purple-200 to-purple-200 text-purple-900 font-semibold flex items-center justify-center gap-2">
                     <Download size={18} /> Download Now
                 </button>
-                <button onClick={handlePlayButton} className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold flex items-center justify-center gap-2 cursor-pointer">
+                <button onClick={handlePlayButton} className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-purple-800 to-pink-500 text-white font-semibold flex items-center justify-center gap-2 cursor-pointer">
                     <Play size={18} /> Play Now
                 </button>
             </div>
@@ -82,7 +82,7 @@ const ClimateBookDetail = () => {
                 <h3 className="font-semibold text-lg">8 Chapters</h3>
                 <div className="mt-4 bg-gray-100 rounded-xl p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="bg-gradient-to-br from-purple-400 to-pink-400 p-2 rounded-full">
+                        <div className="bg-gradient-to-br from-purple-700 to-pink-500 p-2 rounded-full">
                             <Play size={20} className="text-white" />
                         </div>
                         <div>

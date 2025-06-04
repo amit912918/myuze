@@ -7,6 +7,7 @@ import 'primeicons/primeicons.css';
 import { usePathname } from 'next/navigation'
 import Menubar from './dashboard/menubar/page';
 import { DashboardProvider } from '../context/DashboardProvider';
+import ToastProvider from '../components/common/ToastProvider';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="min-h-screen w-[400px] m-auto">
         <DashboardProvider>
           <main className="flex-1">
+            <ToastProvider />
             {children}
           </main>
           {shouldShowNavbar && <Menubar />}

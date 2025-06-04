@@ -4,15 +4,45 @@ import { useRouter } from 'next/navigation';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import './login.css';
+import { handleLogin } from '../../api/auth';
+import { showError, showSuccess } from '../../../utils/toastService';
+import { useState } from 'react';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
 
 export default function LoginPage() {
     const router = useRouter();
-    const handleSendOtp = () => {
+    const [mobileNo, setMobileNo] = useState("");
+
+    const handleSendOtp = async () => {
+
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
+        console.log(result.visitorId); // Stable device fingerprint
+
         router.push('/auth/verification');
+        try {
+            const payload = {
+                deviceId: "C69A684F-159A-43EE-B216-1D151474500F",
+                langCode: "en",
+                mobileNo: mobileNo,
+                isdCode: "91"
+            };
+
+            const res = await handleLogin(payload);
+            console.log(res.data, "result");
+            showSuccess('Otp sent successfully!');
+            // router.push('/auth/verification');
+        } catch (error) {
+            console.log("Error in login api", error);
+            showError("Otp sent failed");
+        }
     };
 
-    const handlePhoneChange = (value: string) => {
-        console.log(value); // full phone number
+    const handlePhoneChange = (value: string, data: { dialCode: string }) => {
+        const stdCode = data?.dialCode || '';
+        const numberWithoutStd = value.replace(`+${stdCode}`, '');
+        console.log(numberWithoutStd);
+        setMobileNo(numberWithoutStd);
     };
 
     return (
@@ -34,7 +64,7 @@ export default function LoginPage() {
                     <div className="mb-4">
                         <PhoneInput
                             country={'in'}
-                            enableSearch={true}
+                            enableSearch
                             containerClass="w-full text-black rounded-lg border border-gray-300 focus-within:border-purple-500 shadow-sm"
                             inputClass="w-full !py-2 !pl-14 !pr-4 !text-sm !rounded-lg !border-none focus:!ring-0"
                             buttonClass="!bg-transparent !border-none !left-3 absolute z-10"

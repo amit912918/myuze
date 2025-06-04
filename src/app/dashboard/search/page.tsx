@@ -1,9 +1,15 @@
 'use client'
 // components/SearchPage.js
-import { FaPlay, FaEllipsisV, FaListUl } from "react-icons/fa";
+import { FaPlay, FaEllipsisV } from "react-icons/fa";
 import Image from "next/image";
 import { useState } from "react";
 import NotFoundPage from "../../../components/dashboard/NotFound";
+import { RiSearchFill } from "react-icons/ri";
+import { Mic, X } from "lucide-react";
+import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
+import { IoIosSearch } from "react-icons/io";
+import { MdOutlinePlaylistAdd } from "react-icons/md";
+import { PiDownloadSimpleDuotone } from "react-icons/pi";
 
 const authors = [
     { id: 1, img: "/images/s1.png" },
@@ -31,28 +37,53 @@ const podcasts = [
 export default function SearchPage() {
 
     const [notFound, setNotFound] = useState(false);
-    const handleSearch = () => {
+    const [search, setSearch] = useState("");
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNotFound(true);
-    }
+        setSearch(e.target.value);
+    };
+
+    const clearSearch = () => {
+        setSearch("");
+    };
 
     return (
         <div className="w-[400px] border border-gray-200 my-8 rounded-lg mx-auto p-4 space-y-6">
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" />
+                    {/* <div className="w-5 h-5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" /> */}
+                    <RiSearchFill
+                        className="w-6 h-6 text-gradient-to-r text-purple-700 text-pink-700"
+                    />
                     <h1 className="text-xl font-semibold">Search</h1>
                 </div>
-                <button className="text-2xl text-gray-500">•••</button>
+                <div className="rounded-full cursor-pointer">
+                    <HiOutlineDotsCircleHorizontal className="text-black w-7 h-7" />
+                </div>
             </div>
 
             <div className="bg-gray-100 rounded-full px-4 py-2 flex items-center">
+                <IoIosSearch className="h-6 w-6 text-gray-500 cursor-pointer mr-1" />
                 <input
                     type="text"
+                    value={search}
                     onChange={handleSearch}
                     placeholder="Search"
                     className="bg-transparent outline-none w-full"
                 />
+
+                {/* Show cross only when input has value */}
+                {search && (
+                    <X
+                        className="h-5 w-5 text-gray-500 cursor-pointer mx-2"
+                        onClick={clearSearch}
+                    />
+                )}
+
+                <Mic className="h-5 w-5 text-gray-500 cursor-pointer" />
             </div>
+
 
             {notFound ? <NotFoundPage /> : (<><div>
                 <div className="flex justify-between items-center mb-2">
@@ -96,12 +127,15 @@ export default function SearchPage() {
                                     <div className="flex items-center text-xs text-gray-500 mt-1">
                                         <span>{podcast.duration}</span>
                                     </div>
-                                    <div className="flex items-center gap-6 mt-2">
-                                        <button className="bg-purple-600 text-white text-xs px-4 py-1 rounded-full flex items-center gap-2">
-                                            <FaPlay size={10} />
+                                    <div className="flex items-center gap-5 mt-2">
+                                        {/* <button className="bg-purple-600 text-white text-xs px-4 py-1 rounded-full flex items-center gap-2"> */}
+                                        <button className="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-1 px-4 rounded-md flex items-center justify-center text-xs gap-x-2 transition hover:opacity-90">
+                                            <FaPlay size={12} />
                                             Play
                                         </button>
-                                        <FaListUl className="text-gray-500" />
+                                        {/* <FaListUl className="h-6 w-6 text-gray-500" /> */}
+                                        <MdOutlinePlaylistAdd className="h-6 w-6 text-gray-500 font-semibold" />
+                                        <PiDownloadSimpleDuotone />
                                         <FaEllipsisV className="text-gray-500" />
                                     </div>
                                 </div>

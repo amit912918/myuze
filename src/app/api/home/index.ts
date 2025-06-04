@@ -1,14 +1,8 @@
 import api from '../../../lib/axios';
 
-interface homeProps {
-    deviceId: string;
-    langCode: string;
-    mobileNo: string;
-    isdCode: string;
-}
+export const handleHome = async () => {
 
-export const handleHome = async (payload: homeProps) => {
-
-    const res = await api.post('/api/v1/feed/GetHome/a995570eea6c716c8305ea42213a853d/web/IN/en', payload);
+    const res = await api.get('/api/v1/feed/GetHome/a995570eea6c716c8305ea42213a853d/web/IN/en');
+    console.log(res, "res");
     return res.data;
 };

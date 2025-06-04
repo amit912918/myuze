@@ -1,14 +1,13 @@
-import api from '../../../lib/axios';
+import { requestApi } from '../../../utils/request';
 
-interface homeProps {
-    deviceId: string;
-    langCode: string;
-    mobileNo: string;
-    isdCode: string;
-}
+export const handleCategory = async () => {
 
-export const handleSearch = async (payload: homeProps) => {
-
-    const res = await api.post('/api/v1/feed/GetHome/a995570eea6c716c8305ea42213a853d/web/IN/en', payload);
-    return res.data;
+    return await requestApi({
+        url: '/api/v1/feed/GetSeeAllCategoryBucketList/9876264/2',
+        method: 'GET',
+        headers: {
+            'device-os': 'ios',
+            'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
+        },
+    });
 };

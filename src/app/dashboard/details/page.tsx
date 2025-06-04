@@ -6,7 +6,7 @@ import useDashboard from '../../../hooks/useDashboard';
 
 const ClimateBookDetail = () => {
 
-    const { setOpenPlayButton } = useDashboard();
+    const { detailData, setOpenPlayButton } = useDashboard();
     const handlePlayButton = () => {
         setOpenPlayButton(prev => !prev);
     };
@@ -24,7 +24,7 @@ const ClimateBookDetail = () => {
                 />
                 </div> */}
                 <Image
-                    src="/images/climate-book-cover.png"
+                    src={detailData?.imgIrl}
                     alt="The Climate Book"
                     height={1000}
                     width={1000}

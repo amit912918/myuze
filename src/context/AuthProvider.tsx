@@ -1,3 +1,4 @@
+// context/AuthContext.tsx
 'use client';
 
 import {
@@ -8,17 +9,20 @@ import {
     Dispatch,
     SetStateAction,
 } from 'react';
+import { UserInfo } from '../types/user';
+
+interface AuthState {
+    userInfo: UserInfo | null;
+}
 
 interface AuthContextType {
-    auth: {
-        userInfo: any;
-    };
-    setAuth: Dispatch<SetStateAction<{ userInfo: any; }>>;
+    auth: AuthState;
+    setAuth: Dispatch<SetStateAction<AuthState>>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
     auth: { userInfo: null },
-    setAuth: () => { }
+    setAuth: () => { },
 });
 
 interface AuthProviderProps {
@@ -26,25 +30,22 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [auth, setAuth] = useState({ userInfo: null });
+    const [auth, setAuth] = useState<AuthState>({ userInfo: null });
 
     useEffect(() => {
-        const userInfo = localStorage.getItem('userInfo');
-
-        if (userInfo) {
-            setAuth({
-                userInfo: userInfo ? JSON.parse(userInfo) : null
-            });
+        const userInfoStr = localStorage.getItem('userInfo');
+        if (userInfoStr) {
+            try {
+                const userInfo: UserInfo = JSON.parse(userInfoStr);
+                setAuth({ userInfo });
+            } catch (err) {
+                console.error('Error parsing userInfo:', err);
+            }
         }
     }, []);
 
     return (
-        <AuthContext.Provider
-            value={{
-                auth,
-                setAuth
-            }}
-        >
+        <AuthContext.Provider value={{ auth, setAuth }}>
             {children}
         </AuthContext.Provider>
     );

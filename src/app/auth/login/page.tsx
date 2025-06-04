@@ -8,30 +8,38 @@ import { handleLogin } from '../../api/auth';
 import { showError, showSuccess } from '../../../utils/toastService';
 import { useState } from 'react';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import useAuth from '../../../hooks/useAuth';
 
 export default function LoginPage() {
+
+    const { setAuthData } = useAuth();
     const router = useRouter();
     const [mobileNo, setMobileNo] = useState("");
+    const [isdCode, setIsdCode] = useState("91");
 
     const handleSendOtp = async () => {
 
         const fp = await FingerprintJS.load();
         const result = await fp.get();
-        console.log(result.visitorId); // Stable device fingerprint
+        console.log(result.visitorId);
+        setAuthData({
+            mobileNo: mobileNo,
+            deviceId: result.visitorId,
+            isdCode: isdCode
+        })
 
-        router.push('/auth/verification');
         try {
             const payload = {
-                deviceId: "C69A684F-159A-43EE-B216-1D151474500F",
+                deviceId: result.visitorId,
                 langCode: "en",
                 mobileNo: mobileNo,
-                isdCode: "91"
+                isdCode: isdCode
             };
 
             const res = await handleLogin(payload);
             console.log(res.data, "result");
             showSuccess('Otp sent successfully!');
-            // router.push('/auth/verification');
+            router.push('/auth/verification');
         } catch (error) {
             console.log("Error in login api", error);
             showError("Otp sent failed");
@@ -41,7 +49,7 @@ export default function LoginPage() {
     const handlePhoneChange = (value: string, data: { dialCode: string }) => {
         const stdCode = data?.dialCode || '';
         const numberWithoutStd = value.replace(`+${stdCode}`, '');
-        console.log(numberWithoutStd);
+        setIsdCode(stdCode);
         setMobileNo(numberWithoutStd);
     };
 

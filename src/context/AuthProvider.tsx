@@ -15,14 +15,30 @@ interface AuthState {
     userInfo: UserInfo | null;
 }
 
+interface loginDataProps {
+    mobileNo: string;
+    deviceId: string;
+    isdCode: string;
+}
+
 interface AuthContextType {
     auth: AuthState;
     setAuth: Dispatch<SetStateAction<AuthState>>;
+    authData: loginDataProps;
+    setAuthData: Dispatch<SetStateAction<loginDataProps>>;
 }
+
+const defaultLoginData: loginDataProps = {
+    mobileNo: '',
+    deviceId: '',
+    isdCode: ''
+};
 
 export const AuthContext = createContext<AuthContextType>({
     auth: { userInfo: null },
     setAuth: () => { },
+    authData: defaultLoginData,
+    setAuthData: () => { },
 });
 
 interface AuthProviderProps {
@@ -31,6 +47,11 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [auth, setAuth] = useState<AuthState>({ userInfo: null });
+    const [authData, setAuthData] = useState<loginDataProps>({
+        mobileNo: '',
+        deviceId: '',
+        isdCode: ''
+    });
 
     useEffect(() => {
         const userInfoStr = localStorage.getItem('userInfo');
@@ -45,7 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
+        <AuthContext.Provider value={{ auth, setAuth, authData, setAuthData }}>
             {children}
         </AuthContext.Provider>
     );

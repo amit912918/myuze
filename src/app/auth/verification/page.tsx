@@ -9,7 +9,7 @@ import useAuth from "../../../hooks/useAuth";
 
 const OTPVerification: React.FC = () => {
 
-    const { setAuth } = useAuth()
+    const { setAuth, authData } = useAuth()
     const router = useRouter();
     const [otp, setOtp] = useState(["", "", "", ""]);
     const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
@@ -34,14 +34,13 @@ const OTPVerification: React.FC = () => {
     };
 
     const handleVerify = async () => {
-        router.push('/dashboard/home');
         try {
             const payload = {
-                deviceId: "9463215E-F9D0-4AAB-BBEA-68C74F7F9A52",
+                deviceId: authData.deviceId,
                 langCode: "en",
-                mobileNo: "9999999999",
-                isdCode: "91",
-                otp: "3504",
+                mobileNo: authData.mobileNo,
+                isdCode: authData.isdCode,
+                otp: otp.join(""),
                 last_login_source: ""
             };
 
@@ -50,6 +49,7 @@ const OTPVerification: React.FC = () => {
             setAuth({
                 userInfo: res.data
             })
+            router.push('/dashboard/home');
             showSuccess('Login successfully!');
         } catch (error) {
             console.log("Error in login api", error);
@@ -59,11 +59,9 @@ const OTPVerification: React.FC = () => {
 
     return (
         <div className="min-h-screen relative bg-white shadow-lg border border-gray-200 rounded-lg flex flex-col justify-center items-center px-4">
-            <Link href="/auth/login">
-                <div className="text-xl text-black cursor-pointer absolute left-[10px] top-[10px]">
-                    <FaArrowLeft />
-                </div>
-            </Link>
+            <div onClick={() => router.back()} className="text-xl text-black cursor-pointer absolute left-[10px] top-[10px]">
+                <FaArrowLeft />
+            </div>
             <h1 className="text-xl text-black font-bold mb-2">OTP Verification</h1>
             <p className="text-sm text-center text-gray-600 mb-6">
                 We have sent you an 4-digit verification code on your mobile number

@@ -6,7 +6,6 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 // const slides = [
 //     {

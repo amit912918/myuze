@@ -6,31 +6,56 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-const slides = [
-    {
-        src: '/images/subImage1.png',
-        title: 'IKIGAI',
-        subtitle: 'The Japanese secret to a long life',
-    },
-    {
-        src: '/images/subImage1.png',
-        title: 'Atomic Habits',
-        subtitle: 'Tiny changes, big results',
-    },
-    {
-        src: '/images/subImage1.png',
-        title: 'Deep Work',
-        subtitle: 'Focus without distraction',
-    },
-];
+// const slides = [
+//     {
+//         src: '/images/subImage1.png',
+//         title: 'IKIGAI',
+//         subtitle: 'The Japanese secret to a long life',
+//     },
+//     {
+//         src: '/images/subImage1.png',
+//         title: 'Atomic Habits',
+//         subtitle: 'Tiny changes, big results',
+//     },
+//     {
+//         src: '/images/subImage1.png',
+//         title: 'Deep Work',
+//         subtitle: 'Focus without distraction',
+//     },
+// ];
 
-export default function HeaderSlider() {
+interface SpotlightContent {
+    conId: number;
+    conName: string;
+    imgIrl: string;
+    cotDeepLink: string;
+    spotlight_type: string;
+    btn_tag: string;
+}
+
+interface SpotlightBlock {
+    bkId: number;
+    bkName: string;
+    bkType: string;
+    shapeType: 'spotlight';
+    zoom: number;
+    itype: number;
+    contents: SpotlightContent[];
+}
+
+const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
 
     const router = useRouter();
     const handleListen = () => {
         router.push('/dashboard/details');
-    }
+    };
+
+    useEffect(() => {
+        console.log(data, "data");
+    }, []);
+
     return (
         <div className="w-full max-w-sm mx-auto">
             <Swiper
@@ -42,12 +67,12 @@ export default function HeaderSlider() {
                 modules={[Autoplay, Pagination]}
                 className="rounded-xl"
             >
-                {slides.map((slide, idx) => (
+                {data.contents.map((slide, idx) => (
                     <SwiperSlide key={idx}>
                         <div className="relative w-full h-64">
                             <Image
-                                src={slide.src}
-                                alt={slide.title}
+                                src={slide.imgIrl}
+                                alt={slide.conName}
                                 fill
                                 className="rounded-xl object-cover"
                             />
@@ -66,3 +91,5 @@ export default function HeaderSlider() {
         </div>
     );
 }
+
+export default HeaderSlider;

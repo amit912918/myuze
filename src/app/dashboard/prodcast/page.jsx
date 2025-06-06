@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Clock3, History, Share2, MoreVertical } from 'lucide-react';
+import { getEpisodeDetail } from "../../api/podcast";
 
 export default function prodcast() {
 
@@ -66,6 +67,18 @@ export default function prodcast() {
         confirm("bottom")
     }
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await getEpisodeDetail();
+                console.log(result, "episode");
+            } catch (error) {
+                console.error("Failed to fetch podcast:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <main className="flex flex-col items-center justify-center border border-gray-200 rounded-lg min-h-screen p-4">

@@ -23,15 +23,6 @@ type SquareBlock = {
     contents: SquareContent[];
 };
 
-interface ContentProps {
-    conId: number;
-    conName: string;
-    imgIrl: string;
-    cotDeepLink: string;
-    spotlight_type: string;
-    btn_tag: string;
-}
-
 const SquareShape = ({ data }: { data: SquareBlock }) => {
     const router = useRouter();
     const { setDetailData, setSeeAllData } = useDashboard();

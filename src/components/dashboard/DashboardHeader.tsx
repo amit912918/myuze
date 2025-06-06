@@ -6,7 +6,6 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 // const slides = [
 //     {
@@ -51,10 +50,6 @@ const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
     const handleListen = () => {
         router.push('/dashboard/details');
     };
-
-    useEffect(() => {
-        console.log(data, "data");
-    }, []);
 
     return (
         <div className="w-full max-w-sm mx-auto">

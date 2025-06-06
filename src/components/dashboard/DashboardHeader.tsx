@@ -52,10 +52,6 @@ const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
         router.push('/dashboard/details');
     };
 
-    useEffect(() => {
-        console.log(data, "data");
-    }, []);
-
     return (
         <div className="w-full max-w-sm mx-auto">
             <Swiper

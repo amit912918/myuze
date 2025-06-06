@@ -9,10 +9,21 @@ import {
 } from 'react';
 
 interface DetailProps {
+    conId: number;
     bkName: string;
     conName: string;
     imgIrl: string;
 }
+
+interface ContentProps {
+    conId: number;
+    conName: string;
+    imgIrl: string;
+    cotDeepLink: string;
+    artist_name: string;
+    is_billable: number;
+    ptype: string;
+};
 
 export interface DashboardContextType {
     openPlayButton: boolean;
@@ -21,9 +32,12 @@ export interface DashboardContextType {
     setSubScriptionButton: Dispatch<SetStateAction<string>>;
     detailData: DetailProps;
     setDetailData: Dispatch<SetStateAction<DetailProps>>;
+    seeAllData: ContentProps[];
+    setSeeAllData: Dispatch<SetStateAction<ContentProps[]>>;
 }
 
 const defaultDetailData: DetailProps = {
+    conId: 0,
     bkName: '',
     conName: '',
     imgIrl: '',
@@ -36,6 +50,16 @@ const DashboardContext = createContext<DashboardContextType>({
     setSubScriptionButton: () => { },
     detailData: defaultDetailData,
     setDetailData: () => { },
+    seeAllData: [{
+        conId: 0,
+        conName: "",
+        imgIrl: "",
+        cotDeepLink: "",
+        artist_name: "",
+        is_billable: 0,
+        ptype: ""
+    }],
+    setSeeAllData: () => { },
 });
 
 interface DashboardProviderProps {
@@ -46,6 +70,15 @@ export const DashboardProvider = ({ children }: DashboardProviderProps) => {
     const [openPlayButton, setOpenPlayButton] = useState<boolean>(false);
     const [subScriptionButton, setSubScriptionButton] = useState<string>('');
     const [detailData, setDetailData] = useState<DetailProps>(defaultDetailData);
+    const [seeAllData, setSeeAllData] = useState<ContentProps[]>([{
+        conId: 0,
+        conName: "",
+        imgIrl: "",
+        cotDeepLink: "",
+        artist_name: "",
+        is_billable: 0,
+        ptype: ""
+    }]);
 
     return (
         <DashboardContext.Provider
@@ -56,6 +89,8 @@ export const DashboardProvider = ({ children }: DashboardProviderProps) => {
                 setSubScriptionButton,
                 detailData,
                 setDetailData,
+                seeAllData,
+                setSeeAllData
             }}
         >
             {children}

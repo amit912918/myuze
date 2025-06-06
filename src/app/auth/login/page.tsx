@@ -37,7 +37,7 @@ export default function LoginPage() {
             };
 
             const res = await handleLogin(payload);
-            console.log(res.data, "result");
+            console.log(res.response, "result");
             showSuccess('Otp sent successfully!');
             router.push('/auth/verification');
         } catch (error) {
@@ -48,10 +48,16 @@ export default function LoginPage() {
 
     const handlePhoneChange = (value: string, data: { dialCode: string }) => {
         const stdCode = data?.dialCode || '';
-        const numberWithoutStd = value.replace(`+${stdCode}`, '');
+
+        // Remove dialCode from start of value
+        const numberWithoutStd = value.startsWith(stdCode)
+            ? value.slice(stdCode.length)
+            : value;
+
         setIsdCode(stdCode);
         setMobileNo(numberWithoutStd);
     };
+
 
     return (
         <div className="overFlowscroll">

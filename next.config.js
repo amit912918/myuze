@@ -11,7 +11,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {
-    domains: ['ik.imagekit.io', 'files.hubhopper.com'], // Add external image domains here
+    domains: ['ik.imagekit.io', 'files.hubhopper.com', 'images.lystnfm.com'], // Add external image domains here
   },
   webpack: (config) => {
     config.resolve.fallback = {

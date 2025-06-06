@@ -1,6 +1,5 @@
 'use client';
 import { useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
 import { handleVerification } from "../../api/auth";
@@ -45,12 +44,17 @@ const OTPVerification: React.FC = () => {
             };
 
             const res = await handleVerification(payload);
-            console.log(res.data, "result");
+            console.log(res.response, "result");
             setAuth({
                 userInfo: res.data
             })
-            router.push('/dashboard/home');
-            showSuccess('Login successfully!');
+            if (res.response.status) {
+                router.push('/dashboard/home');
+                showSuccess('Login successfully!');
+            }
+            else {
+                throw new Error("Verification failed");
+            }
         } catch (error) {
             console.log("Error in login api", error);
             showError("Login failed");

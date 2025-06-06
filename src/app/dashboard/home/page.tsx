@@ -1,11 +1,10 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import HeaderSlider from "../../../components/dashboard/DashboardHeader";
 import { handleHome } from "../../api/home";
 import { showError } from "../../../utils/toastService";
 import SquareShape from "../../../components/dashboard/home/SquareShape";
-import SpotLight from "../../../components/dashboard/home/SpotLight";
+import HeaderSlider from "../../../components/dashboard/DashboardHeader";
 
 type SpotlightContent = {
     conId: number;
@@ -87,7 +86,8 @@ const Page = () => {
             }
 
             if (shapeType === "spotlight") {
-                return <SpotLight key={key} data={blockArray[0]} />;
+                // return <SpotLight key={key} data={blockArray[0]} />;
+                return <HeaderSlider key={key} data={blockArray[0]} />;
             }
 
             return null;
@@ -97,7 +97,6 @@ const Page = () => {
 
     return (
         <div className="p-4 border border-gray-200 rounded-lg">
-            <HeaderSlider />
             {renderBlocks()}
         </div>
     )

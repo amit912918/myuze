@@ -17,7 +17,7 @@ export const handlePodcastPaging = async (params: PodcastPagingProps) => {
             test: params.test ?? '1122',
         },
         headers: {
-            'device-os': 'ios',
+            'device-os': 'web',
             'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
         },
     });
@@ -28,8 +28,8 @@ export const getEpisodeDetail = async (episode_id: number) => {
         url: `api/v1/feed/GetEpisodeDetail/eb3fb92a88badce847f88fb8c9bb9be6/ios/IN/pl/${episode_id}`,
         method: 'GET',
         headers: {
-            'device-os': 'ios',
-            'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5', // Add valid key if required
+            'device-os': 'web',
+            'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
         },
     });
 };

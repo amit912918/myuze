@@ -10,10 +10,15 @@ import useDashboard from '../../hooks/useDashboard';
 export default function SeeAllClient() {
 
     const router = useRouter();
-    const { seeAllData } = useDashboard();
+    const { setDetailData } = useDashboard();
 
     const searchParams = useSearchParams();
     const heading = searchParams?.get('heading');
+
+    const handleDetail = (conId: number, conName: string, imgIrl: string) => {
+        setDetailData({ conId, bkName: "bkName", conName, imgIrl });
+        router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
+    };
 
     useEffect(() => {
         console.log(JSON.parse(localStorage.getItem('seeAllData') || ""), "seeallData");
@@ -29,7 +34,7 @@ export default function SeeAllClient() {
             <div className="grid grid-cols-3 sm:grid-cols-3 gap-4">
                 {JSON.parse(localStorage.getItem('seeAllData') || "").map((item: any, idx: any) => (
                     <div key={idx} className="text-center">
-                        <div className="relative w-full aspect-square rounded-lg overflow-hidden">
+                        <div onClick={() => handleDetail(item.conId, item.conName, item.imgIrl)} className="relative w-full aspect-square rounded-lg overflow-hidden cursor-pointer">
                             <Image
                                 src={item.imgIrl}
                                 alt={item.conName}
@@ -37,7 +42,7 @@ export default function SeeAllClient() {
                                 className="object-cover"
                             />
                             <div className="absolute top-2 right-2">
-                                <Image src="/images/lightning.png" alt="Badge" width={24} height={24} />
+                                <Image style={{ borderRadius: "20%" }} src="/images/myuze1.jpeg" alt="Badge" width={20} height={20} />
                             </div>
                         </div>
                         <p className="mt-2 text-xs font-medium">{item.conName}</p>

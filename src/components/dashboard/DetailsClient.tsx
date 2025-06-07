@@ -82,7 +82,7 @@ const DetailsClient = () => {
 
     const handleEpisode = (item: PodcastEpisodeDetail) => {
         setEpisodeId(item.episode_id);
-        router.push("/dashboard/prodcast");
+        router.push(`/dashboard/podcast?episode_id=${encodeURIComponent(item.episode_id)}`);
     }
 
     useEffect(() => {

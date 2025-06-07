@@ -4,11 +4,13 @@ import { FaBackward, FaForward, FaPlay, FaPause } from "react-icons/fa";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MdArrowBack } from "react-icons/md";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import { Clock3, History, Share2, MoreVertical } from "lucide-react";
+import { Clock3, History, Share2, MoreVertical, Download } from "lucide-react";
 import Image from "next/image";
 import { getEpisodeDetail } from "../../api/podcast";
 import useDashboard from "../../../hooks/useDashboard";
 import { useRouter } from "next/navigation";
+import { Dialog } from 'primereact/dialog';
+import { MdSpeed } from "react-icons/md"; // Another good speed icon
 
 interface Episode {
     episode_id: number;
@@ -77,8 +79,42 @@ export default function Podcast() {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [timer, setTimer] = useState(5);
+    const [showSpeedDialog, setShowSpeedDialog] = useState(false);
+    const [playbackRate, setPlaybackRate] = useState(1);
     const audioRef = useRef<HTMLAudioElement>(null);
     const toast = useRef<any>(null);
+
+    const [showSleepTimer, setShowSleepTimer] = useState(false);
+
+    const handleClockClick = () => {
+        setShowSleepTimer(true);
+    };
+
+    const handleShareClick = async () => {
+        const shareUrl = window.location.href;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: episodeData.title,
+                    text: episodeData.subtitle || 'Check out this podcast!',
+                    url: shareUrl,
+                });
+            } catch (error) {
+                console.error('Sharing failed:', error);
+            }
+        } else {
+            // fallback for unsupported devices
+            await navigator.clipboard.writeText(shareUrl);
+            alert('Link copied to clipboard!');
+        }
+    };
+
+    const handleSpeedChange = () => {
+        const nextRate = playbackRate === 2 ? 1 : playbackRate + 0.5;
+        setPlaybackRate(nextRate);
+    };
+
 
     const confirm = () => {
         confirmDialog({
@@ -137,6 +173,13 @@ export default function Podcast() {
         }
         setIsPlaying(!isPlaying);
     };
+
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (audio) {
+            audio.playbackRate = playbackRate;
+        }
+    }, [playbackRate]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -277,10 +320,78 @@ export default function Podcast() {
             </div>
 
             <div className="w-full flex justify-around items-center py-3 mt-6">
-                <History className="w-5 h-5 text-gray-600 cursor-pointer" />
-                <Clock3 className="w-5 h-5 text-gray-600 cursor-pointer" />
-                <Share2 className="w-5 h-5 text-gray-600 cursor-pointer" />
-                <MoreVertical className="w-5 h-5 text-gray-600 cursor-pointer" />
+                {/* <History className="w-5 h-5 text-gray-600 cursor-pointer" /> */}
+                <MdSpeed
+                    className="w-5 h-5 text-gray-600 cursor-pointer"
+                    onClick={() => setShowSpeedDialog(true)}
+                />
+                <Dialog
+                    header="Playback Speed"
+                    visible={showSpeedDialog}
+                    onHide={() => setShowSpeedDialog(false)}
+                    style={{ width: '300px' }}
+                    modal
+                >
+                    <div className="flex flex-col gap-3">
+                        {[0.5, 1, 1.5, 2].map((rate) => (
+                            <button
+                                key={rate}
+                                onClick={() => {
+                                    setPlaybackRate(rate);
+                                    if (audioRef.current) {
+                                        audioRef.current.playbackRate = rate;
+                                    }
+                                    setShowSpeedDialog(false);
+                                }}
+                                className={`py-2 px-4 rounded-md text-white ${playbackRate === rate ? "bg-purple-600" : "bg-gray-400"
+                                    }`}
+                            >
+                                {rate}x
+                            </button>
+                        ))}
+                    </div>
+                </Dialog>
+
+                <Clock3
+                    className="w-5 h-5 text-gray-600 cursor-pointer"
+                    onClick={handleClockClick}
+                />
+
+                <Dialog
+                    visible={showSleepTimer}
+                    onHide={() => setShowSleepTimer(false)}
+                    header="Set Sleep Timer"
+                    className="w-80"
+                    modal
+                >
+                    <div className="flex flex-col gap-2">
+                        <button
+                            className="bg-purple-500 text-white py-2 rounded"
+                            onClick={() => {
+                                setTimer(15);
+                                setShowSleepTimer(false);
+                                // Optional: Add functionality to pause audio after 15 minutes
+                            }}
+                        >
+                            15 Minutes
+                        </button>
+                        <button
+                            className="bg-purple-500 text-white py-2 rounded"
+                            onClick={() => {
+                                setTimer(30);
+                                setShowSleepTimer(false);
+                            }}
+                        >
+                            30 Minutes
+                        </button>
+                    </div>
+                </Dialog>
+
+                <Share2
+                    className="w-5 h-5 text-gray-600 cursor-pointer"
+                    onClick={handleShareClick}
+                />
+                <Download className="w-5 h-5 text-gray-600 cursor-pointer" />
             </div>
         </main>
     );

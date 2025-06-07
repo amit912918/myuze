@@ -16,10 +16,10 @@ export const handlePodcastPaging = async (params: PodcastPagingProps) => {
             debug: params.debug ?? false,
             test: params.test ?? '1122',
         },
-        headers: {
-            'device-os': 'web',
-            'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
-        },
+        // headers: {
+        //     'device-os': 'web',
+        //     'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
+        // },
     });
 };
 
@@ -27,9 +27,9 @@ export const getEpisodeDetail = async (episode_id: number) => {
     return await requestApi({
         url: `api/v1/feed/GetEpisodeDetail/eb3fb92a88badce847f88fb8c9bb9be6/ios/IN/pl/${episode_id}`,
         method: 'GET',
-        headers: {
-            'device-os': 'web',
-            'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
-        },
+        // headers: {
+        //     'device-os': 'web',
+        //     'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
+        // },
     });
 };

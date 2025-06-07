@@ -18,7 +18,7 @@ export const handleLogin = async (payload: loginProps) => {
         method: 'POST',
         data: payload,
         headers: {
-            'device-os': 'ios',
+            'device-os': 'web',
             'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
         },
     });
@@ -30,7 +30,7 @@ export const handleVerification = async (payload: verifyProps) => {
         method: 'POST',
         data: payload,
         headers: {
-            'device-os': 'ios',
+            'device-os': 'web',
             'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
         },
     });

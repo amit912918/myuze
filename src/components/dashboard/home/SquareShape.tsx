@@ -1,3 +1,6 @@
+'use client';
+
+import { Suspense } from 'react';
 import Image from 'next/image'
 import React from 'react'
 import useDashboard from '../../../hooks/useDashboard';
@@ -39,28 +42,30 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
     }
 
     return (
-        <div>
-            <div className="flex justify-between items-center my-3">
-                <h2 className="text-lg font-semibold">{data.bkName}</h2>
-                <div onClick={() => handleSeeAll(data.contents)} className="text-purple-600 text-sm font-medium cursor-pointer">See All</div>
-            </div>
+        <Suspense fallback={<div>Loading...</div>}>
+            <div>
+                <div className="flex justify-between items-center my-3">
+                    <h2 className="text-lg font-semibold">{data.bkName}</h2>
+                    <div onClick={() => handleSeeAll(data.contents)} className="text-purple-600 text-sm font-medium cursor-pointer">See All</div>
+                </div>
 
-            <div className="overflow-x-auto whitespace-nowrap no-scrollbar">
-                <div className="flex gap-4">
-                    {data.contents.map((item) => (
-                        <div key={item.conId} className="min-w-[160px] flex-shrink-0 cursor-pointer" onClick={() => handleDetail(item.conId, data.bkName, item.conName, item.imgIrl)}>
-                            <Image
-                                src={item.imgIrl || "/images/fallback.png"}
-                                alt={item.conName}
-                                width={160}
-                                height={160}
-                                className="w-40 h-40 rounded-lg object-cover"
-                            />
-                        </div>
-                    ))}
+                <div className="overflow-x-auto whitespace-nowrap no-scrollbar">
+                    <div className="flex gap-4">
+                        {data.contents.map((item) => (
+                            <div key={item.conId} className="min-w-[160px] flex-shrink-0 cursor-pointer" onClick={() => handleDetail(item.conId, data.bkName, item.conName, item.imgIrl)}>
+                                <Image
+                                    src={item.imgIrl || "/images/fallback.png"}
+                                    alt={item.conName}
+                                    width={160}
+                                    height={160}
+                                    className="w-40 h-40 rounded-lg object-cover"
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+        </Suspense>
     );
 };
 

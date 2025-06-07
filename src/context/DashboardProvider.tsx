@@ -30,6 +30,8 @@ export interface DashboardContextType {
     setOpenPlayButton: Dispatch<SetStateAction<boolean>>;
     subScriptionButton: string;
     setSubScriptionButton: Dispatch<SetStateAction<string>>;
+    episodeId: number;
+    setEpisodeId: Dispatch<SetStateAction<number>>;
     detailData: DetailProps;
     setDetailData: Dispatch<SetStateAction<DetailProps>>;
     seeAllData: ContentProps[];
@@ -48,6 +50,8 @@ const DashboardContext = createContext<DashboardContextType>({
     setOpenPlayButton: () => { },
     subScriptionButton: '',
     setSubScriptionButton: () => { },
+    episodeId: 0,
+    setEpisodeId: () => { },
     detailData: defaultDetailData,
     setDetailData: () => { },
     seeAllData: [{
@@ -69,6 +73,7 @@ interface DashboardProviderProps {
 export const DashboardProvider = ({ children }: DashboardProviderProps) => {
     const [openPlayButton, setOpenPlayButton] = useState<boolean>(false);
     const [subScriptionButton, setSubScriptionButton] = useState<string>('');
+    const [episodeId, setEpisodeId] = useState<number>(0);
     const [detailData, setDetailData] = useState<DetailProps>(defaultDetailData);
     const [seeAllData, setSeeAllData] = useState<ContentProps[]>([{
         conId: 0,
@@ -87,6 +92,8 @@ export const DashboardProvider = ({ children }: DashboardProviderProps) => {
                 setOpenPlayButton,
                 subScriptionButton,
                 setSubScriptionButton,
+                episodeId,
+                setEpisodeId,
                 detailData,
                 setDetailData,
                 seeAllData,

@@ -1,0 +1,287 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { FaBackward, FaForward, FaPlay, FaPause } from "react-icons/fa";
+import { HiOutlineDotsVertical } from "react-icons/hi";
+import { MdArrowBack } from "react-icons/md";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { Clock3, History, Share2, MoreVertical } from "lucide-react";
+import Image from "next/image";
+import { getEpisodeDetail } from "../../api/podcast";
+import useDashboard from "../../../hooks/useDashboard";
+import { useRouter } from "next/navigation";
+
+interface Episode {
+    episode_id: number;
+    title: string;
+    description: string;
+    subtitle: string;
+    imgid: number;
+    episodetype: string;
+    keywords: string;
+    episode_seq: number;
+    duration: number;
+    playback_count: number;
+    isexplicit: string;
+    stream_uri: string;
+    stream_url: string;
+    download_url: string;
+    length: number;
+    img_remote_uri: string;
+    img_local_uri: string;
+    img_height: number;
+    img_width: number;
+    img_type: string;
+    duration_format: string;
+    playback_count_format: string;
+    added_on: string;
+    pubdate: string;
+    player_icon_url: string;
+    is_billable: number;
+}
+
+const defaultEpisode: Episode = {
+    episode_id: 0,
+    title: "",
+    description: "",
+    subtitle: "",
+    imgid: 0,
+    episodetype: "",
+    keywords: "",
+    episode_seq: 0,
+    duration: 0,
+    playback_count: 0,
+    isexplicit: "",
+    stream_uri: "",
+    stream_url: "",
+    download_url: "",
+    length: 0,
+    img_remote_uri: "",
+    img_local_uri: "",
+    img_height: 0,
+    img_width: 0,
+    img_type: "",
+    duration_format: "",
+    playback_count_format: "",
+    added_on: "",
+    pubdate: "",
+    player_icon_url: "",
+    is_billable: 0,
+};
+
+export default function Podcast() {
+
+    const router = useRouter();
+    const { episodeId } = useDashboard();
+    const [episodeData, setEpisodeData] = useState<Episode>(defaultEpisode);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const [timer, setTimer] = useState(5);
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const toast = useRef<any>(null);
+
+    const confirm = () => {
+        confirmDialog({
+            position: "bottom",
+            message: (
+                <div className="bg-white rounded-3xl text-center">
+                    <div className="w-[60px] h-[60px] m-auto">
+                        <Image
+                            width={200}
+                            height={200}
+                            className="w-full h-full"
+                            src="/images/subscriptionLogo.png"
+                            alt="Subscription Logo"
+                        />
+                    </div>
+                    <h2 className="text-xl font-semibold text-purple-600 mt-4">
+                        StoryStream Pro
+                    </h2>
+                    <p className="text-lg font-bold text-gray-900 my-3">
+                        Unlock All Shows & Books
+                        <br />
+                        with StoryStream Pro
+                    </p>
+                    <div className="border border-gray-200"></div>
+                    <p className="text-gray-600 mt-3">
+                        Subscribe now to enjoy Unlimited Access
+                    </p>
+                    <button className="bg-gradient-to-r mt-4 from-purple-500 to-pink-500 text-white py-3 px-6 rounded-xl text-lg font-medium w-full transition hover:opacity-90">
+                        Subscribe Now ({timer} Sec)
+                    </button>
+                    <div
+                        className="text-sm text-gray-600 mt-2 cursor-pointer hover:underline"
+                        onClick={() => toast.current?.hide()}
+                    >
+                        &larr; I’ll try this later, take me back
+                    </div>
+                </div>
+            ),
+            footer: <></>,
+        });
+    };
+
+    const handlePlayPause = () => {
+        if (episodeData.is_billable === 2) {
+            confirm();
+            return;
+        }
+
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        if (isPlaying) {
+            audio.pause();
+        } else {
+            audio.play();
+        }
+        setIsPlaying(!isPlaying);
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await getEpisodeDetail(episodeId);
+                setEpisodeData(result.response.podcast.podcast_episode_details[0]);
+            } catch (error) {
+                console.error("Failed to fetch podcast:", error);
+            }
+        };
+        fetchData();
+    }, [episodeId]);
+
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        const updateTime = () => {
+            setCurrentTime(audio.currentTime);
+            setDuration(audio.duration);
+        };
+
+        audio.addEventListener("timeupdate", updateTime);
+        return () => {
+            audio.removeEventListener("timeupdate", updateTime);
+        };
+    }, []);
+
+    const formatTime = (time: number) => {
+        const minutes = Math.floor(time / 60)
+            .toString()
+            .padStart(2, "0");
+        const seconds = Math.floor(time % 60)
+            .toString()
+            .padStart(2, "0");
+        return `${minutes}:${seconds}`;
+    };
+
+    return (
+        <main className="flex flex-col items-center justify-center border border-gray-200 rounded-lg min-h-screen p-4">
+            <ConfirmDialog />
+            <audio ref={audioRef} src={episodeData.stream_url} preload="metadata" />
+            <div className="w-full flex items-center justify-between mb-4">
+                <button>
+                    <MdArrowBack onClick={() => router.back()} className="text-2xl" />
+                </button>
+                <h1 className="font-semibold text-lg text-black dark:text-white">
+                    Talking to Strangers
+                </h1>
+                <button>
+                    <HiOutlineDotsVertical className="text-2xl" />
+                </button>
+            </div>
+
+            <div className="w-full max-w-xs rounded-xl overflow-hidden shadow-lg">
+                {/* {episodeData.img_local_uri && (
+                    <Image
+                        src={episodeData?.img_local_uri || '/images/download.png'}
+                        width={200}
+                        height={200}
+                        alt="Cover"
+                        className="w-full"
+                    />
+                )} */}
+                {episodeData?.img_local_uri ? (
+                    <Image
+                        src={episodeData.img_local_uri}
+                        alt="Podcast Cover"
+                        height={400}
+                        width={1000}
+                        className="w-full h-[400px] object-cover"
+                    />
+                ) : (
+                    <div
+                        role="status"
+                        className="w-full h-[400px] bg-gray-300 dark:bg-gray-700 animate-pulse flex items-center justify-center"
+                    >
+                        <svg
+                            className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 16 20"
+                        >
+                            <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
+                            <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
+                        </svg>
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                )}
+            </div>
+
+            <div className="text-center mt-4">
+                <h2 className="font-bold text-lg text-black dark:text-white">
+                    {episodeData.title || "No title"}
+                </h2>
+                <p className="text-sm text-gray-500 dark:text-white">{episodeData?.subtitle}</p>
+            </div>
+
+            <div className="w-full max-w-sm mt-6">
+                <input
+                    type="range"
+                    min={0}
+                    max={duration || 0}
+                    value={currentTime}
+                    className="w-full accent-purple-500"
+                    onChange={(e) => {
+                        const newTime = parseFloat(e.target.value);
+                        if (audioRef.current) {
+                            audioRef.current.currentTime = newTime;
+                        }
+                        setCurrentTime(newTime);
+                    }}
+                />
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>{formatTime(currentTime)}</span>
+                    <span>{formatTime(duration)}</span>
+                </div>
+            </div>
+
+            <div className="flex items-center justify-between w-full max-w-sm mt-6 px-6">
+                <button>
+                    <FaBackward className="text-2xl" />
+                </button>
+                <button
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-full text-white shadow-lg"
+                    onClick={handlePlayPause}
+                >
+                    {isPlaying ? (
+                        <FaPause className="text-2xl" />
+                    ) : (
+                        <FaPlay className="text-2xl" />
+                    )}
+                </button>
+                <button>
+                    <FaForward className="text-2xl" />
+                </button>
+            </div>
+
+            <div className="w-full flex justify-around items-center py-3 mt-6">
+                <History className="w-5 h-5 text-gray-600 cursor-pointer" />
+                <Clock3 className="w-5 h-5 text-gray-600 cursor-pointer" />
+                <Share2 className="w-5 h-5 text-gray-600 cursor-pointer" />
+                <MoreVertical className="w-5 h-5 text-gray-600 cursor-pointer" />
+            </div>
+        </main>
+    );
+}

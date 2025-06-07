@@ -157,7 +157,7 @@ const categories = [
 
 export default function CategoryGrid() {
     return (
-        <div className="max-w-4xl p-6 border border-gray-200 rounded-lg">
+        <div className="max-w-4xl p-4 border border-gray-200 rounded-lg">
             <div className="flex items-center mb-6">
                 <div>
                     <BiCategory className="w-6 h-6 text-gradient-to-r text-purple-500 text-pink-500 rounded-md mr-2" />

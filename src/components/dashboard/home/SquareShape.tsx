@@ -32,13 +32,13 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
 
     const handleDetail = (conId: number, bkName: string, conName: string, imgIrl: string) => {
         setDetailData({ conId, bkName, conName, imgIrl });
-        router.push('/dashboard/details');
+        router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
     };
 
     const handleSeeAll = (item: SquareContent[]) => {
         router.push(`/dashboard/seeall?heading=${encodeURIComponent(data.bkName)}`);
-
-        setSeeAllData(item)
+        setSeeAllData(item);
+        localStorage.setItem('seeAllData', JSON.stringify(item));
     }
 
     return (

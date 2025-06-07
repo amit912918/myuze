@@ -52,7 +52,7 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
                 <div className="overflow-x-auto whitespace-nowrap no-scrollbar">
                     <div className="flex gap-4">
                         {data.contents.map((item) => (
-                            <div key={item.conId} className="min-w-[160px] flex-shrink-0 cursor-pointer" onClick={() => handleDetail(item.conId, data.bkName, item.conName, item.imgIrl)}>
+                            <div key={item.conId} className="relative min-w-[160px] flex-shrink-0 cursor-pointer" onClick={() => handleDetail(item.conId, data.bkName, item.conName, item.imgIrl)}>
                                 <Image
                                     src={item.imgIrl || "/images/fallback.png"}
                                     alt={item.conName}
@@ -60,6 +60,9 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
                                     height={160}
                                     className="w-40 h-40 rounded-lg object-cover"
                                 />
+                                <div className="absolute top-2 right-2">
+                                    <Image style={{ borderRadius: "20%" }} src="/images/myuze1.jpeg" alt="Badge" width={20} height={20} />
+                                </div>
                             </div>
                         ))}
                     </div>

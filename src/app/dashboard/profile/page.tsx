@@ -1,5 +1,5 @@
-// For app directory (Next.js 13+), or rename to profile.js for pages/ directory
 'use client';
+import { useState } from "react";
 import { FaUser, FaHeadset, FaFileAlt, FaSignOutAlt } from "react-icons/fa";
 import { MdSubscriptions } from "react-icons/md";
 import { IoLanguage } from "react-icons/io5";
@@ -7,18 +7,22 @@ import { BsShieldLock } from "react-icons/bs";
 import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import { IoIosArrowForward } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { Dialog } from 'primereact/dialog';
 
 type MenuItemProps = {
     icon: React.ReactNode;
     label: React.ReactNode | string;
     value?: React.ReactNode | string;
     textColor?: string;
+    onClick?: () => void;
 };
 
-function MenuItem({ icon, label, value, textColor = "text-gray-900" }: MenuItemProps) {
-
+function MenuItem({ icon, label, value, textColor = "text-gray-900", onClick }: MenuItemProps) {
     return (
-        <div className="flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer px-2 rounded">
+        <div
+            onClick={onClick}
+            className="flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer px-2 rounded"
+        >
             <div className="flex items-center space-x-3">
                 <div className="text-gray-400">{icon}</div>
                 <span className={`text-base ${textColor}`}>{label}</span>
@@ -28,13 +32,21 @@ function MenuItem({ icon, label, value, textColor = "text-gray-900" }: MenuItemP
     );
 }
 
-
 export default function ProfilePage() {
-
     const router = useRouter();
+
+    const [selectedLanguage, setSelectedLanguage] = useState("English");
+    const [showLanguageDialog, setShowLanguageDialog] = useState(false);
+
     const handleLogout = () => {
         router.push('/auth/login');
-    }
+    };
+
+    const handleManageAccount = () => {
+        router.push('/dashboard/profile/edit');
+    };
+
+    const availableLanguages = ["English", "Hindi"];
 
     return (
         <div className="min-h-screen bg-white dark:bg-black p-4 pt-8 max-w-md mx-auto font-sans">
@@ -56,25 +68,61 @@ export default function ProfilePage() {
                             StoryStream Pro
                         </button>
                     </div>
-                    {/* <Image
-                        src="/girl-listening.png"
-                        alt="Listening"
-                        fill
-                        className="w-24 h-24 object-cover rounded-xl ml-4"
-                    /> */}
                 </div>
             </div>
 
             {/* Options */}
             <div className="space-y-4">
                 <MenuItem icon={<FaUser />} label="Manage Account" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
-                <MenuItem icon={<MdSubscriptions />} label="Manage Subscription" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
-                <MenuItem icon={<IoLanguage />} label="Language" value={<div className="flex px-2"><div className="mx-4">English</div><div><IoIosArrowForward /></div></div>} textColor="text-black dark:text-white" />
+                <MenuItem
+                    icon={<MdSubscriptions />}
+                    label="Manage Subscription"
+                    value={<IoIosArrowForward />}
+                    textColor="text-black dark:text-white"
+                    onClick={handleManageAccount}
+                />
+                <MenuItem
+                    icon={<IoLanguage />}
+                    label="Language"
+                    value={
+                        <div className="flex items-center gap-3">
+                            <span>{selectedLanguage}</span>
+                            <IoIosArrowForward />
+                        </div>
+                    }
+                    textColor="text-black dark:text-white"
+                    onClick={() => setShowLanguageDialog(true)}
+                />
                 <MenuItem icon={<FaHeadset />} label="Contact Us" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
                 <MenuItem icon={<BsShieldLock />} label="Privacy Policy" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
                 <MenuItem icon={<FaFileAlt />} label="Terms of Service" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
                 <MenuItem icon={<FaSignOutAlt />} label={<div onClick={handleLogout} className="font-semibold">Logout</div>} textColor="text-red-500" />
             </div>
+
+            {/* Language Dialog */}
+            <Dialog
+                header="Select Language"
+                visible={showLanguageDialog}
+                onHide={() => setShowLanguageDialog(false)}
+                style={{ width: '300px' }}
+                modal
+            >
+                <div className="flex flex-col gap-3">
+                    {availableLanguages.map((lang) => (
+                        <button
+                            key={lang}
+                            onClick={() => {
+                                setSelectedLanguage(lang);
+                                setShowLanguageDialog(false);
+                            }}
+                            className={`py-2 px-4 rounded-md text-white ${selectedLanguage === lang ? "bg-purple-600" : "bg-gray-400"
+                                }`}
+                        >
+                            {lang}
+                        </button>
+                    ))}
+                </div>
+            </Dialog>
         </div>
     );
 }

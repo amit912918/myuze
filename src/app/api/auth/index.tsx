@@ -17,10 +17,10 @@ export const handleLogin = async (payload: loginProps) => {
         url: 'api/v1/feed/GetOTP',
         method: 'POST',
         data: payload,
-        // headers: {
-        //     'device-os': 'web',
-        //     'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
-        // },
+        headers: {
+            'device-os': 'web',
+            'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
+        },
     });
 };
 
@@ -29,9 +29,9 @@ export const handleVerification = async (payload: verifyProps) => {
         url: 'api/v1/feed/ValidateOTP',
         method: 'POST',
         data: payload,
-        // headers: {
-        //     'device-os': 'web',
-        //     'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
-        // },
+        headers: {
+            'device-os': 'web',
+            'API-KEY': '3ab0242fb7a6f01b9c2467dd221a43a5',
+        },
     });
 };

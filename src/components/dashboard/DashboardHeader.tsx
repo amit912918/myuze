@@ -47,8 +47,9 @@ interface SpotlightBlock {
 const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
 
     const router = useRouter();
-    const handleListen = () => {
-        router.push('/dashboard/details');
+
+    const handleDetail = (conId: number) => {
+        router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
     };
 
     return (
@@ -57,23 +58,23 @@ const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
                 spaceBetween={16}
                 slidesPerView={1}
                 loop={true}
-                autoplay={{ delay: 2500, disableOnInteraction: false }}
+                autoplay={{ delay: 3500, disableOnInteraction: false }}
                 pagination={{ clickable: true }}
                 modules={[Autoplay, Pagination]}
                 className="rounded-xl"
             >
                 {data.contents.map((slide, idx) => (
                     <SwiperSlide key={idx}>
-                        <div className="relative w-full h-64">
+                        <div className="relative w-full h-80">
                             <Image
                                 src={slide.imgIrl}
                                 alt={slide.conName}
                                 fill
                                 className="rounded-xl object-cover"
                             />
-                            <div style={{ marginTop: "40%" }} className="absolute inset-0 flex items-center justify-center text-sm">
+                            <div style={{ marginTop: "55%" }} className="absolute inset-0 flex items-center justify-center text-sm">
                                 {/* <Button onClick={handleListen} size='small' className="bg-white">Listen Now</Button> */}
-                                <button onClick={handleListen} style={{ borderRadius: "5px" }} className="bg-white text-black font-semibold px-4 py-2 shadow-sm hover:shadow-md transition cursor-pointer">
+                                <button onClick={() => handleDetail(slide.conId)} style={{ borderRadius: "5px" }} className="bg-white text-black font-semibold px-4 py-2 shadow-sm hover:shadow-md transition cursor-pointer">
                                     Listen Now
                                 </button>
                             </div>

@@ -16,7 +16,7 @@ export default function SeeAllClient() {
     const heading = searchParams?.get('heading');
 
     useEffect(() => {
-        console.log(seeAllData, "seeallData");
+        console.log(JSON.parse(localStorage.getItem('seeAllData') || ""), "seeallData");
     })
 
     return (
@@ -27,7 +27,7 @@ export default function SeeAllClient() {
             </div>
 
             <div className="grid grid-cols-3 sm:grid-cols-3 gap-4">
-                {seeAllData.map((item, idx) => (
+                {JSON.parse(localStorage.getItem('seeAllData') || "").map((item: any, idx: any) => (
                     <div key={idx} className="text-center">
                         <div className="relative w-full aspect-square rounded-lg overflow-hidden">
                             <Image

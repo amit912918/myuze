@@ -1,14 +1,13 @@
 import api from '../../../lib/axios';
 
-interface homeProps {
-    deviceId: string;
-    langCode: string;
-    mobileNo: string;
-    isdCode: string;
-}
+export const handleDefaultSearchApi = async () => {
 
-export const handleSearch = async (payload: homeProps) => {
+    const res = await api.get('/api/v1/feed/GetSearchSuggestions/eb3fb92a88badce847f88fb8c9bb9be6/ios/IN/en');
+    return res.data;
+};
 
-    const res = await api.post('/api/v1/feed/GetHome/a995570eea6c716c8305ea42213a853d/web/IN/en', payload);
+export const handleSearchApi = async (searchKey: any) => {
+
+    const res = await api.get(`/api/v1/feed/GetSearchResults/eb3fb92a88badce847f88fb8c9bb9be6/ios/IN/pl/${searchKey}`);
     return res.data;
 };

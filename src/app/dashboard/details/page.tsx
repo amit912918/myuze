@@ -61,7 +61,7 @@ interface PodcastEpisodeDetail {
 const PodcastDetail = () => {
 
     const router = useRouter();
-    const { detailData, setOpenPlayButton } = useDashboard();
+    const { setEpisodeId, detailData, setOpenPlayButton } = useDashboard();
     const [podcastData, setPodcastData] = useState<PodcastDetail>();
     const [episodeData, setEpisodeData] = useState<PodcastEpisodeDetail[]>();
 
@@ -71,6 +71,7 @@ const PodcastDetail = () => {
 
     const handleEpisode = (item: PodcastEpisodeDetail) => {
         console.log(item);
+        setEpisodeId(item.episode_id);
         router.push("/dashboard/prodcast");
     }
 
@@ -96,19 +97,45 @@ const PodcastDetail = () => {
 
     return (
         <div className="min-h-screen p-4 max-w-md mx-auto">
-            <div className="relative rounded-2xl overflow-hidden">
-                <Image
-                    src={detailData?.imgIrl}
-                    alt="The Climate Book"
-                    height={1000}
-                    width={1000}
-                    className="object-contain"
-                />
-                <div className="absolute top-4 left-4 rounded-full p-1">
-                    <ArrowLeft onClick={() => router.back()} size={20} className='dark:text-white cursor-pointer' />
+            <div className="relative rounded-2xl overflow-hidden w-full max-h-[400px]">
+                {detailData?.imgIrl ? (
+                    <Image
+                        src={detailData.imgIrl}
+                        alt="Podcast Cover"
+                        height={400}
+                        width={1000}
+                        className="w-full h-[400px] object-cover"
+                    />
+                ) : (
+                    <div
+                        role="status"
+                        className="w-full h-[400px] bg-gray-300 dark:bg-gray-700 animate-pulse flex items-center justify-center"
+                    >
+                        <svg
+                            className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 16 20"
+                        >
+                            <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
+                            <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
+                        </svg>
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                )}
+
+                {/* Absolute buttons (always visible regardless of image/skeleton) */}
+                <div className="absolute top-4 left-4 bg-white/80 backdrop-blur-md p-2 rounded-full shadow">
+                    <ArrowLeft
+                        onClick={() => router.back()}
+                        size={20}
+                        className="text-gray-700 dark:text-white cursor-pointer"
+                    />
                 </div>
-                <div className="absolute top-4 right-4 rounded-full p-1">
-                    <Share2 size={20} className='dark:text-white' />
+
+                <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-2 rounded-full shadow">
+                    <Share2 size={20} className="text-gray-700 dark:text-white cursor-pointer" />
                 </div>
             </div>
 

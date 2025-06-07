@@ -2,7 +2,7 @@
 // components/SearchPage.js
 import { FaPlay, FaEllipsisV } from "react-icons/fa";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NotFoundPage from "../../../components/dashboard/NotFound";
 import { RiSearchFill } from "react-icons/ri";
 import { Mic, X } from "lucide-react";
@@ -10,6 +10,8 @@ import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import { IoIosSearch } from "react-icons/io";
 import { MdOutlinePlaylistAdd } from "react-icons/md";
 import { PiDownloadSimpleDuotone } from "react-icons/pi";
+import { handleDefaultSearchApi, handleSearchApi } from "../../api/search";
+import { useRouter } from "next/navigation";
 
 const authors = [
     { id: 1, img: "/images/s1.png" },
@@ -36,17 +38,60 @@ const podcasts = [
 
 export default function SearchPage() {
 
+    const router = useRouter();
     const [notFound, setNotFound] = useState(false);
     const [search, setSearch] = useState("");
+    const [defaultSearchData, setDefaultSearchData] = useState({
+        rankingSearch: [],
+        popularSearch: []
+    });
+    const [searchData, setSearchData] = useState({
+        rankingSearch: [],
+        popularSearch: []
+    });
 
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNotFound(true);
+    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        // setNotFound(true);
         setSearch(e.target.value);
+        const result = await handleSearchApi(e.target.value);
+        console.log(result.response.result.result_popular.podcasts_bucket.contents, "result.response.result.result_ranking.podcasts_bucket.contents");
+        setDefaultSearchData({
+            rankingSearch: result.response.result.result_ranking.podcasts_bucket.contents,
+            popularSearch: result.response.result.result_popular.podcasts_bucket.contents
+        })
     };
 
     const clearSearch = () => {
         setSearch("");
+    }; const handleDetail = (conId: number) => {
+        router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
     };
+
+    const handleSeeAll1 = () => {
+        localStorage.setItem('seeAllData', JSON.stringify(defaultSearchData?.rankingSearch));
+        router.push(`/dashboard/seeall?heading=${encodeURIComponent("Ranking Podcast")}`);
+    }
+
+    const handleSeeAll2 = () => {
+        localStorage.setItem('seeAllData', JSON.stringify(defaultSearchData?.popularSearch));
+        router.push(`/dashboard/seeall?heading=${encodeURIComponent("Popular Podcast")}`);
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await handleDefaultSearchApi();
+                console.log(result.response.result.result_popular.podcasts_bucket.contents, "result.response.result.result_ranking.podcasts_bucket.contents");
+                setDefaultSearchData({
+                    rankingSearch: result.response.result.result_ranking.podcasts_bucket.contents,
+                    popularSearch: result.response.result.result_popular.podcasts_bucket.contents
+                })
+            } catch (error) {
+                console.error("Failed to fetch podcast:", error);
+            }
+        };
+        fetchData();
+    }, [])
 
     return (
         <div className="w-[400px] border border-gray-200 my-8 rounded-lg mx-auto p-4 space-y-6">
@@ -88,17 +133,18 @@ export default function SearchPage() {
             {notFound ? <NotFoundPage /> : (<><div>
                 <div className="flex justify-between items-center mb-2">
                     <h2 className="text-md font-semibold">Popular & Trending Authors</h2>
-                    <button className="text-sm text-purple-600 font-semibold">See All</button>
+                    <button onClick={() => handleSeeAll1()} className="text-sm text-purple-600 font-semibold cursor-pointer">See All</button>
                 </div>
                 <div className="flex gap-4 overflow-x-auto pb-2">
-                    {authors.map((author) => (
+                    {defaultSearchData?.rankingSearch?.map((author: any) => (
                         <Image
-                            key={author.id}
-                            src={author.img}
+                            key={author.conId}
+                            src={author.imgIrl}
                             width={200}
                             height={200}
                             alt="Author"
-                            className="w-24 h-24 rounded-lg object-cover"
+                            className="w-24 h-24 rounded-lg object-cover cursor-pointer"
+                            onClick={() => handleDetail(author?.conId)}
                         />
                     ))}
                 </div>
@@ -107,25 +153,26 @@ export default function SearchPage() {
                 <div>
                     <div className="flex justify-between items-center mb-2">
                         <h2 className="text-md font-semibold">Most Listened Podcasts</h2>
-                        <button className="text-sm text-purple-600 font-semibold">See All</button>
+                        <button onClick={() => handleSeeAll2()} className="text-sm text-purple-600 font-semibold cursor-pointer">See All</button>
                     </div>
                     <div className="space-y-4">
-                        {podcasts.map((podcast) => (
-                            <div key={podcast.id} className="flex items-center gap-4">
+                        {defaultSearchData?.rankingSearch?.map((podcast: any) => (
+                            <div key={podcast.conId} className="flex items-center gap-4">
                                 <Image
-                                    src={podcast.img}
+                                    src={podcast.imgIrl}
                                     width={200}
                                     height={200}
                                     alt="Podcast"
-                                    className="w-40 h-40 rounded-md object-cover"
+                                    className="w-40 h-40 rounded-md object-cover cursor-pointer"
+                                    onClick={() => handleDetail(podcast?.conId)}
                                 />
                                 <div className="flex-1">
                                     <h3 className="text-sm font-semibold leading-snug">
-                                        {podcast.title}
+                                        {podcast.conName}
                                     </h3>
-                                    <p className="text-xs text-gray-500">{podcast.author}</p>
+                                    <p className="text-xs text-gray-500">{podcast.author || "author"}</p>
                                     <div className="flex items-center text-xs text-gray-500 mt-1">
-                                        <span>{podcast.duration}</span>
+                                        <span>{podcast.duration || "00:00"}</span>
                                     </div>
                                     <div className="flex items-center gap-5 mt-2">
                                         {/* <button className="bg-purple-600 text-white text-xs px-4 py-1 rounded-full flex items-center gap-2"> */}

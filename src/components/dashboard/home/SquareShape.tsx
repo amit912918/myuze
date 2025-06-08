@@ -38,7 +38,6 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
     const handleSeeAll = (item: SquareContent[]) => {
         router.push(`/dashboard/seeall?heading=${encodeURIComponent(data.bkName)}`);
         setSeeAllData(item);
-        localStorage.setItem('seeAllData', JSON.stringify(item));
     }
 
     return (

@@ -85,6 +85,24 @@ const DetailsClient = () => {
         router.push(`/dashboard/podcast?episode_id=${encodeURIComponent(item.episode_id)}`);
     }
 
+    const handleShareClick = async () => {
+        const shareUrl = window.location.href;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    url: shareUrl,
+                });
+            } catch (error) {
+                console.error('Sharing failed:', error);
+            }
+        } else {
+            // fallback for unsupported devices
+            await navigator.clipboard.writeText(shareUrl);
+            alert('Link copied to clipboard!');
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -172,7 +190,7 @@ const DetailsClient = () => {
                 </div>
 
                 <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-2 rounded-full shadow">
-                    <Share2 size={20} className="text-gray-700 dark:text-white cursor-pointer" />
+                    <Share2 onClick={handleShareClick} size={20} className="text-gray-700 dark:text-white cursor-pointer" />
                 </div>
             </div>
 

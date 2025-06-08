@@ -64,7 +64,6 @@ const Page = () => {
             // router.push('/auth/verification');
         } catch (error) {
             console.log("Error in login api", error);
-            showError("Home data fetch failed");
         }
     }
 
@@ -95,7 +94,7 @@ const Page = () => {
     };
 
     return (
-        <div className="p-4 border border-gray-200 rounded-lg mb-12">
+        <div className="p-4 border border-gray-200 rounded-lg mb-18">
             {renderBlocks()}
         </div>
     )

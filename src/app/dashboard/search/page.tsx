@@ -94,7 +94,7 @@ export default function SearchPage() {
     }, [])
 
     return (
-        <div className="w-[400px] border border-gray-200 my-8 rounded-lg mx-auto p-4 space-y-6">
+        <div className="w-[400px] border border-gray-200 my-8 rounded-lg mx-auto p-4 space-y-6 mb-18">
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                     {/* <div className="w-5 h-5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" /> */}

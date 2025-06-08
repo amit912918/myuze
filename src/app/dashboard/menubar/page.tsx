@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import NowPlaying from '../../../components/audio/PlayIcon';
 import useDashboard from '../../../hooks/useDashboard';
 import { MdHome, MdLibraryBooks } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import { BiSolidCategory } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
+import NowPlaying from '../../../components/audio/PlayIcon';
 
 const Menubar = () => {
     const router = useRouter();
@@ -25,7 +25,7 @@ const Menubar = () => {
     return (
         <div className='mt-12'>
             {/* Floating Play Button */}
-            {openPlayButton && <NowPlaying title='The like ted' artist='Camine Galb' image='playImage.png' />}
+            {openPlayButton && <NowPlaying />}
 
             {/* Bottom Navigation */}
             <nav className="fixed bottom-0 inset-x-0 bg-white w-[400px] m-auto mt-4 shadow-md px-6 py-2 z-50">

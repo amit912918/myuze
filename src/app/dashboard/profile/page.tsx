@@ -73,13 +73,18 @@ export default function ProfilePage() {
 
             {/* Options */}
             <div className="space-y-4">
-                <MenuItem icon={<FaUser />} label="Manage Account" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
+                <MenuItem
+                    icon={<FaUser />}
+                    label="Manage Account"
+                    value={<IoIosArrowForward />}
+                    textColor="text-black dark:text-white"
+                    onClick={handleManageAccount}
+                />
                 <MenuItem
                     icon={<MdSubscriptions />}
                     label="Manage Subscription"
                     value={<IoIosArrowForward />}
                     textColor="text-black dark:text-white"
-                    onClick={handleManageAccount}
                 />
                 <MenuItem
                     icon={<IoLanguage />}

@@ -21,15 +21,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="dark">
       <body className="min-h-screen w-[400px] m-auto">
-        <AudioProvider>
-          <DashboardProvider>
+        <DashboardProvider>
+          <AudioProvider>
             <main className="flex-1">
               <ToastProvider />
               {children}
             </main>
             {shouldShowNavbar && <Menubar />}
-          </DashboardProvider>
-        </AudioProvider>
+          </AudioProvider>
+        </DashboardProvider>
       </body>
     </html>
   );

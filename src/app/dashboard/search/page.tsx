@@ -63,7 +63,9 @@ export default function SearchPage() {
 
     const clearSearch = () => {
         setSearch("");
-    }; const handleDetail = (conId: number) => {
+    };
+
+    const handleDetail = (conId: number) => {
         router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
     };
 
@@ -115,7 +117,7 @@ export default function SearchPage() {
                     value={search}
                     onChange={handleSearch}
                     placeholder="Search"
-                    className="bg-transparent outline-none w-full"
+                    className="w-full px-3 py-2 dark:bg-gray-100 text-black dark:text-black rounded-md outline-none"
                 />
 
                 {/* Show cross only when input has value */}

@@ -44,10 +44,15 @@ import { FaPause, FaPlay } from 'react-icons/fa';
 import Image from 'next/image';
 import { useAudio } from '../../hooks/useAudio';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import useDashboard from '../../hooks/useDashboard';
 
 const NowPlaying = () => {
+
+    const router = useRouter();
     const { isPlaying, setIsPlaying, currentTrack, audioRef } = useAudio();
     const pathname = usePathname();
+    const { setEpisodeId } = useDashboard();
 
     // if (!isPlaying || !currentTrack || pathname?.includes('/podcast')) {
     //     return null; // don't show if not playing OR on podcast page
@@ -69,20 +74,25 @@ const NowPlaying = () => {
         }
     };
 
-    useEffect(() => {
-        console.log(JSON.parse(localStorage.getItem('seeAllData') || ""), "seeAllDataadafs");
-    }, [])
+    const handleEpisode = (episode_id: any) => {
+        setEpisodeId(episode_id);
+        router.push(`/dashboard/podcast?episode_id=${encodeURIComponent(episode_id)}`);
+    }
+
+    // useEffect(() => {
+    //     console.log(JSON.parse(localStorage.getItem('seeAllData') || ""), "seeAllDataadafs");
+    // }, [])
 
     return (
         <div className="fixed bottom-18 left-1/2 transform -translate-x-1/2 w-[400px] m-auto bg-white shadow-xl rounded-xl p-3 flex items-center justify-between z-60">
-            <div className="flex items-center">
+            <div className="flex items-center" onClick={() => handleEpisode(JSON.parse(localStorage.getItem('seeAllData') || "")?.episode_id)}>
                 <div className="relative w-12 h-12 rounded-lg overflow-hidden">
                     <Image
                         src={JSON.parse(localStorage.getItem('seeAllData') || "").img_local_uri || '/images/download.png'}
                         alt={JSON.parse(localStorage.getItem('seeAllData') || "")?.title}
                         fill
                         sizes="48px"
-                        className="object-cover"
+                        className="object-cover cursor-pointer"
                     />
                 </div>
                 <div className="ml-3">

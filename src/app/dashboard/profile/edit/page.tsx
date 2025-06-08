@@ -25,10 +25,10 @@ export default function EditProfilePage() {
     };
 
     return (
-        <div className="min-h-screen p-4 max-w-md mx-auto flex flex-col">
+        <div className="min-h-screen p-4 max-w-md mx-auto flex flex-col mb-18 dark:bg-white">
             {/* Header */}
             <div className="flex space-x-24 items-center px-4 py-4">
-                <MdArrowBack onClick={() => router.back()} className="text-2xl cursor-pointer" />
+                <MdArrowBack onClick={() => router.back()} className="text-2xl text-black cursor-pointer" />
                 <h1 className="text-xl font-semibold text-black">Manage Profile</h1>
             </div>
 
@@ -39,14 +39,14 @@ export default function EditProfilePage() {
                     placeholder="First Name"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full border rounded-xl py-3 px-4 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-300"
+                    className="w-full border rounded-xl py-3 px-4 dark:bg-gray-50 text-black dark:text-black focus:outline-none focus:ring-2 focus:ring-pink-300"
                 />
                 <input
                     type="text"
                     placeholder="Last Name"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="w-full border rounded-xl py-3 px-4 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-300"
+                    className="w-full border rounded-xl py-3 px-4 dark:bg-gray-50 text-black dark:text-black focus:outline-none focus:ring-2 focus:ring-pink-300"
                 />
                 <div className="relative">
                     <input
@@ -54,7 +54,7 @@ export default function EditProfilePage() {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full border rounded-xl py-3 px-4 bg-gray-50 pr-10 focus:outline-none focus:ring-2 focus:ring-pink-300"
+                        className="w-full border rounded-xl py-3 px-4 dark:bg-gray-50 text-black dark:text-black pr-10 focus:outline-none focus:ring-2 focus:ring-pink-300"
                     />
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500">
                         <HiOutlineChevronDown />
@@ -68,7 +68,7 @@ export default function EditProfilePage() {
                         setPhone(phone);
                         setCountryCode(country.countryCode ?? 'in');
                     }}
-                    inputClass="!w-full !rounded-xl !py-3 !pl-12 !pr-4 !text-base"
+                    inputClass="!w-full !rounded-xl !py-3 !pl-12 !pr-4 !text-base dark:bg-gray-50 text-black dark:text-black"
                     buttonClass="!rounded-l-xl"
                     containerClass="!w-full !border !rounded-xl"
                     enableSearch={true}

@@ -38,6 +38,7 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
     const handleSeeAll = (item: SquareContent[]) => {
         router.push(`/dashboard/seeall?heading=${encodeURIComponent(data.bkName)}`);
         setSeeAllData(item);
+        localStorage.setItem('seeAllData', JSON.stringify(item));
     }
 
     return (
@@ -45,19 +46,19 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
             <div>
                 <div className="flex justify-between items-center my-3">
                     <h2 className="text-lg font-semibold">{data.bkName}</h2>
-                    <div onClick={() => handleSeeAll(data.contents)} className="text-purple-600 text-sm font-medium cursor-pointer">See All</div>
+                    <div style={{ color: "#6B0DFF" }} onClick={() => handleSeeAll(data.contents)} className="text-sm font-medium cursor-pointer">See All</div>
                 </div>
 
                 <div className="overflow-x-auto whitespace-nowrap no-scrollbar">
                     <div className="flex gap-4">
                         {data.contents.map((item) => (
-                            <div key={item.conId} className="relative min-w-[160px] flex-shrink-0 cursor-pointer" onClick={() => handleDetail(item.conId, data.bkName, item.conName, item.imgIrl)}>
+                            <div key={item.conId} className="relative min-w-[150px] flex-shrink-0 cursor-pointer" onClick={() => handleDetail(item.conId, data.bkName, item.conName, item.imgIrl)}>
                                 <Image
                                     src={item.imgIrl || "/images/fallback.png"}
                                     alt={item.conName}
-                                    width={160}
-                                    height={160}
-                                    className="w-40 h-40 rounded-lg object-cover"
+                                    width={150}
+                                    height={150}
+                                    className="rounded-lg object-cover"
                                 />
                                 <div className="absolute top-2 right-2">
                                     <Image style={{ borderRadius: "20%" }} src="/images/myuze1.jpeg" alt="Badge" width={20} height={20} />

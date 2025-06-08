@@ -25,9 +25,9 @@ function MenuItem({ icon, label, value, textColor = "text-gray-900", onClick }: 
         >
             <div className="flex items-center space-x-3">
                 <div className="text-gray-400">{icon}</div>
-                <span className={`text-base ${textColor}`}>{label}</span>
+                <span style={{ fontSize: "18px" }} className={`text-base ${textColor}`}>{label}</span>
             </div>
-            {value && <span className="text-sm text-black dark:text-white font-bold">{value}</span>}
+            {value && <span style={{ fontSize: "18px" }} className="font-bold">{value}</span>}
         </div>
     );
 }
@@ -49,7 +49,7 @@ export default function ProfilePage() {
     const availableLanguages = ["English", "Hindi"];
 
     return (
-        <div className="min-h-screen bg-white dark:bg-black p-4 pt-8 max-w-md mx-auto font-sans">
+        <div>
             {/* Top Bar */}
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-xl text-black font-semibold">Profile</h1>
@@ -59,7 +59,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Banner */}
-            <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-4 text-white relative overflow-hidden mb-6">
+            <div style={{ height: "251", width: "380px" }} className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-4 text-white relative overflow-hidden mb-6">
                 <div className="flex items-center">
                     <div className="flex-1">
                         <h2 className="text-lg font-semibold">Enjoy All Benefits!</h2>
@@ -77,14 +77,12 @@ export default function ProfilePage() {
                     icon={<FaUser />}
                     label="Manage Account"
                     value={<IoIosArrowForward />}
-                    textColor="text-black dark:text-white"
                     onClick={handleManageAccount}
                 />
                 <MenuItem
                     icon={<MdSubscriptions />}
                     label="Manage Subscription"
                     value={<IoIosArrowForward />}
-                    textColor="text-black dark:text-white"
                 />
                 <MenuItem
                     icon={<IoLanguage />}
@@ -95,12 +93,11 @@ export default function ProfilePage() {
                             <IoIosArrowForward />
                         </div>
                     }
-                    textColor="text-black dark:text-white"
                     onClick={() => setShowLanguageDialog(true)}
                 />
-                <MenuItem icon={<FaHeadset />} label="Contact Us" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
-                <MenuItem icon={<BsShieldLock />} label="Privacy Policy" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
-                <MenuItem icon={<FaFileAlt />} label="Terms of Service" value={<IoIosArrowForward />} textColor="text-black dark:text-white" />
+                <MenuItem icon={<FaHeadset />} label="Contact Us" value={<IoIosArrowForward />} />
+                <MenuItem icon={<BsShieldLock />} label="Privacy Policy" value={<IoIosArrowForward />} />
+                <MenuItem icon={<FaFileAlt />} label="Terms of Service" value={<IoIosArrowForward />} />
                 <MenuItem icon={<FaSignOutAlt />} label={<div onClick={handleLogout} className="font-semibold">Logout</div>} textColor="text-red-500" />
             </div>
 

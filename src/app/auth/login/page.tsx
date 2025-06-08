@@ -60,7 +60,7 @@ export default function LoginPage() {
 
 
     return (
-        <div className="overFlowscroll">
+        <div className="overFlowscroll mb-0">
             <div className="relative bgImage">
                 <Image alt='login' height={1000} width={1000} src="/images/loginImage2.png" />
                 <div className="absolute loginContainer z-10 bg-white/90 backdrop-blur-md px-6 pb-10 rounded-2xl shadow-md w-[100%] text-center">

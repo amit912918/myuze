@@ -110,7 +110,7 @@ export default function SearchPage() {
                 </div>
             </div>
 
-            <div className="bg-gray-100 rounded-full px-4 py-2 flex items-center">
+            <div style={{ backgroundColor: "#F5F5F5" }} className="rounded-full px-4 py-2 flex items-center">
                 <IoIosSearch className="h-6 w-6 text-gray-500 cursor-pointer mr-1" />
                 <input
                     type="text"
@@ -142,10 +142,10 @@ export default function SearchPage() {
                         <Image
                             key={author.conId}
                             src={author.imgIrl}
-                            width={200}
-                            height={200}
+                            width={150}
+                            height={150}
                             alt="Author"
-                            className="w-24 h-24 rounded-lg object-cover cursor-pointer"
+                            className="rounded-lg object-cover cursor-pointer"
                             onClick={() => handleDetail(author?.conId)}
                         />
                     ))}
@@ -162,11 +162,10 @@ export default function SearchPage() {
                             <div key={podcast.conId} className="flex items-center gap-4">
                                 <Image
                                     src={podcast.imgIrl}
-                                    width={200}
-                                    height={200}
+                                    width={150}
+                                    height={150}
                                     alt="Podcast"
-                                    className="w-40 h-40 rounded-md object-cover cursor-pointer"
-                                    onClick={() => handleDetail(podcast?.conId)}
+                                    className="rounded-md object-cover cursor-pointer"
                                 />
                                 <div className="flex-1">
                                     <h3 className="text-sm font-semibold leading-snug">
@@ -178,7 +177,7 @@ export default function SearchPage() {
                                     </div>
                                     <div className="flex items-center gap-5 mt-2">
                                         {/* <button className="bg-purple-600 text-white text-xs px-4 py-1 rounded-full flex items-center gap-2"> */}
-                                        <button className="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-1 px-4 rounded-md flex items-center justify-center text-xs gap-x-2 transition hover:opacity-90">
+                                        <button style={{ height: "32px", width: "79px" }} onClick={() => handleDetail(podcast?.conId)} className="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-1 px-4 rounded-md flex items-center justify-center text-xs gap-x-2 transition hover:opacity-90">
                                             <FaPlay size={12} />
                                             Play
                                         </button>

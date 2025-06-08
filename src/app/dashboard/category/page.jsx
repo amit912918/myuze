@@ -201,18 +201,17 @@ export default function CategoryGrid() {
         router.push(`/dashboard/seeall?heading=${encodeURIComponent(heading)}`);
     }
 
-
     useEffect(() => {
         getCategoryData();
     }, [])
 
     return (
-        <div className="max-w-4xl p-4 border border-gray-200 rounded-lg mb-18">
+        <div className="max-w-4xl rounded-lg">
             <div className="flex items-center mb-6">
                 <div>
                     <BiCategory className="w-6 h-6 text-gradient-to-r text-purple-500 text-pink-500 rounded-md mr-2" />
                 </div>
-                <h1 className="text-2xl font-bold text-black dark:text-gray-100">Top Category</h1>
+                <h1 className="text-2xl font-bold">Top Category</h1>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -235,7 +234,7 @@ export default function CategoryGrid() {
                 <div>
                     <BiCategory className="w-6 h-6 text-gradient-to-r text-purple-500 text-pink-500 rounded-md mr-2" />
                 </div>
-                <h1 className="text-2xl font-bold text-black dark:text-gray-100">All Category</h1>
+                <h1 className="text-2xl font-bold">All Category</h1>
             </div>
 
             <div className="grid grid-cols-2 gap-4">

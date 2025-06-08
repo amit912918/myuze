@@ -181,33 +181,33 @@ const DetailsClient = () => {
                     </div>
                 )}
 
-                <div className="absolute top-4 left-4 bg-white/80 backdrop-blur-md p-2 rounded-full shadow">
+                <div className="absolute top-4 left-4 text-white">
                     <ArrowLeft
                         onClick={() => router.back()}
-                        size={20}
-                        className="text-gray-700 dark:text-white cursor-pointer"
+                        size={28}
+                        className="cursor-pointer"
                     />
                 </div>
 
-                <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-2 rounded-full shadow">
-                    <Share2 onClick={handleShareClick} size={20} className="text-gray-700 dark:text-white cursor-pointer" />
+                <div className="absolute top-4 right-4 text-white">
+                    <Share2 onClick={handleShareClick} size={28} className="cursor-pointer" />
                 </div>
             </div>
 
             <div className="text-center mt-4">
                 <h2 className="text-2xl font-bold">{podcastData?.title}</h2>
-                <p className="text-gray-600">{podcastData?.artist_name}</p>
+                <p className="text-gray-800 font-semibold">{podcastData?.artist_name}</p>
                 <p className="text-sm text-gray-500">15 minutes</p>
             </div>
 
-            <div className="flex justify-center gap-2 mt-4 flex-wrap">
-                <div className="flex items-center gap-1 px-3 py-1 rounded-md text-black dark:text-white text-sm">
+            <div className="flex justify-center gap-1 mt-4 flex-wrap">
+                <div className="flex items-center gap-1 px-3 py-1 rounded-md text-sm">
                     <User size={14} /> Self Growth
                 </div>
-                <div className="flex items-center gap-1 px-3 py-1 rounded-md text-black dark:text-white text-sm">
+                <div className="flex items-center gap-1 px-3 py-1 rounded-md text-sm">
                     <BookOpen size={14} /> {podcastData?.total_episode} Chapters
                 </div>
-                <div className="flex items-center gap-1 px-3 py-1 rounded-md text-black dark:text-white text-sm">
+                <div className="flex items-center gap-1 px-3 py-1 rounded-md text-sm">
                     <Lightbulb size={14} /> 16 Insights
                 </div>
             </div>
@@ -225,8 +225,8 @@ const DetailsClient = () => {
             </div>
 
             <div className="mt-6">
-                <h3 className="font-semibold text-lg text-black dark:text-white">Description</h3>
-                <p className="text-sm text-black dark:text-white mt-2">
+                <h3 className="font-semibold text-lg">Description</h3>
+                <p className="text-sm mt-2">
                     {renderDescription()}
                 </p>
             </div>

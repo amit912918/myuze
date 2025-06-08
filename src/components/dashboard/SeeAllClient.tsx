@@ -34,7 +34,7 @@ export default function SeeAllClient() {
             <div className="grid grid-cols-3 sm:grid-cols-3 gap-4">
                 {JSON.parse(localStorage.getItem('seeAllData') || "").map((item: any, idx: any) => (
                     <div key={idx} className="text-center">
-                        <div onClick={() => handleDetail(item.conId, item.conName, item.imgIrl)} className="relative w-full aspect-square rounded-lg overflow-hidden cursor-pointer">
+                        <div onClick={() => handleDetail(item.conId || item.podcast_id, item.conName, item.imgIrl)} className="relative w-full aspect-square rounded-lg overflow-hidden cursor-pointer">
                             <Image
                                 src={item.imgIrl}
                                 alt={item.conName}

@@ -77,7 +77,7 @@ export default function PodcastClient() {
     const searchParams = useSearchParams();
     const episode_id = searchParams?.get('episode_id');
 
-    const { episodeId } = useDashboard();
+    const { setOpenPlayButton } = useDashboard();
     const [episodeData, setEpisodeData] = useState<Episode>(defaultEpisode);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -174,6 +174,7 @@ export default function PodcastClient() {
             audio.pause();
         } else {
             audio.play();
+            // setOpenPlayButton(prev => !prev);
         }
         setIsPlaying(!isPlaying);
     };
@@ -190,6 +191,7 @@ export default function PodcastClient() {
             try {
                 const result = await getEpisodeDetail(Number(episode_id));
                 setEpisodeData(result.response.podcast.podcast_episode_details[0]);
+                localStorage.setItem('seeAllData', JSON.stringify(result.response.podcast.podcast_episode_details[0]));
             } catch (error) {
                 console.error("Failed to fetch podcast:", error);
             }
@@ -225,7 +227,7 @@ export default function PodcastClient() {
     return (
         <main className="flex flex-col items-center justify-center border border-gray-200 rounded-lg min-h-screen p-4">
             <ConfirmDialog />
-            <audio ref={audioRef} src={episodeData?.stream_url || "audio"} preload="metadata" />
+            <audio ref={audioRef} src={JSON.parse(localStorage.getItem('seeAllData') || "")?.stream_url || "audio"} preload="metadata" />
             <div className="w-full flex items-center justify-between mb-4">
                 <button>
                     <MdArrowBack onClick={() => router.back()} className="text-2xl cursor-pointer" />

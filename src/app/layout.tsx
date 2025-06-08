@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 import Menubar from './dashboard/menubar/page';
 import { DashboardProvider } from '../context/DashboardProvider';
 import ToastProvider from '../components/common/ToastProvider';
+import { AudioProvider } from '../context/AudioProvider';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 
@@ -20,13 +21,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="dark">
       <body className="min-h-screen w-[400px] m-auto">
-        <DashboardProvider>
-          <main className="flex-1">
-            <ToastProvider />
-            {children}
-          </main>
-          {shouldShowNavbar && <Menubar />}
-        </DashboardProvider>
+        <AudioProvider>
+          <DashboardProvider>
+            <main className="flex-1">
+              <ToastProvider />
+              {children}
+            </main>
+            {shouldShowNavbar && <Menubar />}
+          </DashboardProvider>
+        </AudioProvider>
       </body>
     </html>
   );

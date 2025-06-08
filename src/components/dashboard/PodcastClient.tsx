@@ -12,6 +12,7 @@ import { MdSpeed } from "react-icons/md"; // Another good speed icon
 import useDashboard from "../../hooks/useDashboard";
 import { getEpisodeDetail } from "../../app/api/podcast";
 import { useSearchParams } from "next/navigation";
+import { useAudio } from "../../hooks/useAudio";
 
 interface Episode {
     episode_id: number;
@@ -77,15 +78,15 @@ export default function PodcastClient() {
     const searchParams = useSearchParams();
     const episode_id = searchParams?.get('episode_id');
 
-    const { setOpenPlayButton } = useDashboard();
+    const { audioRef, isPlaying, handlePlayPause, setAudioSrc } = useAudio();
     const [episodeData, setEpisodeData] = useState<Episode>(defaultEpisode);
-    const [isPlaying, setIsPlaying] = useState(false);
+    // const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [timer, setTimer] = useState(5);
     const [showSpeedDialog, setShowSpeedDialog] = useState(false);
     const [playbackRate, setPlaybackRate] = useState(1);
-    const audioRef = useRef<HTMLAudioElement>(null);
+    // const audioRef = useRef<HTMLAudioElement>(null);
     const toast = useRef<any>(null);
 
     const [showSleepTimer, setShowSleepTimer] = useState(false);
@@ -161,30 +162,12 @@ export default function PodcastClient() {
         });
     };
 
-    const handlePlayPause = () => {
-        if (episodeData.is_billable === 2) {
-            confirm();
-            return;
-        }
-
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        if (isPlaying) {
-            audio.pause();
-        } else {
-            audio.play();
-            // setOpenPlayButton(prev => !prev);
-        }
-        setIsPlaying(!isPlaying);
-    };
-
     useEffect(() => {
         const audio = audioRef.current;
         if (audio) {
             audio.playbackRate = playbackRate;
         }
-    }, [playbackRate]);
+    }, [playbackRate, audioRef]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -192,12 +175,13 @@ export default function PodcastClient() {
                 const result = await getEpisodeDetail(Number(episode_id));
                 setEpisodeData(result.response.podcast.podcast_episode_details[0]);
                 localStorage.setItem('seeAllData', JSON.stringify(result.response.podcast.podcast_episode_details[0]));
+                setAudioSrc(result.response.podcast.podcast_episode_details[0]?.stream_url);
             } catch (error) {
                 console.error("Failed to fetch podcast:", error);
             }
         };
         fetchData();
-    }, [episode_id]);
+    }, [episode_id, setAudioSrc]);
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -212,7 +196,7 @@ export default function PodcastClient() {
         return () => {
             audio.removeEventListener("timeupdate", updateTime);
         };
-    }, []);
+    }, [audioRef]);
 
     const formatTime = (time: number) => {
         const minutes = Math.floor(time / 60)
@@ -227,7 +211,7 @@ export default function PodcastClient() {
     return (
         <main className="flex flex-col items-center justify-center border border-gray-200 rounded-lg min-h-screen p-4">
             <ConfirmDialog />
-            <audio ref={audioRef} src={JSON.parse(localStorage.getItem('seeAllData') || "")?.stream_url || "audio"} preload="metadata" />
+            {/* <audio ref={audioRef} src={JSON.parse(localStorage.getItem('seeAllData') || "")?.stream_url || "audio"} preload="metadata" /> */}
             <div className="w-full flex items-center justify-between mb-4">
                 <button>
                     <MdArrowBack onClick={() => router.back()} className="text-2xl cursor-pointer" />
@@ -312,7 +296,7 @@ export default function PodcastClient() {
                 </button>
                 <button
                     className="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-full text-white shadow-lg"
-                    onClick={handlePlayPause}
+                    onClick={() => handlePlayPause(episodeData)}
                 >
                     {isPlaying ? (
                         <FaPause className="text-2xl" />

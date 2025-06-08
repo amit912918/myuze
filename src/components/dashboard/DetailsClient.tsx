@@ -121,7 +121,7 @@ const DetailsClient = () => {
         };
 
         fetchData();
-    }, [detailData]);
+    }, [detailData, conId]);
 
     const renderDescription = () => {
         const description = podcastData?.description || '';

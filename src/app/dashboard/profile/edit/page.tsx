@@ -25,7 +25,7 @@ export default function EditProfilePage() {
     };
 
     return (
-        <div className="min-h-screen p-4 max-w-md mx-auto flex flex-col mb-18 dark:bg-white">
+        <div className="min-h-screen p-4 max-w-md mx-auto flex flex-col">
             {/* Header */}
             <div className="flex space-x-24 items-center px-4 py-4">
                 <MdArrowBack onClick={() => router.back()} className="text-2xl text-black cursor-pointer" />

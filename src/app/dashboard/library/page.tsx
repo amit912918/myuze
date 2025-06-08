@@ -18,14 +18,14 @@ const Library = () => {
             <div className="flex border-b border-gray-200 mb-6">
                 <button
                     onClick={() => setActiveTab('podcasts')}
-                    className={`mr-8 pb-2 px-12 font-semibold cursor-pointer ${activeTab === 'podcasts' ? 'bg-white dark:bg-black border-b-4 border-pink-500' : 'text-gray-400'
+                    className={`mr-8 pb-2 px-12 font-semibold cursor-pointer ${activeTab === 'podcasts' ? 'border-b-4 border-pink-500' : 'text-gray-400'
                         }`}
                 >
                     Podcasts
                 </button>
                 <button
                     onClick={() => setActiveTab('books')}
-                    className={`pb-2 px-12 font-semibold cursor-pointer  ${activeTab === 'books' ? 'text-black dark:text-white border-b-4 border-pink-500' : 'text-gray-400'
+                    className={`pb-2 px-12 font-semibold cursor-pointer  ${activeTab === 'books' ? 'border-b-4 border-pink-500' : 'text-gray-400'
                         }`}
                 >
                     Books
@@ -40,7 +40,7 @@ const Library = () => {
                     width={200}
                     height={200}
                 />
-                <p className="mt-4 text-lg font-semibold text-black dark:text-white">No Data Found</p>
+                <p className="mt-4 text-lg font-semibold">No Data Found</p>
             </div>
         </div>
     );

@@ -19,11 +19,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
   const shouldShowNavbar = !hideNavbarOnRoutes.includes(pathname);
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen w-[400px] m-auto">
+    <html lang="en">
+      <body className="">
         <DashboardProvider>
           <AudioProvider>
-            <main className="flex-1">
+            <main style={{ backgroundColor: "#FFFFFF" }} className={`flex-1 h-[773px] w-[428px] m-auto p-4 ${shouldShowNavbar && 'mb-12'} overflow-y-auto`}>
               <ToastProvider />
               {children}
             </main>

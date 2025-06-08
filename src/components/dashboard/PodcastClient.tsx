@@ -216,7 +216,7 @@ export default function PodcastClient() {
                 <button>
                     <MdArrowBack onClick={() => router.back()} className="text-2xl cursor-pointer" />
                 </button>
-                <h1 className="font-semibold text-lg text-black dark:text-white">
+                <h1 className="font-semibold text-lg">
                     Talking to Strangers
                 </h1>
                 <button>
@@ -245,10 +245,10 @@ export default function PodcastClient() {
                 ) : (
                     <div
                         role="status"
-                        className="w-full h-[400px] bg-gray-300 dark:bg-gray-700 animate-pulse flex items-center justify-center"
+                        className="w-full h-[400px] animate-pulse flex items-center justify-center"
                     >
                         <svg
-                            className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                            className="w-10 h-10 text-gray-200"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
@@ -263,10 +263,10 @@ export default function PodcastClient() {
             </div>
 
             <div className="text-center mt-4">
-                <h2 className="font-bold text-lg text-black dark:text-white">
+                <h2 className="font-bold text-lg">
                     {episodeData.title || "No title"}
                 </h2>
-                <p className="text-sm text-gray-500 dark:text-white">{episodeData?.subtitle}</p>
+                <p className="text-sm">{episodeData?.subtitle}</p>
             </div>
 
             <div className="w-full max-w-sm mt-6">

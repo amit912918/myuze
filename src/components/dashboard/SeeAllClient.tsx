@@ -20,9 +20,9 @@ export default function SeeAllClient() {
         router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
     };
 
-    useEffect(() => {
-        console.log(JSON.parse(localStorage.getItem('seeAllData') || ""), "seeallData");
-    })
+    // useEffect(() => {
+    //     console.log(JSON.parse(localStorage.getItem('seeAllData') || ""), "seeallData");
+    // })
 
     return (
         <div className="p-4">
@@ -32,7 +32,7 @@ export default function SeeAllClient() {
             </div>
 
             <div className="grid grid-cols-3 sm:grid-cols-3 gap-4">
-                {JSON.parse(localStorage.getItem('seeAllData') || "").map((item: any, idx: any) => (
+                {localStorage.getItem('seeAllData') && JSON.parse(localStorage.getItem('seeAllData') || "")?.map((item: any, idx: any) => (
                     <div key={idx} className="text-center">
                         <div onClick={() => handleDetail(item.conId || item.podcast_id, item.conName, item.imgIrl)} className="relative w-full aspect-square rounded-lg overflow-hidden cursor-pointer">
                             <Image

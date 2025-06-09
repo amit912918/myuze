@@ -65,7 +65,7 @@ const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
             >
                 {data.contents.map((slide, idx) => (
                     <SwiperSlide key={idx}>
-                        <div style={{ height: "336px" }} className="relative w-full">
+                        <div style={{ height: "336px" }} className="relative">
                             <Image
                                 src={slide.imgIrl}
                                 alt={slide.conName}

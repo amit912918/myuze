@@ -94,7 +94,7 @@ const Page = () => {
     };
 
     return (
-        <div className="p-4 rounded-lg">
+        <div className="">
             {renderBlocks()}
         </div>
     )

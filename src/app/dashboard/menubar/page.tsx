@@ -10,11 +10,12 @@ import NowPlaying from '../../../components/audio/PlayIcon';
 
 const Menubar = () => {
     const router = useRouter();
-    const [activeMenu, setActiveMenu] = useState('home');
+    const [activeMenu, setActiveMenu] = useState(localStorage.getItem('menu'));
     const { openPlayButton } = useDashboard();
 
     const handleMenuBar = (des: string) => {
         setActiveMenu(des);
+        localStorage.setItem('menu', des);
         router.push(`/dashboard/${des}`);
     };
 

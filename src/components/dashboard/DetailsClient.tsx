@@ -152,14 +152,14 @@ const DetailsClient = () => {
     };
 
     return (
-        <div className="min-h-screen p-4 max-w-md mx-auto">
-            <div className="relative rounded-2xl overflow-hidden w-full max-h-[400px]">
+        <div>
+            <div className="relative rounded-2xl overflow-hidden max-h-[400px]">
                 {podcastData?.img_local_uri ? (
                     <Image
                         src={podcastData?.img_local_uri}
                         alt="Podcast Cover"
                         height={400}
-                        width={1000}
+                        width={428}
                         className="w-full h-[400px] object-cover"
                     />
                 ) : (

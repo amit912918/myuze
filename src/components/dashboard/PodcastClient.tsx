@@ -209,7 +209,7 @@ export default function PodcastClient() {
     };
 
     return (
-        <main className="flex flex-col items-center justify-center border border-gray-200 rounded-lg min-h-screen p-4">
+        <main className="flex flex-col items-center justify-center">
             <ConfirmDialog />
             {/* <audio ref={audioRef} src={JSON.parse(localStorage.getItem('seeAllData') || "")?.stream_url || "audio"} preload="metadata" /> */}
             <div className="w-full flex items-center justify-between mb-4">

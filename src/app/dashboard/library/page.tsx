@@ -7,7 +7,7 @@ const Library = () => {
     const [activeTab, setActiveTab] = useState<'podcasts' | 'books'>('podcasts');
 
     return (
-        <div className="w-full h-full p-4">
+        <div>
             {/* Header */}
             <div className="flex items-center mb-4">
                 <button className="text-pink-500 text-2xl mr-4">☰</button>

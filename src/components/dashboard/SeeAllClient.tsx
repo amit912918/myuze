@@ -25,7 +25,7 @@ export default function SeeAllClient() {
     // })
 
     return (
-        <div className="p-4">
+        <div>
             <div className="flex items-center gap-24 mb-6">
                 <IoArrowBackOutline onClick={() => router.back()} className='cursor-pointer' size={24} />
                 <h2 className="text-lg font-semibold">{heading}</h2>

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function NotFoundPage() {
     return (
-        <div className="min-h-screen w-[400px] border border-gray-200 my-4 rounded-lg flex m-auto flex-col items-center justify-center text-center px-4">
+        <div className="flex m-auto flex-col items-center justify-center text-center">
             <Image
                 src="/images/not-found.png"
                 alt="Not Found"

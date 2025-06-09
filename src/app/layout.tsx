@@ -23,7 +23,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="">
         <DashboardProvider>
           <AudioProvider>
-            <main style={{ backgroundColor: "#FFFFFF" }} className={`flex-1 h-[773px] w-[428px] m-auto p-4 ${shouldShowNavbar && 'mb-12'} overflow-y-auto`}>
+            <main
+              style={{ backgroundColor: "#FFFFFF" }}
+              className={`flex-1 h-[773px] w-[428px] m-auto p-4 overflow-y-auto thin-scrollbar ${shouldShowNavbar && 'mb-12'}`}
+            >
               <ToastProvider />
               {children}
             </main>

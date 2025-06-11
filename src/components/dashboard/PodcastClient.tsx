@@ -2,17 +2,16 @@
 import { useEffect, useRef, useState } from "react";
 import { FaBackward, FaForward, FaPlay, FaPause } from "react-icons/fa";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { MdArrowBack } from "react-icons/md";
+import { MdArrowBack, MdForward10, MdSpeed } from "react-icons/md";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import { Clock3, History, Share2, MoreVertical, Download } from "lucide-react";
+import { Clock3, Share2, MoreVertical, Download } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Dialog } from 'primereact/dialog';
-import { MdSpeed } from "react-icons/md"; // Another good speed icon
+import { useRouter, useSearchParams } from "next/navigation";
+import { Dialog } from "primereact/dialog";
 import useDashboard from "../../hooks/useDashboard";
 import { getEpisodeDetail } from "../../app/api/podcast";
-import { useSearchParams } from "next/navigation";
 import { useAudio } from "../../hooks/useAudio";
+import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
 
 interface Episode {
     episode_id: number;
@@ -73,53 +72,46 @@ const defaultEpisode: Episode = {
 };
 
 export default function PodcastClient() {
-
     const router = useRouter();
     const searchParams = useSearchParams();
-    const episode_id = searchParams?.get('episode_id');
+    const episode_id = searchParams?.get("episode_id");
 
     const { audioRef, isPlaying, handlePlayPause, setAudioSrc } = useAudio();
     const [episodeData, setEpisodeData] = useState<Episode>(defaultEpisode);
-    // const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [timer, setTimer] = useState(5);
     const [showSpeedDialog, setShowSpeedDialog] = useState(false);
     const [playbackRate, setPlaybackRate] = useState(1);
-    // const audioRef = useRef<HTMLAudioElement>(null);
     const toast = useRef<any>(null);
-
     const [showSleepTimer, setShowSleepTimer] = useState(false);
 
-    const handleClockClick = () => {
-        setShowSleepTimer(true);
-    };
+    const handleClockClick = () => setShowSleepTimer(true);
 
     const handleShareClick = async () => {
         const shareUrl = window.location.href;
-
         if (navigator.share) {
             try {
                 await navigator.share({
                     title: episodeData.title,
-                    text: episodeData.subtitle || 'Check out this podcast!',
+                    text: episodeData.subtitle || "Check out this podcast!",
                     url: shareUrl,
                 });
             } catch (error) {
-                console.error('Sharing failed:', error);
+                console.error("Sharing failed:", error);
             }
         } else {
-            // fallback for unsupported devices
             await navigator.clipboard.writeText(shareUrl);
-            alert('Link copied to clipboard!');
+            alert("Link copied to clipboard!");
         }
     };
 
-    const handleSpeedChange = () => {
-        const nextRate = playbackRate === 2 ? 1 : playbackRate + 0.5;
-        setPlaybackRate(nextRate);
+    const handleDownload = () => {
+        const link = document.createElement("a");
+        link.href = episodeData.download_url || episodeData.stream_url;
+        link.download = `${episodeData.title || "podcast"}.mp3`;
+        link.click();
     };
-
 
     const confirm = () => {
         confirmDialog({
@@ -173,9 +165,10 @@ export default function PodcastClient() {
         const fetchData = async () => {
             try {
                 const result = await getEpisodeDetail(Number(episode_id));
-                setEpisodeData(result.response.podcast.podcast_episode_details[0]);
-                localStorage.setItem('seeAllData', JSON.stringify(result.response.podcast.podcast_episode_details[0]));
-                setAudioSrc(result.response.podcast.podcast_episode_details[0]?.stream_url);
+                const ep = result.response.podcast.podcast_episode_details[0];
+                setEpisodeData(ep);
+                localStorage.setItem("seeAllData", JSON.stringify(ep));
+                setAudioSrc(ep?.stream_url);
             } catch (error) {
                 console.error("Failed to fetch podcast:", error);
             }
@@ -199,41 +192,29 @@ export default function PodcastClient() {
     }, [audioRef]);
 
     const formatTime = (time: number) => {
-        const minutes = Math.floor(time / 60)
-            .toString()
-            .padStart(2, "0");
-        const seconds = Math.floor(time % 60)
-            .toString()
-            .padStart(2, "0");
+        const minutes = Math.floor(time / 60).toString().padStart(2, "0");
+        const seconds = Math.floor(time % 60).toString().padStart(2, "0");
         return `${minutes}:${seconds}`;
     };
 
     return (
         <main className="flex flex-col items-center justify-center">
             <ConfirmDialog />
-            {/* <audio ref={audioRef} src={JSON.parse(localStorage.getItem('seeAllData') || "")?.stream_url || "audio"} preload="metadata" /> */}
+
             <div className="w-full flex items-center justify-between mb-4">
                 <button>
-                    <MdArrowBack onClick={() => router.back()} className="text-2xl cursor-pointer" />
+                    <MdArrowBack
+                        onClick={() => router.back()}
+                        className="text-2xl cursor-pointer"
+                    />
                 </button>
-                <h1 className="font-semibold text-lg">
-                    Talking to Strangers
-                </h1>
+                <h1 className="font-semibold text-lg">Talking to Strangers</h1>
                 <button>
                     <HiOutlineDotsVertical className="text-2xl" />
                 </button>
             </div>
 
             <div className="w-full rounded-xl overflow-hidden shadow-lg">
-                {/* {episodeData.img_local_uri && (
-                    <Image
-                        src={episodeData?.img_local_uri || '/images/download.png'}
-                        width={200}
-                        height={200}
-                        alt="Cover"
-                        className="w-full"
-                    />
-                )} */}
                 {episodeData?.img_local_uri ? (
                     <Image
                         src={episodeData.img_local_uri}
@@ -247,15 +228,8 @@ export default function PodcastClient() {
                         role="status"
                         className="w-full h-[400px] animate-pulse flex items-center justify-center"
                     >
-                        <svg
-                            className="w-10 h-10 text-gray-200"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 16 20"
-                        >
-                            <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
-                            <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
+                        <svg className="w-10 h-10 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                            <path d="..." />
                         </svg>
                         <span className="sr-only">Loading...</span>
                     </div>
@@ -263,9 +237,7 @@ export default function PodcastClient() {
             </div>
 
             <div className="text-center mt-4">
-                <h2 className="font-bold text-lg">
-                    {episodeData.title || "No title"}
-                </h2>
+                <h2 className="font-bold text-lg">{episodeData.title || "No title"}</h2>
                 <p className="text-sm">{episodeData?.subtitle}</p>
             </div>
 
@@ -290,38 +262,34 @@ export default function PodcastClient() {
                 </div>
             </div>
 
+            {/* ▶️ Playback Controls with 10s Skip */}
             <div className="flex items-center justify-between w-full max-w-sm mt-6 px-6">
-                <button>
-                    <FaBackward className="text-2xl" />
+                <button><FaBackward className="text-2xl" /></button>
+                <button title="Back 10s" onClick={() => {
+                    if (audioRef.current) audioRef.current.currentTime = Math.max(audioRef.current.currentTime - 10, 0);
+                }}>
+                    <TbRewindBackward10 className="text-2xl cursor-pointer" />
                 </button>
+
                 <button
                     className="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-full text-white shadow-lg"
                     onClick={() => handlePlayPause(episodeData)}
                 >
-                    {isPlaying ? (
-                        <FaPause className="text-2xl" />
-                    ) : (
-                        <FaPlay className="text-2xl" />
-                    )}
+                    {isPlaying ? <FaPause className="text-2xl" /> : <FaPlay className="text-2xl" />}
                 </button>
-                <button>
-                    <FaForward className="text-2xl" />
+
+                <button title="Forward 10s" onClick={() => {
+                    if (audioRef.current) audioRef.current.currentTime = Math.min(audioRef.current.currentTime + 10, duration);
+                }}>
+                    <TbRewindForward10 className="text-2xl cursor-pointer" />
                 </button>
+                <button><FaForward className="text-2xl" /></button>
             </div>
 
+            {/* ⏱ Extra Controls */}
             <div className="w-full flex justify-around items-center py-3 mt-6">
-                {/* <History className="w-5 h-5 text-gray-600 cursor-pointer" /> */}
-                <MdSpeed
-                    className="w-5 h-5 text-gray-600 cursor-pointer"
-                    onClick={() => setShowSpeedDialog(true)}
-                />
-                <Dialog
-                    header="Playback Speed"
-                    visible={showSpeedDialog}
-                    onHide={() => setShowSpeedDialog(false)}
-                    style={{ width: '300px' }}
-                    modal
-                >
+                <MdSpeed className="w-5 h-5 text-gray-600 cursor-pointer" onClick={() => setShowSpeedDialog(true)} />
+                <Dialog header="Playback Speed" visible={showSpeedDialog} onHide={() => setShowSpeedDialog(false)} style={{ width: "300px" }} modal>
                     <div className="flex flex-col gap-3">
                         {[0.5, 1, 1.5, 2].map((rate) => (
                             <button
@@ -333,8 +301,7 @@ export default function PodcastClient() {
                                     }
                                     setShowSpeedDialog(false);
                                 }}
-                                className={`py-2 px-4 rounded-md text-white ${playbackRate === rate ? "bg-purple-600" : "bg-gray-400"
-                                    }`}
+                                className={`py-2 px-4 rounded-md text-white ${playbackRate === rate ? "bg-purple-600" : "bg-gray-400"}`}
                             >
                                 {rate}x
                             </button>
@@ -342,46 +309,16 @@ export default function PodcastClient() {
                     </div>
                 </Dialog>
 
-                <Clock3
-                    className="w-5 h-5 text-gray-600 cursor-pointer"
-                    onClick={handleClockClick}
-                />
-
-                <Dialog
-                    visible={showSleepTimer}
-                    onHide={() => setShowSleepTimer(false)}
-                    header="Set Sleep Timer"
-                    className="w-80"
-                    modal
-                >
+                <Clock3 className="w-5 h-5 text-gray-600 cursor-pointer" onClick={handleClockClick} />
+                <Dialog visible={showSleepTimer} onHide={() => setShowSleepTimer(false)} header="Set Sleep Timer" className="w-80" modal>
                     <div className="flex flex-col gap-2">
-                        <button
-                            className="bg-purple-500 text-white py-2 rounded"
-                            onClick={() => {
-                                setTimer(15);
-                                setShowSleepTimer(false);
-                                // Optional: Add functionality to pause audio after 15 minutes
-                            }}
-                        >
-                            15 Minutes
-                        </button>
-                        <button
-                            className="bg-purple-500 text-white py-2 rounded"
-                            onClick={() => {
-                                setTimer(30);
-                                setShowSleepTimer(false);
-                            }}
-                        >
-                            30 Minutes
-                        </button>
+                        <button className="bg-purple-500 text-white py-2 rounded" onClick={() => { setTimer(15); setShowSleepTimer(false); }}>15 Minutes</button>
+                        <button className="bg-purple-500 text-white py-2 rounded" onClick={() => { setTimer(30); setShowSleepTimer(false); }}>30 Minutes</button>
                     </div>
                 </Dialog>
 
-                <Share2
-                    className="w-5 h-5 text-gray-600 cursor-pointer"
-                    onClick={handleShareClick}
-                />
-                <Download className="w-5 h-5 text-gray-600 cursor-pointer" />
+                <Share2 className="w-5 h-5 text-gray-600 cursor-pointer" onClick={handleShareClick} />
+                <Download className="w-5 h-5 text-gray-600 cursor-pointer" onClick={handleDownload} />
             </div>
         </main>
     );

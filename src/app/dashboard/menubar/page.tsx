@@ -7,6 +7,7 @@ import { FaSearch } from "react-icons/fa";
 import { BiSolidCategory } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import NowPlaying from '../../../components/audio/PlayIcon';
+import { GoHomeFill } from "react-icons/go";
 
 const Menubar = () => {
     const router = useRouter();
@@ -37,9 +38,9 @@ const Menubar = () => {
                         onClick={() => handleMenuBar('home')}
                         className="flex flex-col items-center cursor-pointer"
                     >
-                        <MdHome
-                            className={`h-6 w-6 ${activeMenu === 'home'
-                                ? 'text-purple-700' // just test with solid color first
+                        <GoHomeFill
+                            className={`h-5 w-5 ${activeMenu === 'home'
+                                ? 'text-purple-700'
                                 : 'text-gray-500'
                                 }`}
                         />

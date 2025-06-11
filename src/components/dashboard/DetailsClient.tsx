@@ -151,6 +151,13 @@ const DetailsClient = () => {
             );
     };
 
+    const handleDownload = (item: any) => {
+        const link = document.createElement("a");
+        link.href = item.download_url || item.stream_url;
+        link.download = `${item.title || "podcast"}.mp3`;
+        link.click();
+    };
+
     return (
         <div>
             <div className="relative rounded-2xl overflow-hidden max-h-[400px]">
@@ -250,7 +257,13 @@ const DetailsClient = () => {
                                 <p className="text-xs text-gray-500">{item?.duration_format} mins</p>
                             </div>
                         </div>
+                        <Download
+                            onClick={() => handleDownload(item)} // Define this function in your component
+                            size={18}
+                            className="text-gray-700 cursor-pointer hover:text-black"
+                        />
                     </div>
+
                 ))}
             </div>
         </div>

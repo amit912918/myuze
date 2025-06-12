@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import './globals.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';  // or any other theme
 import 'primereact/resources/primereact.min.css';
@@ -9,6 +9,7 @@ import Menubar from './dashboard/menubar/page';
 import { DashboardProvider } from '../context/DashboardProvider';
 import ToastProvider from '../components/common/ToastProvider';
 import { AudioProvider } from '../context/AudioProvider';
+import { useRouter } from 'next/navigation';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 
@@ -18,6 +19,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const hideNavbarOnRoutes = ['/auth/login', '/auth/verification'];
 
   const shouldShowNavbar = !hideNavbarOnRoutes.includes(pathname);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+    if (isLoggedIn !== 'true') {
+      router.replace('/auth/login');
+    }
+  }, [router]);
   return (
     <html lang="en">
       <body className="">

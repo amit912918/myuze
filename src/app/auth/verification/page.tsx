@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
 import { handleVerification } from "../../api/auth";
@@ -49,6 +49,7 @@ const OTPVerification: React.FC = () => {
                 userInfo: res.data
             })
             if (res.response.status) {
+                localStorage.setItem('isLoggedIn', 'true');
                 router.push('/dashboard/home');
                 showSuccess('Login successfully!');
             }
@@ -60,6 +61,13 @@ const OTPVerification: React.FC = () => {
             showError("Login failed");
         }
     }
+
+    useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        if (isLoggedIn === 'true') {
+            router.replace('/dashboard');
+        }
+    }, [router]);
 
     return (
         <div className="min-h-screen relative bg-white shadow-lg border border-gray-200 rounded-lg flex flex-col justify-center items-center px-4">

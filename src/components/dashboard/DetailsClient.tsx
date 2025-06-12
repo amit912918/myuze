@@ -242,10 +242,9 @@ const DetailsClient = () => {
                 <h3 className="font-semibold text-lg">{podcastData?.total_episode} Chapters</h3>
                 {episodeData?.map((item: PodcastEpisodeDetail, index: number) => (
                     <div className="mt-1 bg-gray-100 rounded-xl p-4 flex items-center justify-between" key={index}>
-                        <div className="flex items-center gap-3">
+                        <div onClick={() => handleEpisode(item)} className="flex items-center gap-3">
                             <div className="bg-gradient-to-br from-purple-700 to-pink-500 p-2 rounded-full">
                                 <Play
-                                    onClick={() => handleEpisode(item)}
                                     size={20}
                                     className="text-white cursor-pointer"
                                 />

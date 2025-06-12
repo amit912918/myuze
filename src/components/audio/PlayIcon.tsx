@@ -84,7 +84,7 @@ const NowPlaying = () => {
     // }, [])
 
     return (
-        <div className="fixed bottom-18 left-1/2 transform -translate-x-1/2 w-[400px] m-auto bg-white shadow-xl rounded-xl p-3 flex items-center justify-between z-60">
+        <div className="fixed bottom-18 left-1/2 transform -translate-x-1/2 max-w-md w-full m-auto bg-white shadow-xl rounded-xl p-3 flex items-center justify-between z-60">
             <div className="flex items-center" onClick={() => handleEpisode(JSON.parse(localStorage.getItem('seeAllData') || "")?.episode_id)}>
                 <div className="relative w-12 h-12 rounded-lg overflow-hidden">
                     <Image

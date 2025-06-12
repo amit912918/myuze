@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { HiOutlineChevronDown } from "react-icons/hi";
 import { MdArrowBack } from "react-icons/md";
+import { handleGetProfile } from '../../../api/profile';
 
 export default function EditProfilePage() {
     const router = useRouter();
@@ -23,6 +24,20 @@ export default function EditProfilePage() {
     const handleDelete = () => {
         alert("Account deleted (simulate)");
     };
+
+    const getProfileData = async () => {
+        try {
+            const res = await handleGetProfile();
+            console.log(res.response.data.featured_contents, "result");
+            // setTopCategoryData(res.response.data.featured_contents);
+        } catch (error) {
+            console.log("Error in login api", error);
+        }
+    }
+
+    useEffect(() => {
+        handleGetProfile();
+    }, [])
 
     return (
         <div className="min-h-screen flex flex-col">

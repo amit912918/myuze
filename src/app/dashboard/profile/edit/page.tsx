@@ -9,13 +9,14 @@ import { MdArrowBack } from "react-icons/md";
 import { handleGetProfile } from '../../../api/profile';
 
 export default function EditProfilePage() {
+
     const router = useRouter();
 
-    const [firstName, setFirstName] = useState("Amit");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("9129181788@truecaller.com");
-    const [phone, setPhone] = useState("9129181788");
-    const [countryCode, setCountryCode] = useState("in");
+    const [firstName, setFirstName] = useState(JSON.parse(localStorage?.getItem("loginData") || "").name);
+    const [lastName, setLastName] = useState(JSON.parse(localStorage?.getItem("loginData") || "").lastname || "");
+    const [email, setEmail] = useState(JSON.parse(localStorage?.getItem("loginData") || "").email || "");
+    const [phone, setPhone] = useState(JSON.parse(localStorage?.getItem("loginData") || "").mobileNo || "");
+    const [countryCode, setCountryCode] = useState(JSON.parse(localStorage?.getItem("loginData") || "").country || "");
 
     const handleUpdate = () => {
         console.log({ firstName, lastName, email, phone, countryCode });
@@ -25,18 +26,19 @@ export default function EditProfilePage() {
         alert("Account deleted (simulate)");
     };
 
-    const getProfileData = async () => {
-        try {
-            const res = await handleGetProfile();
-            console.log(res.response.data.featured_contents, "result");
-            // setTopCategoryData(res.response.data.featured_contents);
-        } catch (error) {
-            console.log("Error in login api", error);
-        }
-    }
+    // const getProfileData = async () => {
+    //     try {
+    //         const res = await handleGetProfile();
+    //         console.log(res.response.data.featured_contents, "result");
+    //         // setTopCategoryData(res.response.data.featured_contents);
+    //     } catch (error) {
+    //         console.log("Error in login api", error);
+    //     }
+    // }
 
     useEffect(() => {
-        handleGetProfile();
+        console.log(JSON.parse(localStorage?.getItem("loginData") || ""), "auth");
+        // handleGetProfile();
     }, [])
 
     return (

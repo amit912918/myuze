@@ -40,6 +40,8 @@ export default function ProfilePage() {
 
     const handleLogout = () => {
         router.push('/auth/login');
+        localStorage.setItem('isLoggedIn', 'false');
+        localStorage.setItem('loginData', '');
     };
 
     const handleManageAccount = () => {

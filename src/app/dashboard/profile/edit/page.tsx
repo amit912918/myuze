@@ -7,8 +7,11 @@ import 'react-phone-input-2/lib/style.css';
 import { HiOutlineChevronDown } from "react-icons/hi";
 import { MdArrowBack } from "react-icons/md";
 import { handleGetProfile } from '../../../api/profile';
+import useAuth from '../../../../hooks/useAuth';
 
 export default function EditProfilePage() {
+
+    const { auth } = useAuth();
     const router = useRouter();
 
     const [firstName, setFirstName] = useState("Amit");
@@ -25,18 +28,19 @@ export default function EditProfilePage() {
         alert("Account deleted (simulate)");
     };
 
-    const getProfileData = async () => {
-        try {
-            const res = await handleGetProfile();
-            console.log(res.response.data.featured_contents, "result");
-            // setTopCategoryData(res.response.data.featured_contents);
-        } catch (error) {
-            console.log("Error in login api", error);
-        }
-    }
+    // const getProfileData = async () => {
+    //     try {
+    //         const res = await handleGetProfile();
+    //         console.log(res.response.data.featured_contents, "result");
+    //         // setTopCategoryData(res.response.data.featured_contents);
+    //     } catch (error) {
+    //         console.log("Error in login api", error);
+    //     }
+    // }
 
     useEffect(() => {
-        handleGetProfile();
+        console.log(auth, "auth");
+        // handleGetProfile();
     }, [])
 
     return (

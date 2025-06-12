@@ -44,12 +44,12 @@ const OTPVerification: React.FC = () => {
             };
 
             const res = await handleVerification(payload);
-            console.log(res.response, "result");
             setAuth({
-                userInfo: res.data
+                userInfo: res.response.profile
             })
             if (res.response.status) {
                 localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('loginData', JSON.stringify(res.response));
                 router.push('/dashboard/home');
                 showSuccess('Login successfully!');
             }
@@ -65,50 +65,60 @@ const OTPVerification: React.FC = () => {
     useEffect(() => {
         const isLoggedIn = localStorage.getItem('isLoggedIn');
         if (isLoggedIn === 'true') {
-            router.replace('/dashboard');
+            router.replace('/dashboard/home');
         }
     }, [router]);
 
     return (
-        <div className="min-h-screen relative bg-white shadow-lg border border-gray-200 rounded-lg flex flex-col justify-center items-center px-4">
-            <div onClick={() => router.back()} className="text-xl text-black cursor-pointer absolute left-[10px] top-[10px]">
-                <FaArrowLeft />
-            </div>
-            <h1 className="text-xl text-black font-bold mb-2">OTP Verification</h1>
-            <p className="text-sm text-center text-gray-600 mb-6">
-                We have sent you an 4-digit verification code on your mobile number
-            </p>
+        <div className="min-h-screen bg-white relative px-4 pt-6">
+    {/* Back button fixed to top left */}
+    <div
+      onClick={() => router.back()}
+      className="text-xl text-black cursor-pointer absolute top-4 left-4"
+    >
+      <FaArrowLeft />
+    </div>
 
-            <div className="flex gap-6 mb-6">
-                {otp.map((digit, index) => (
-                    <div
-                        key={index}
-                        className="w-12 h-12 border rounded-lg flex items-center justify-center text-xl font-semibold"
-                    >
-                        <input
-                            ref={(el) => {
-                                inputsRef.current[index] = el;
-                            }}
-                            type="tel"
-                            maxLength={1}
-                            value={digit}
-                            onChange={(e) => handleChange(e, index)}
-                            onKeyDown={(e) => handleKeyDown(e, index)}
-                            className="w-full bg-gray-100 rounded-lg text-center text-black px-4 py-2 outline-none"
-                        />
-                    </div>
-                ))}
-            </div>
+    <div className="max-w-md mx-auto mt-16 flex flex-col items-center">
+      <h1 className="text-xl text-black font-bold mb-2">OTP Verification</h1>
+      <p className="text-sm text-center text-gray-600 mb-6">
+        We have sent you a 4-digit verification code on your mobile number
+      </p>
 
-            <button onClick={handleVerify} className="w-full cursor-pointer max-w-xs py-3 rounded-full text-white font-semibold bg-gradient-to-r from-purple-500 to-pink-500 mb-4">
-                Verify
-            </button>
+      <div className="flex gap-6 mb-6">
+        {otp.map((digit, index) => (
+          <div
+            key={index}
+            className="w-12 h-12 border rounded-lg flex items-center justify-center text-xl font-semibold"
+          >
+            <input
+              ref={(el) => {
+                inputsRef.current[index] = el;
+              }}
+              type="tel"
+              maxLength={1}
+              value={digit}
+              onChange={(e) => handleChange(e, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              className="w-full bg-gray-100 rounded-lg text-center text-black px-4 py-2 outline-none"
+            />
+          </div>
+        ))}
+      </div>
 
-            <p className="text-sm text-gray-600">
-                Didn’t receive OTP?{' '}
-                <span className="text-purple-600 font-medium cursor-pointer">Resend</span>
-            </p>
-        </div>
+      <button
+        onClick={handleVerify}
+        className="w-full cursor-pointer max-w-xs py-3 rounded-full text-white font-semibold bg-gradient-to-r from-purple-500 to-pink-500 mb-4"
+      >
+        Verify
+      </button>
+
+      <p className="text-sm text-gray-600">
+        Didn’t receive OTP?{' '}
+        <span className="text-purple-600 font-medium cursor-pointer">Resend</span>
+      </p>
+    </div>
+  </div>
     );
 }
 

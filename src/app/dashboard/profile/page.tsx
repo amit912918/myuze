@@ -96,8 +96,8 @@ export default function ProfilePage() {
                     onClick={() => setShowLanguageDialog(true)}
                 />
                 <MenuItem icon={<FaHeadset />} label="Contact Us" value={<IoIosArrowForward />} />
-                <MenuItem onClick={() => window.open("https://www.myuzeplay.com/static/pp", "_blank")} icon={<BsShieldLock />} label="Privacy Policy" value={<IoIosArrowForward />} />
-                <MenuItem onClick={() => window.open("https://www.myuzeplay.com/static/tnc", "_blank")} icon={<FaFileAlt />} label="Terms of Service" value={<IoIosArrowForward />} />
+                <MenuItem onClick={() => window.open("https://www.myuzeplay.com/static/pp", "_self")} icon={<BsShieldLock />} label="Privacy Policy" value={<IoIosArrowForward />} />
+                <MenuItem onClick={() => window.open("https://www.myuzeplay.com/static/tnc", "_self")} icon={<FaFileAlt />} label="Terms of Service" value={<IoIosArrowForward />} />
                 <MenuItem icon={<FaSignOutAlt />} label={<div onClick={handleLogout} className="font-semibold">Logout</div>} textColor="text-red-500" />
             </div>
 

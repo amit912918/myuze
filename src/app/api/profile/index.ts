@@ -27,3 +27,41 @@ export const handleGetProfile = async () => {
         },
     });
 };
+
+export const handleUpdateProfile = async ({
+    userId,
+    firstName,
+    lastName,
+    email,
+    phone,
+    countryCode,
+    isdCode,
+    gender
+}: {
+    userId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    countryCode: string;
+    isdCode: string;
+    gender: string;
+}) => {
+    return await requestApi({
+        url: 'api/v1/file',
+        method: 'POST',
+        data: {
+            userId,
+            email,
+            mobileNo: phone,
+            isdCode,
+            firstname: firstName,
+            lastname: lastName,
+            gender,
+        },
+        headers: {
+            'device-os': 'web',
+            'API-KEY': 'eb3fb92a88bfb8c9bb9be6',
+        },
+    });
+};

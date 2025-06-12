@@ -7,18 +7,16 @@ import 'react-phone-input-2/lib/style.css';
 import { HiOutlineChevronDown } from "react-icons/hi";
 import { MdArrowBack } from "react-icons/md";
 import { handleGetProfile } from '../../../api/profile';
-import useAuth from '../../../../hooks/useAuth';
 
 export default function EditProfilePage() {
 
-    const { auth } = useAuth();
     const router = useRouter();
 
-    const [firstName, setFirstName] = useState("Amit");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("9129181788@truecaller.com");
-    const [phone, setPhone] = useState("9129181788");
-    const [countryCode, setCountryCode] = useState("in");
+    const [firstName, setFirstName] = useState(JSON.parse(localStorage?.getItem("loginData") || "").name);
+    const [lastName, setLastName] = useState(JSON.parse(localStorage?.getItem("loginData") || "").lastname || "");
+    const [email, setEmail] = useState(JSON.parse(localStorage?.getItem("loginData") || "").email || "");
+    const [phone, setPhone] = useState(JSON.parse(localStorage?.getItem("loginData") || "").mobileNo || "");
+    const [countryCode, setCountryCode] = useState(JSON.parse(localStorage?.getItem("loginData") || "").country || "");
 
     const handleUpdate = () => {
         console.log({ firstName, lastName, email, phone, countryCode });
@@ -39,7 +37,7 @@ export default function EditProfilePage() {
     // }
 
     useEffect(() => {
-        console.log(auth, "auth");
+        console.log(JSON.parse(localStorage?.getItem("loginData") || ""), "auth");
         // handleGetProfile();
     }, [])
 

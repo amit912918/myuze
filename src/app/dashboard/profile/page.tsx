@@ -59,7 +59,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Banner */}
-            <div style={{ height: "251", width: "380px" }} className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-4 text-white relative overflow-hidden mb-6">
+            <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-4 text-white relative overflow-hidden mb-6">
                 <div className="flex items-center">
                     <div className="flex-1">
                         <h2 className="text-lg font-semibold">Enjoy All Benefits!</h2>

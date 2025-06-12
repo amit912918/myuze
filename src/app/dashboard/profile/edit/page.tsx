@@ -42,7 +42,7 @@ export default function EditProfilePage() {
     return (
         <div className="min-h-screen flex flex-col">
             {/* Header */}
-            <div className="flex space-x-24 items-center px-4 py-4">
+            <div className="flex space-x-16 items-center px-4 py-4">
                 <MdArrowBack onClick={() => router.back()} className="text-2xl text-black cursor-pointer" />
                 <h1 className="text-xl font-semibold text-black">Manage Profile</h1>
             </div>

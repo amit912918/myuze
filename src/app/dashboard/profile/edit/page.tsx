@@ -6,40 +6,60 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { HiOutlineChevronDown } from "react-icons/hi";
 import { MdArrowBack } from "react-icons/md";
-import { handleGetProfile } from '../../../api/profile';
+import { handleUpdateProfile } from '../../../api/profile';
 
 export default function EditProfilePage() {
-
     const router = useRouter();
 
-    const [firstName, setFirstName] = useState(JSON.parse(localStorage?.getItem("loginData") || "").name);
-    const [lastName, setLastName] = useState(JSON.parse(localStorage?.getItem("loginData") || "").lastname || "");
-    const [email, setEmail] = useState(JSON.parse(localStorage?.getItem("loginData") || "").email || "");
-    const [phone, setPhone] = useState(JSON.parse(localStorage?.getItem("loginData") || "").mobileNo || "");
-    const [countryCode, setCountryCode] = useState(JSON.parse(localStorage?.getItem("loginData") || "").country || "");
+    const [userId, setUserId] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [countryCode, setCountryCode] = useState("in");
+    const [isdCode, setIsdCode] = useState("91");
+    const [gender, setGender] = useState("M");
 
-    const handleUpdate = () => {
-        console.log({ firstName, lastName, email, phone, countryCode });
+    const handleUpdate = async () => {
+        console.log({ userId, firstName, lastName, email, phone, isdCode, gender });
+        try {
+            const res = await handleUpdateProfile({
+                userId,
+                firstName,
+                lastName,
+                email,
+                phone,
+                countryCode,
+                isdCode,
+                gender,
+            });
+            console.log(res, "API response");
+        } catch (error) {
+            console.log("Error in update profile", error);
+        }
     };
 
     const handleDelete = () => {
         alert("Account deleted (simulate)");
     };
 
-    // const getProfileData = async () => {
-    //     try {
-    //         const res = await handleGetProfile();
-    //         console.log(res.response.data.featured_contents, "result");
-    //         // setTopCategoryData(res.response.data.featured_contents);
-    //     } catch (error) {
-    //         console.log("Error in login api", error);
-    //     }
-    // }
-
     useEffect(() => {
-        console.log(JSON.parse(localStorage?.getItem("loginData") || ""), "auth");
-        // handleGetProfile();
-    }, [])
+        if (typeof window !== 'undefined') {
+            try {
+                const data = JSON.parse(localStorage.getItem("loginData") || "{}")?.profile || {};
+                setUserId(data?.userId || "113");
+                setFirstName(data?.name || "");
+                setLastName(data?.lastname || "");
+                setEmail(data?.email || "");
+                setPhone(data?.mobileNo || "");
+                setCountryCode(data?.country || "in");
+                setIsdCode(data?.isdCode || "91");
+                setGender(data?.gender || "M");
+            } catch (error) {
+                console.error("Invalid JSON in localStorage loginData", error);
+            }
+        }
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -84,12 +104,23 @@ export default function EditProfilePage() {
                     onChange={(phone: any, country: any) => {
                         setPhone(phone);
                         setCountryCode(country.countryCode ?? 'in');
+                        setIsdCode(country.dialCode ?? '91');
                     }}
                     inputClass="!w-full !rounded-xl !py-3 !pl-12 !pr-4 !text-base dark:bg-gray-50 text-black dark:text-black"
                     buttonClass="!rounded-l-xl"
                     containerClass="!w-full !border !rounded-xl"
                     enableSearch={true}
                 />
+
+                <select
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                    className="w-full border rounded-xl py-3 px-4 dark:bg-gray-50 text-black dark:text-black focus:outline-none focus:ring-2 focus:ring-pink-300"
+                >
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Other</option>
+                </select>
             </div>
 
             {/* Fixed bottom buttons */}

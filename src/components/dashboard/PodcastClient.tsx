@@ -139,7 +139,7 @@ export default function PodcastClient() {
                     <p className="text-gray-600 mt-3">
                         Subscribe now to enjoy Unlimited Access
                     </p>
-                    <button className="bg-gradient-to-r mt-4 from-purple-500 to-pink-500 text-white py-3 px-6 rounded-xl text-lg font-medium w-full transition hover:opacity-90">
+                    <button onClick={() => window.open("https://payment.myuze.app/p/index.php?&userid=17178329&deviceId=20030107&country=IN&mobileNo=&isdCode=&langCode=en&app_version=3.0.3&build_number=10060&upi=&platform=web&plan=", "_self")} className="bg-gradient-to-r mt-4 from-purple-500 to-pink-500 text-white py-3 px-6 rounded-xl text-lg font-medium w-full transition hover:opacity-90">
                         Subscribe Now ({timer} Sec)
                     </button>
                     <div
@@ -268,12 +268,14 @@ export default function PodcastClient() {
                 <button title="Back 10s" onClick={() => {
                     if (audioRef.current) audioRef.current.currentTime = Math.max(audioRef.current.currentTime - 10, 0);
                 }}>
-                    <TbRewindBackward10 className="text-2xl cursor-pointer" />
+                    {/* <TbRewindBackward10 className="text-2xl cursor-pointer" /> */}
+                    <Image style={{color: "#212121"}} height={32} width={32} alt="forward" src="/images/backward-icon.png" />
                 </button>
 
                 <button
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-full text-white shadow-lg"
-                    onClick={() => handlePlayPause(episodeData)}
+                    style={{ background: "radial-gradient(92.09% 394.93% at 7.91% 50%, #6B0DFF 0%, #FF6B79 100%)" }}
+                    className="p-4 rounded-full text-white shadow-lg"
+                    onClick={() => episodeData?.is_billable === 1 ? confirm() : handlePlayPause(episodeData)}
                 >
                     {isPlaying ? <FaPause className="text-2xl" /> : <FaPlay className="text-2xl" />}
                 </button>
@@ -281,7 +283,8 @@ export default function PodcastClient() {
                 <button title="Forward 10s" onClick={() => {
                     if (audioRef.current) audioRef.current.currentTime = Math.min(audioRef.current.currentTime + 10, duration);
                 }}>
-                    <TbRewindForward10 className="text-2xl cursor-pointer" />
+                    {/* <TbRewindForward10 className="text-2xl cursor-pointer" /> */}
+                    <Image style={{color: "#212121"}} height={32} width={32} alt="forward" src="/images/forward-icon.png" />
                 </button>
                 <button><FaForward className="text-2xl" /></button>
             </div>

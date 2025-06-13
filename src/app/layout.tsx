@@ -20,15 +20,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
   const shouldShowNavbar = !hideNavbarOnRoutes.includes(pathname);
 
-  const router = useRouter();
+  // const router = useRouter();
 
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
+  // useEffect(() => {
+  //   const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-    if (isLoggedIn !== 'true') {
-      router.replace('/auth/login');
-    }
-  }, [router]);
+  //   if (isLoggedIn !== 'true') {
+  //     router.replace('/auth/login');
+  //   }
+  // }, [router]);
   return (
     <html lang="en">
       <body className="">

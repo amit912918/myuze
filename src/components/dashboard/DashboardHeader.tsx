@@ -6,24 +6,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useRouter } from 'next/navigation';
-
-// const slides = [
-//     {
-//         src: '/images/subImage1.png',
-//         title: 'IKIGAI',
-//         subtitle: 'The Japanese secret to a long life',
-//     },
-//     {
-//         src: '/images/subImage1.png',
-//         title: 'Atomic Habits',
-//         subtitle: 'Tiny changes, big results',
-//     },
-//     {
-//         src: '/images/subImage1.png',
-//         title: 'Deep Work',
-//         subtitle: 'Focus without distraction',
-//     },
-// ];
+import { useEffect, useState } from 'react';
 
 interface SpotlightContent {
     conId: number;
@@ -45,12 +28,28 @@ interface SpotlightBlock {
 }
 
 const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
-
     const router = useRouter();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (data?.contents?.length > 0) {
+                setLoading(false);
+        }
+    }, [data]);
 
     const handleDetail = (conId: number) => {
         router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
     };
+
+    if (loading) {
+        return (
+            <div className="w-full h-[336px] bg-gray-200 rounded-xl animate-pulse relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="h-10 w-32 bg-white rounded-md" />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div>
@@ -65,16 +64,18 @@ const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
             >
                 {data.contents.map((slide, idx) => (
                     <SwiperSlide key={idx}>
-                        <div style={{ height: "336px" }} className="relative">
+                        <div className="relative h-[336px]">
                             <Image
                                 src={slide.imgIrl}
                                 alt={slide.conName}
                                 fill
                                 className="rounded-xl object-cover"
                             />
-                            <div style={{ marginTop: "55%" }} className="absolute inset-0 flex items-center justify-center text-sm">
-                                {/* <Button onClick={handleListen} size='small' className="bg-white">Listen Now</Button> */}
-                                <button onClick={() => handleDetail(slide.conId)} style={{ borderRadius: "5px" }} className="bg-white text-black font-semibold px-4 py-2 shadow-sm hover:shadow-md transition cursor-pointer">
+                            <div className="absolute inset-0 flex items-center justify-center mt-[55%]">
+                                <button
+                                    onClick={() => handleDetail(slide.conId)}
+                                    className="bg-white text-black font-semibold px-4 py-2 shadow-sm hover:shadow-md rounded-md"
+                                >
                                     Listen Now
                                 </button>
                             </div>
@@ -82,10 +83,8 @@ const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
                     </SwiperSlide>
                 ))}
             </Swiper>
-
-            {/* You can adjust pagination styling if needed using Tailwind */}
         </div>
     );
-}
+};
 
 export default HeaderSlider;

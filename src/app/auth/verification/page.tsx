@@ -50,7 +50,7 @@ const OTPVerification: React.FC = () => {
             if (res.response.status) {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('loginData', JSON.stringify(res.response));
-                router.push('/dashboard/home');
+                router.push('/dashboard/profile');
                 showSuccess('Login successfully!');
             }
             else {

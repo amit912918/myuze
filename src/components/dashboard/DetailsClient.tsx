@@ -220,12 +220,16 @@ const DetailsClient = () => {
             </div>
 
             <div className="flex justify-between mt-6 gap-3">
-                <button className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-purple-200 to-purple-200 text-purple-900 font-semibold flex items-center justify-center gap-2">
+                <button 
+                style={{ color: "#6B0DFF", background: "radial-gradient(92.09% 394.93% at 7.91% 50%, rgba(107, 13, 255, 0.2) 0%, rgba(255, 107, 121, 0.2) 100%)" }}
+                className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-purple-200 to-purple-200 text-purple-900 font-semibold flex items-center justify-center gap-2"
+                >
                     <Download size={18} /> Download Now
                 </button>
                 <button
                     onClick={handlePlayButton}
-                    className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-purple-800 to-pink-500 text-white font-semibold flex items-center justify-center gap-2 cursor-pointer"
+                    style={{ background: "radial-gradient(92.09% 394.93% at 7.91% 50%, #6B0DFF 0%, #FF6B79 100%)" }}
+                    className="w-1/2 py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 cursor-pointer"
                 >
                     <Play size={18} /> Play Now
                 </button>
@@ -243,7 +247,10 @@ const DetailsClient = () => {
                 {episodeData?.map((item: PodcastEpisodeDetail, index: number) => (
                     <div className="mt-1 bg-gray-100 rounded-xl p-4 flex items-center justify-between" key={index}>
                         <div onClick={() => handleEpisode(item)} className="flex items-center gap-3">
-                            <div className="bg-gradient-to-br from-purple-700 to-pink-500 p-2 rounded-full">
+                            <div
+                            style={{ background: "linear-gradient(49.06deg, #6B0DFF 19.36%, #FF6B79 76.77%)" }}
+                            className="p-2 rounded-full"
+                            >
                                 <Play
                                     size={20}
                                     className="text-white cursor-pointer"

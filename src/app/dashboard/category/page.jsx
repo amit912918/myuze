@@ -209,7 +209,8 @@ export default function CategoryGrid() {
         <div>
             <div className="flex items-center mb-6">
                 <div>
-                    <BiCategory className="w-6 h-6 text-gradient-to-r text-purple-500 text-pink-500 rounded-md mr-2" />
+                    <Image className='mr-2' height={24} width={24} alt='category' src="/images/Category.png" />
+                    {/* <BiCategory className="w-6 h-6 text-gradient-to-r text-purple-500 text-pink-500 rounded-md mr-2" /> */}
                 </div>
                 <h1 className="text-2xl font-bold">Top Category</h1>
             </div>
@@ -232,7 +233,8 @@ export default function CategoryGrid() {
 
             <div className="flex items-center my-6">
                 <div>
-                    <BiCategory className="w-6 h-6 text-gradient-to-r text-purple-500 text-pink-500 rounded-md mr-2" />
+                    <Image className='mr-2' height={24} width={24} alt='category' src="/images/Category.png" />
+                    {/* <BiCategory className="w-6 h-6 text-gradient-to-r text-purple-500 text-pink-500 rounded-md mr-2" /> */}
                 </div>
                 <h1 className="text-2xl font-bold">All Category</h1>
             </div>

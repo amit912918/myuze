@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from "react";
 import { FaUser, FaHeadset, FaFileAlt, FaSignOutAlt } from "react-icons/fa";
 import { MdSubscriptions } from "react-icons/md";
@@ -8,23 +9,30 @@ import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import { IoIosArrowForward } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { Dialog } from 'primereact/dialog';
+import Image from "next/image";
 
 type MenuItemProps = {
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
+    imgSrc?: string; // new prop for image
     label: React.ReactNode | string;
     value?: React.ReactNode | string;
     textColor?: string;
     onClick?: () => void;
 };
 
-function MenuItem({ icon, label, value, textColor = "text-gray-900", onClick }: MenuItemProps) {
+function MenuItem({ icon, imgSrc, label, value, textColor = "text-gray-900", onClick }: MenuItemProps) {
     return (
         <div
             onClick={onClick}
-            className="flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer px-2 rounded"
+            className="flex items-center justify-between py-3 cursor-pointer px-2 rounded"
         >
             <div className="flex items-center space-x-3">
-                <div className="text-gray-400">{icon}</div>
+                {/* {icon && <div className="text-gray-400">{icon}</div>} */}
+                {imgSrc && (
+                    <div>
+                        <Image src={imgSrc} alt="icon" width={24} height={24} />
+                    </div>
+                )}
                 <span style={{ fontSize: "18px" }} className={`text-base ${textColor}`}>{label}</span>
             </div>
             {value && <span style={{ fontSize: "18px" }} className="font-bold">{value}</span>}
@@ -34,7 +42,6 @@ function MenuItem({ icon, label, value, textColor = "text-gray-900", onClick }: 
 
 export default function ProfilePage() {
     const router = useRouter();
-
     const [selectedLanguage, setSelectedLanguage] = useState("English");
     const [showLanguageDialog, setShowLanguageDialog] = useState(false);
 
@@ -53,7 +60,7 @@ export default function ProfilePage() {
     return (
         <div>
             {/* Top Bar */}
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center">
                 <h1 className="text-xl text-black font-semibold">Profile</h1>
                 <div className="rounded-full cursor-pointer">
                     <HiOutlineDotsCircleHorizontal className="text-black w-7 h-7" />
@@ -61,7 +68,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Banner */}
-            <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-4 text-white relative overflow-hidden mb-6">
+            {/* <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-4 text-white relative overflow-hidden mb-6">
                 <div className="flex items-center">
                     <div className="flex-1">
                         <h2 className="text-lg font-semibold">Enjoy All Benefits!</h2>
@@ -71,23 +78,29 @@ export default function ProfilePage() {
                         </button>
                     </div>
                 </div>
+            </div> */}
+            <div className="w-full">
+                <Image height={251} width={380} alt="banner" src="/images/Promo & Discount.png" />
             </div>
 
             {/* Options */}
             <div className="space-y-4">
                 <MenuItem
                     icon={<FaUser />}
+                    imgSrc="/profile/Profile.png"
                     label="Manage Account"
                     value={<IoIosArrowForward />}
                     onClick={handleManageAccount}
                 />
                 <MenuItem
                     icon={<MdSubscriptions />}
+                    imgSrc="/profile/Group 36707.png"
                     label="Manage Subscription"
                     value={<IoIosArrowForward />}
                 />
                 <MenuItem
                     icon={<IoLanguage />}
+                    imgSrc="/profile/language.png"
                     label="Language"
                     value={
                         <div className="flex items-center gap-3">
@@ -97,10 +110,32 @@ export default function ProfilePage() {
                     }
                     onClick={() => setShowLanguageDialog(true)}
                 />
-                <MenuItem icon={<FaHeadset />} label="Contact Us" value={<IoIosArrowForward />} />
-                <MenuItem onClick={() => window.open("https://www.myuzeplay.com/static/pp", "_self")} icon={<BsShieldLock />} label="Privacy Policy" value={<IoIosArrowForward />} />
-                <MenuItem onClick={() => window.open("https://www.myuzeplay.com/static/tnc", "_self")} icon={<FaFileAlt />} label="Terms of Service" value={<IoIosArrowForward />} />
-                <MenuItem icon={<FaSignOutAlt />} label={<div onClick={handleLogout} className="font-semibold">Logout</div>} textColor="text-red-500" />
+                <MenuItem
+                    icon={<FaHeadset />}
+                    imgSrc="/profile/Calling.png"
+                    label="Contact Us"
+                    value={<IoIosArrowForward />}
+                />
+                <MenuItem
+                    icon={<BsShieldLock />}
+                    imgSrc="/profile/Shield Done.png"
+                    label="Privacy Policy"
+                    value={<IoIosArrowForward />}
+                    onClick={() => window.open("https://www.myuzeplay.com/static/pp", "_self")}
+                />
+                <MenuItem
+                    icon={<FaFileAlt />}
+                    imgSrc="/profile/Paper.png"
+                    label="Terms of Service"
+                    value={<IoIosArrowForward />}
+                    onClick={() => window.open("https://www.myuzeplay.com/static/tnc", "_self")}
+                />
+                <MenuItem
+                    icon={<FaSignOutAlt />}
+                    imgSrc="/profile/Logout.png"
+                    label={<div onClick={handleLogout} className="font-semibold">Logout</div>}
+                    textColor="text-red-500"
+                />
             </div>
 
             {/* Language Dialog */}
@@ -119,8 +154,7 @@ export default function ProfilePage() {
                                 setSelectedLanguage(lang);
                                 setShowLanguageDialog(false);
                             }}
-                            className={`py-2 px-4 rounded-md text-white ${selectedLanguage === lang ? "bg-purple-600" : "bg-gray-400"
-                                }`}
+                            className={`py-2 px-4 rounded-md text-white ${selectedLanguage === lang ? "bg-purple-600" : "bg-gray-400"}`}
                         >
                             {lang}
                         </button>

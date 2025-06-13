@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUser, FaHeadset, FaFileAlt, FaSignOutAlt } from "react-icons/fa";
 import { MdSubscriptions } from "react-icons/md";
 import { IoLanguage } from "react-icons/io5";
@@ -41,9 +41,11 @@ function MenuItem({ icon, imgSrc, label, value, textColor = "text-gray-900", onC
 }
 
 export default function ProfilePage() {
+
     const router = useRouter();
     const [selectedLanguage, setSelectedLanguage] = useState("English");
     const [showLanguageDialog, setShowLanguageDialog] = useState(false);
+    const [loggedIn, setLoggedIn] = useState("false");
 
     const handleLogout = () => {
         router.push('/auth/login');
@@ -56,6 +58,12 @@ export default function ProfilePage() {
     };
 
     const availableLanguages = ["English", "Hindi"];
+
+  useEffect(() => {
+    const isLoggedIn: any = localStorage.getItem('isLoggedIn');
+    console.log(isLoggedIn, "isLoggedIn");
+    setLoggedIn(isLoggedIn);
+  }, []);
 
     return (
         <div>
@@ -85,19 +93,19 @@ export default function ProfilePage() {
 
             {/* Options */}
             <div className="space-y-4">
-                <MenuItem
+                {loggedIn === "true" && <MenuItem
                     icon={<FaUser />}
                     imgSrc="/profile/Profile.png"
                     label="Manage Account"
                     value={<IoIosArrowForward />}
                     onClick={handleManageAccount}
-                />
-                <MenuItem
+                />}
+                {loggedIn === "true" && <MenuItem
                     icon={<MdSubscriptions />}
                     imgSrc="/profile/Group 36707.png"
                     label="Manage Subscription"
                     value={<IoIosArrowForward />}
-                />
+                />}
                 <MenuItem
                     icon={<IoLanguage />}
                     imgSrc="/profile/language.png"
@@ -133,7 +141,7 @@ export default function ProfilePage() {
                 <MenuItem
                     icon={<FaSignOutAlt />}
                     imgSrc="/profile/Logout.png"
-                    label={<div onClick={handleLogout} className="font-semibold">Logout</div>}
+                    label={<div onClick={handleLogout} className="font-semibold">{loggedIn === "true" ? 'Logout' : 'Login'}</div>}
                     textColor="text-red-500"
                 />
             </div>

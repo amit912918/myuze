@@ -107,11 +107,18 @@ export default function PodcastClient() {
     };
 
     const handleDownload = () => {
-        const link = document.createElement("a");
-        link.href = episodeData.download_url || episodeData.stream_url;
-        link.download = `${episodeData.title || "podcast"}.mp3`;
-        link.click();
-    };
+    const fileUrl = episodeData.download_url || episodeData.stream_url;
+    const encoded = encodeURIComponent(fileUrl);
+    const downloadUrl = `/api/download?url=${encoded}`;
+
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = `${episodeData.title || 'podcast'}.mp3`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+};
+
 
     const confirm = () => {
         confirmDialog({

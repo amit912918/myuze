@@ -5,9 +5,13 @@ import useDashboard from '../hooks/useDashboard';
 interface AudioContextType {
     isPlaying: boolean;
     setIsPlaying: (value: boolean) => void;
+    currentAudio: number;
+    setCurrentAudio: (value: number) => void;
     setAudioSrc: (value: any) => void;
     currentTrack: any;
     setCurrentTrack: (track: any) => void;
+    audioList: any;
+    setAudioList: (track: any) => void;
     audioRef: React.RefObject<HTMLAudioElement | null>;
     handlePlayPause: (episodeData: any) => void;
 }
@@ -20,6 +24,8 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTrack, setCurrentTrack] = useState<any>(null);
     const [audioSrc, setAudioSrc] = useState<string>("");
+    const [audioList, setAudioList] = useState<[]>();
+    const [currentAudio, setCurrentAudio] = useState<number>(0);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     // Example: set audioSrc from localStorage (adjust as needed)
@@ -55,9 +61,13 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
         <AudioContext.Provider value={{
             isPlaying,
             setIsPlaying,
+            currentAudio,
+            setCurrentAudio,
             currentTrack,
             setCurrentTrack,
             audioRef,
+            audioList,
+            setAudioList,
             handlePlayPause,
             setAudioSrc
         }}>

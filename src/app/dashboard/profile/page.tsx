@@ -116,7 +116,8 @@ export default function ProfilePage() {
                             <IoIosArrowForward />
                         </div>
                     }
-                    onClick={() => setShowLanguageDialog(true)}
+                    // onClick={() => setShowLanguageDialog(true)}
+                    onClick={() => { router.push("/dashboard/profile/language")}}
                 />
                 <MenuItem
                     icon={<FaHeadset />}

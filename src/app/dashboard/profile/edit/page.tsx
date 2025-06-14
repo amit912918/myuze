@@ -7,6 +7,7 @@ import 'react-phone-input-2/lib/style.css';
 import { HiOutlineChevronDown } from "react-icons/hi";
 import { MdArrowBack } from "react-icons/md";
 import { handleUpdateProfile } from '../../../api/profile';
+import { showSuccess } from '../../../../utils/toastService';
 
 export default function EditProfilePage() {
     const router = useRouter();
@@ -34,13 +35,14 @@ export default function EditProfilePage() {
                 gender,
             });
             console.log(res, "API response");
+            showSuccess('Profile updated successfully!');
         } catch (error) {
             console.log("Error in update profile", error);
         }
     };
 
     const handleDelete = () => {
-        alert("Account deleted (simulate)");
+        showSuccess('Profile deleted successfully!');
     };
 
     useEffect(() => {

@@ -2,8 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FaBackward, FaForward, FaPlay, FaPause } from "react-icons/fa";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { MdArrowBack, MdForward10, MdSpeed } from "react-icons/md";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { MdArrowBack, MdSpeed } from "react-icons/md";
 import { Clock3, Share2, MoreVertical, Download } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -11,7 +10,6 @@ import { Dialog } from "primereact/dialog";
 import useDashboard from "../../hooks/useDashboard";
 import { getEpisodeDetail } from "../../app/api/podcast";
 import { useAudio } from "../../hooks/useAudio";
-import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
 
 interface Episode {
     episode_id: number;
@@ -76,15 +74,15 @@ export default function PodcastClient() {
     const searchParams = useSearchParams();
     const episode_id = searchParams?.get("episode_id");
 
-    const { audioRef, isPlaying, handlePlayPause, setAudioSrc } = useAudio();
+    const { audioRef, isPlaying, handlePlayPause, setAudioSrc, currentAudio, setCurrentAudio, audioList } = useAudio();
     const [episodeData, setEpisodeData] = useState<Episode>(defaultEpisode);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const [timer, setTimer] = useState(5);
     const [showSpeedDialog, setShowSpeedDialog] = useState(false);
     const [playbackRate, setPlaybackRate] = useState(1);
-    const toast = useRef<any>(null);
     const [showSleepTimer, setShowSleepTimer] = useState(false);
+    const [showSubscriptionDialog, setShowSubscriptionDialog] = useState(false);
+    const [timer, setTimer] = useState(5);
 
     const handleClockClick = () => setShowSleepTimer(true);
 
@@ -107,58 +105,32 @@ export default function PodcastClient() {
     };
 
     const handleDownload = () => {
-    const fileUrl = episodeData.download_url || episodeData.stream_url;
-    const encoded = encodeURIComponent(fileUrl);
-    const downloadUrl = `/api/download?url=${encoded}`;
+        const fileUrl = episodeData.download_url || episodeData.stream_url;
+        const encoded = encodeURIComponent(fileUrl);
+        const downloadUrl = `/api/download?url=${encoded}`;
 
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = `${episodeData.title || 'podcast'}.mp3`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-};
-
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.download = `${episodeData.title || "podcast"}.mp3`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    };
 
     const confirm = () => {
-        confirmDialog({
-            position: "bottom",
-            message: (
-                <div className="bg-white rounded-3xl text-center">
-                    <div className="w-[60px] h-[60px] m-auto">
-                        <Image
-                            width={200}
-                            height={200}
-                            className="w-full h-full"
-                            src="/images/subscriptionLogo.png"
-                            alt="Subscription Logo"
-                        />
-                    </div>
-                    <h2 className="text-xl font-semibold text-purple-600 mt-4">
-                        StoryStream Pro
-                    </h2>
-                    <p className="text-lg font-bold text-gray-900 my-3">
-                        Unlock All Shows & Books
-                        <br />
-                        with StoryStream Pro
-                    </p>
-                    <div className="border border-gray-200"></div>
-                    <p className="text-gray-600 mt-3">
-                        Subscribe now to enjoy Unlimited Access
-                    </p>
-                    <button onClick={() => window.open("https://payment.myuze.app/p/index.php?&userid=17178329&deviceId=20030107&country=IN&mobileNo=&isdCode=&langCode=en&app_version=3.0.3&build_number=10060&upi=&platform=web&plan=", "_self")} className="bg-gradient-to-r mt-4 from-purple-500 to-pink-500 text-white py-3 px-6 rounded-xl text-lg font-medium w-full transition hover:opacity-90">
-                        Subscribe Now ({timer} Sec)
-                    </button>
-                    <div
-                        className="text-sm text-gray-600 mt-2 cursor-pointer hover:underline"
-                        onClick={() => toast.current?.hide()}
-                    >
-                        &larr; I’ll try this later, take me back
-                    </div>
-                </div>
-            ),
-            footer: <></>,
-        });
+        setShowSubscriptionDialog(true);
+        setTimer(5); // Reset timer
+    };
+
+    const handleAudioChange = (temp: any) => {
+        if(temp === "plus" && currentAudio <= audioList.length - 1) {
+            setCurrentAudio(currentAudio + 1);
+            router.push(`/dashboard/podcast?episode_id=${encodeURIComponent(audioList[currentAudio + 1])}`);
+        }
+        if(temp === "minus" && currentAudio >=0) {
+            setCurrentAudio(currentAudio - 1);
+            router.push(`/dashboard/podcast?episode_id=${encodeURIComponent(audioList[currentAudio - 1])}`);
+        }
     };
 
     useEffect(() => {
@@ -181,7 +153,7 @@ export default function PodcastClient() {
             }
         };
         fetchData();
-    }, [episode_id, setAudioSrc]);
+    }, [episode_id, setAudioSrc, currentAudio]);
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -198,6 +170,14 @@ export default function PodcastClient() {
         };
     }, [audioRef]);
 
+    useEffect(() => {
+        if (!showSubscriptionDialog || timer <= 1) return;
+        const countdown = setInterval(() => {
+            setTimer(prev => prev - 1);
+        }, 1000);
+        return () => clearInterval(countdown);
+    }, [showSubscriptionDialog, timer]);
+
     const formatTime = (time: number) => {
         const minutes = Math.floor(time / 60).toString().padStart(2, "0");
         const seconds = Math.floor(time % 60).toString().padStart(2, "0");
@@ -206,14 +186,9 @@ export default function PodcastClient() {
 
     return (
         <main className="flex flex-col items-center justify-center">
-            <ConfirmDialog />
-
             <div className="w-full flex items-center justify-between mb-4">
-                <button>
-                    <MdArrowBack
-                        onClick={() => router.back()}
-                        className="text-2xl cursor-pointer"
-                    />
+                <button onClick={() => router.back()}>
+                    <MdArrowBack className="text-2xl cursor-pointer" />
                 </button>
                 <h1 className="font-semibold text-lg">Talking to Strangers</h1>
                 <button>
@@ -231,14 +206,8 @@ export default function PodcastClient() {
                         className="w-full h-[400px] object-cover"
                     />
                 ) : (
-                    <div
-                        role="status"
-                        className="w-full h-[400px] animate-pulse flex items-center justify-center"
-                    >
-                        <svg className="w-10 h-10 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                            <path d="..." />
-                        </svg>
-                        <span className="sr-only">Loading...</span>
+                    <div className="w-full h-[400px] flex items-center justify-center animate-pulse bg-gray-100">
+                        <span>Loading...</span>
                     </div>
                 )}
             </div>
@@ -269,16 +238,13 @@ export default function PodcastClient() {
                 </div>
             </div>
 
-            {/* ▶️ Playback Controls with 10s Skip */}
             <div className="flex items-center justify-between w-full max-w-sm mt-6 px-6">
-                <button><FaBackward className="text-2xl" /></button>
+                <button onClick={() => handleAudioChange("minus")}><FaBackward className="text-2xl" /></button>
                 <button title="Back 10s" onClick={() => {
                     if (audioRef.current) audioRef.current.currentTime = Math.max(audioRef.current.currentTime - 10, 0);
                 }}>
-                    {/* <TbRewindBackward10 className="text-2xl cursor-pointer" /> */}
-                    <Image style={{color: "#212121"}} height={32} width={32} alt="forward" src="/images/backward-icon.png" />
+                    <Image height={32} width={32} alt="backward" src="/images/backward-icon.png" />
                 </button>
-
                 <button
                     style={{ background: "radial-gradient(92.09% 394.93% at 7.91% 50%, #6B0DFF 0%, #FF6B79 100%)" }}
                     className="p-4 rounded-full text-white shadow-lg"
@@ -286,50 +252,96 @@ export default function PodcastClient() {
                 >
                     {isPlaying ? <FaPause className="text-2xl" /> : <FaPlay className="text-2xl" />}
                 </button>
-
                 <button title="Forward 10s" onClick={() => {
                     if (audioRef.current) audioRef.current.currentTime = Math.min(audioRef.current.currentTime + 10, duration);
                 }}>
-                    {/* <TbRewindForward10 className="text-2xl cursor-pointer" /> */}
-                    <Image style={{color: "#212121"}} height={32} width={32} alt="forward" src="/images/forward-icon.png" />
+                    <Image height={32} width={32} alt="forward" src="/images/forward-icon.png" />
                 </button>
-                <button><FaForward className="text-2xl" /></button>
+                <button onClick={() => handleAudioChange("plus")}><FaForward className="text-2xl" /></button>
             </div>
 
-            {/* ⏱ Extra Controls */}
             <div className="w-full flex justify-around items-center py-3 mt-6">
                 <MdSpeed className="w-5 h-5 text-gray-600 cursor-pointer" onClick={() => setShowSpeedDialog(true)} />
-                <Dialog header="Playback Speed" visible={showSpeedDialog} onHide={() => setShowSpeedDialog(false)} style={{ width: "300px" }} modal>
-                    <div className="flex flex-col gap-3">
-                        {[0.5, 1, 1.5, 2].map((rate) => (
-                            <button
-                                key={rate}
-                                onClick={() => {
-                                    setPlaybackRate(rate);
-                                    if (audioRef.current) {
-                                        audioRef.current.playbackRate = rate;
-                                    }
-                                    setShowSpeedDialog(false);
-                                }}
-                                className={`py-2 px-4 rounded-md text-white ${playbackRate === rate ? "bg-purple-600" : "bg-gray-400"}`}
-                            >
-                                {rate}x
-                            </button>
-                        ))}
-                    </div>
-                </Dialog>
-
                 <Clock3 className="w-5 h-5 text-gray-600 cursor-pointer" onClick={handleClockClick} />
-                <Dialog visible={showSleepTimer} onHide={() => setShowSleepTimer(false)} header="Set Sleep Timer" className="w-80" modal>
-                    <div className="flex flex-col gap-2">
-                        <button className="bg-purple-500 text-white py-2 rounded" onClick={() => { setTimer(15); setShowSleepTimer(false); }}>15 Minutes</button>
-                        <button className="bg-purple-500 text-white py-2 rounded" onClick={() => { setTimer(30); setShowSleepTimer(false); }}>30 Minutes</button>
-                    </div>
-                </Dialog>
-
                 <Share2 className="w-5 h-5 text-gray-600 cursor-pointer" onClick={handleShareClick} />
                 <Download className="w-5 h-5 text-gray-600 cursor-pointer" onClick={handleDownload} />
             </div>
+
+            {/* Playback Speed Dialog */}
+            <Dialog header="Playback Speed" visible={showSpeedDialog} onHide={() => setShowSpeedDialog(false)} style={{ width: "300px" }} modal>
+                <div className="flex flex-col gap-3">
+                    {[0.5, 1, 1.5, 2].map((rate) => (
+                        <button
+                            key={rate}
+                            onClick={() => {
+                                setPlaybackRate(rate);
+                                if (audioRef.current) audioRef.current.playbackRate = rate;
+                                setShowSpeedDialog(false);
+                            }}
+                            className={`py-2 px-4 rounded-md text-white ${playbackRate === rate ? "bg-purple-600" : "bg-gray-400"}`}
+                        >
+                            {rate}x
+                        </button>
+                    ))}
+                </div>
+            </Dialog>
+
+            {/* Sleep Timer Dialog */}
+            <Dialog visible={showSleepTimer} onHide={() => setShowSleepTimer(false)} header="Set Sleep Timer" className="w-80" modal>
+                <div className="flex flex-col gap-2">
+                    <button className="bg-purple-500 text-white py-2 rounded" onClick={() => { setTimer(15); setShowSleepTimer(false); }}>15 Minutes</button>
+                    <button className="bg-purple-500 text-white py-2 rounded" onClick={() => { setTimer(30); setShowSleepTimer(false); }}>30 Minutes</button>
+                </div>
+            </Dialog>
+
+            {/* Subscription Dialog */}
+                <Dialog
+                visible={showSubscriptionDialog}
+                onHide={() => setShowSubscriptionDialog(false)}
+                header={null}
+                closable={false}
+                modal
+                className="bottom-dialog custom-dialog-no-header max-w-md w-full"
+                style={{
+                    position: "fixed",
+                    bottom: 0,
+                    width: '100%',
+                    borderTopLeftRadius: "1.5rem",
+                    borderTopRightRadius: "1.5rem",
+                }}
+                >
+                <div className="bg-white text-center w-full px-6 py-4">
+                    <div className="w-[60px] h-[60px] m-auto mt-6">
+                        <Image width={200} height={200} className="w-full h-full" src="/images/subscriptionLogo.png" alt="Subscription Logo" />
+                    </div>
+                    <h2 className="text-xl font-semibold text-purple-600 mt-4">StoryStream Pro</h2>
+                    <p className="text-lg font-bold text-gray-900 my-3">
+                        Unlock All Shows & Books
+                        <br />
+                        with StoryStream Pro
+                    </p>
+                    <div className="border border-gray-200"></div>
+                    <p className="text-gray-600 mt-3">
+                        Subscribe now to enjoy Unlimited Access
+                    </p>
+                    <button
+                        onClick={() => {
+                            window.open("https://payment.myuze.app/p/index.php?&userid=17178329&deviceId=20030107&country=IN&mobileNo=&isdCode=&langCode=en&app_version=3.0.3&build_number=10060&upi=&platform=web&plan=", "_self");
+                            setShowSubscriptionDialog(false);
+                        }}
+                        style={{ background: "radial-gradient(92.09% 394.93% at 7.91% 50%, #6B0DFF 0%, #FF6B79 100%)" }}
+                        className="text-white py-3 px-6 rounded-xl text-lg font-medium w-full transition hover:opacity-90"
+                    >
+                        Subscribe Now ({timer} Sec)
+                    </button>
+                    <div
+                        className="text-sm text-gray-600 mt-2 cursor-pointer hover:underline"
+                        onClick={() => setShowSubscriptionDialog(false)}
+                    >
+                        &larr; I’ll try this later, take me back
+                    </div>
+                </div>
+            </Dialog>
         </main>
     );
 }

@@ -21,7 +21,7 @@
 /* CSS Variables */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  /* --foreground: #171717; */
 }
 
 /* Thin scrollbar */
@@ -70,3 +70,25 @@ body {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+
+/* Add this in your global CSS */
+.bottom-dialog {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+/* Remove border line from dialog header */
+.custom-dialog-no-header .p-dialog-header {
+  border-bottom: none !important;
+  padding: 0 !important;
+  height: 0 !important;
+}
+

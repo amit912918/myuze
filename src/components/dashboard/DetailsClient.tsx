@@ -8,12 +8,14 @@ import {
     Download,
     BookOpen,
     Lightbulb,
-    User
+    User,
+    CheckCircle
 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useDashboard from '../../hooks/useDashboard';
 import { handlePodcastPaging } from '../../app/api/podcast';
+import { useAudio } from '../../hooks/useAudio';
 
 interface PodcastDetail {
     podcast_id: number;
@@ -72,6 +74,8 @@ const DetailsClient = () => {
     const conId = searchParams?.get('conId');
 
     const { setEpisodeId, detailData, setOpenPlayButton } = useDashboard();
+    const { setCurrentAudio, setAudioList } = useAudio();
+    const [bookDetails, setBookDetails] = useState<any>(null);
     const [podcastData, setPodcastData] = useState<PodcastDetail>();
     const [episodeData, setEpisodeData] = useState<PodcastEpisodeDetail[]>();
     const [showFullDescription, setShowFullDescription] = useState(false);
@@ -80,7 +84,8 @@ const DetailsClient = () => {
         setOpenPlayButton(prev => !prev);
     };
 
-    const handleEpisode = (item: PodcastEpisodeDetail) => {
+    const handleEpisode = (item: PodcastEpisodeDetail, index: number) => {
+        setCurrentAudio(index);
         setEpisodeId(item.episode_id);
         router.push(`/dashboard/podcast?episode_id=${encodeURIComponent(item.episode_id)}`);
     }
@@ -114,6 +119,10 @@ const DetailsClient = () => {
                 });
                 const podcast_details = result.response.podcast.podcast_details;
                 setPodcastData(podcast_details);
+                setBookDetails(result.response.podcast.book_details);
+                console.log(result, "fsd")
+                const episodeIds = result.response.podcast.podcast_episode_details.map((item: any) => item.episode_id);
+                setAudioList(episodeIds);
                 setEpisodeData(result.response.podcast.podcast_episode_details);
             } catch (error) {
                 console.error("Failed to fetch podcast:", error);
@@ -125,7 +134,7 @@ const DetailsClient = () => {
 
     const renderDescription = () => {
         const description = podcastData?.description || '';
-        if (description.length <= 150) return description;
+        if (description?.length <= 150) return description;
 
         return showFullDescription
             ? (
@@ -209,13 +218,13 @@ const DetailsClient = () => {
 
             <div className="flex justify-center gap-1 mt-4 flex-wrap">
                 <div className="flex items-center gap-1 px-3 py-1 rounded-md text-sm">
-                    <User size={14} /> Self Growth
+                    <User size={14} /> {bookDetails?.categories || "Self Growth"}
                 </div>
                 <div className="flex items-center gap-1 px-3 py-1 rounded-md text-sm">
                     <BookOpen size={14} /> {podcastData?.total_episode} Chapters
                 </div>
                 <div className="flex items-center gap-1 px-3 py-1 rounded-md text-sm">
-                    <Lightbulb size={14} /> 16 Insights
+                    <Lightbulb size={14} /> {bookDetails?.insights?.length || 16} Insights
                 </div>
             </div>
 
@@ -246,7 +255,7 @@ const DetailsClient = () => {
                 <h3 className="font-semibold text-lg">{podcastData?.total_episode} Chapters</h3>
                 {episodeData?.map((item: PodcastEpisodeDetail, index: number) => (
                     <div className="mt-1 bg-gray-100 rounded-xl p-4 flex items-center justify-between" key={index}>
-                        <div onClick={() => handleEpisode(item)} className="flex items-center gap-3">
+                        <div onClick={() => handleEpisode(item, index)} className="flex items-center gap-3">
                             <div
                             style={{ background: "linear-gradient(49.06deg, #6B0DFF 19.36%, #FF6B79 76.77%)" }}
                             className="p-2 rounded-full"
@@ -272,6 +281,18 @@ const DetailsClient = () => {
 
                 ))}
             </div>
+
+            {bookDetails && bookDetails.length !== 0 && <div className="max-w-2xl mx-auto mt-6 p-6 bg-white shadow-md rounded-xl border border-gray-100">
+      <h2 className="text-2xl font-semibold mb-6">Key Learnings</h2>
+      <ul className="space-y-6">
+        {bookDetails?.insights?.map((point: any, index: any) => (
+          <li key={index} className="flex items-start space-x-3">
+            <CheckCircle className="text-pink-500 mt-1" size={20} />
+            <p className="text-gray-800">{point}</p>
+          </li>
+        ))}
+      </ul>
+    </div>}
         </div>
     );
 };

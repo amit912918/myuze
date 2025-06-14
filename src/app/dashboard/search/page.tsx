@@ -72,23 +72,24 @@ export default function SearchPage() {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                    <RiSearchFill className="w-6 h-6 text-gradient-to-r text-purple-700 text-pink-700" />
+                <div className="flex items-center gap-3">
+                    {/* <RiSearchFill className="w-6 h-6 text-gradient-to-r text-purple-700 text-pink-700" /> */}
+                    <Image height={24} width={24} alt="search" src="/images/Search.png" />
                     <h1 className="text-xl font-semibold">Search</h1>
                 </div>
                 <div className="rounded-full cursor-pointer">
-                    <HiOutlineDotsCircleHorizontal className="text-black w-7 h-7" />
+                    <HiOutlineDotsCircleHorizontal className="w-7 h-7" />
                 </div>
             </div>
 
-            <div style={{ backgroundColor: "#F5F5F5" }} className="rounded-full px-4 py-2 flex items-center">
+            <div style={{ backgroundColor: "#F5F5F5" }} className="rounded-2xl px-4 py-1 flex items-center">
                 <IoIosSearch className="h-6 w-6 text-gray-500 cursor-pointer mr-1" />
                 <input
                     type="text"
                     value={search}
                     onChange={handleSearch}
                     placeholder="Search"
-                    className="w-full px-3 py-2 dark:bg-gray-100 text-black dark:text-black rounded-md outline-none"
+                    className="w-full px-3 py-2 dark:bg-gray-100 text-black dark:text-black outline-none"
                 />
                 {search && (
                     <X className="h-5 w-5 text-gray-500 cursor-pointer mx-2" onClick={clearSearch} />

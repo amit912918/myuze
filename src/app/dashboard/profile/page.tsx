@@ -20,7 +20,7 @@ type MenuItemProps = {
     onClick?: () => void;
 };
 
-function MenuItem({ icon, imgSrc, label, value, textColor = "text-gray-900", onClick }: MenuItemProps) {
+function MenuItem({ icon, imgSrc, label, value, textColor = "", onClick }: MenuItemProps) {
     return (
         <div
             onClick={onClick}

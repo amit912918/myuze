@@ -2,8 +2,11 @@
 
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function LanguageSelectPage() {
+
+  const router = useRouter();
   const [selectedLang, setSelectedLang] = useState<string | null>('hi');
 
   const languages = [
@@ -11,11 +14,16 @@ export default function LanguageSelectPage() {
     { label: 'हिंदी', subLabel: 'Hindi', code: 'HI', value: 'hi' },
   ];
 
+  const handleLanguageChange = (lang: any) => {
+    setSelectedLang(lang);
+    localStorage.setItem('language', lang);
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-between">
       {/* Back Arrow */}
       <div className="w-full flex justify-start">
-        <ArrowLeft className="h-6 w-6" />
+        <ArrowLeft onClick={() => router.back()} className="h-6 w-6" />
       </div>
 
       {/* Language Icon */}
@@ -30,7 +38,7 @@ export default function LanguageSelectPage() {
         {languages.map((lang) => (
           <div
             key={lang.value}
-            onClick={() => setSelectedLang(lang.value)}
+            onClick={() => handleLanguageChange(lang.value)}
             className={`flex justify-between items-center px-4 py-4 rounded-xl border cursor-pointer transition-all ${
               selectedLang === lang.value
                 ? 'bg-pink-400 text-white'

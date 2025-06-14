@@ -301,7 +301,6 @@ export default function PodcastClient() {
                 header={null}
                 closable={false}
                 modal
-                className="bottom-dialog custom-dialog-no-header max-w-md w-full"
                 style={{
                     position: "fixed",
                     bottom: 0,
@@ -309,6 +308,7 @@ export default function PodcastClient() {
                     borderTopLeftRadius: "1.5rem",
                     borderTopRightRadius: "1.5rem",
                 }}
+                className="bottom-dialog custom-dialog-no-header max-w-md w-full"
                 >
                 <div className="bg-white text-center w-full px-6 py-4">
                     <div className="w-[60px] h-[60px] m-auto mt-6">

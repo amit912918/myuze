@@ -48,7 +48,7 @@ export const handleUpdateProfile = async ({
     gender: string;
 }) => {
     return await requestApi({
-        url: 'api/v1/file',
+        url: 'api/v1/feed/setProfile',
         method: 'POST',
         data: {
             userId,
@@ -61,7 +61,7 @@ export const handleUpdateProfile = async ({
         },
         headers: {
             'device-os': 'web',
-            'API-KEY': 'eb3fb92a88bfb8c9bb9be6',
+            'API-KEY': 'eb3fb92a88badce847f88fb8c9bb9be6',
         },
     });
 };

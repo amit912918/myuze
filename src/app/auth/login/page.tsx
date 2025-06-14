@@ -69,6 +69,15 @@ export default function LoginPage() {
     return (
         <div className="overFlowscroll">
             <div className="relative bgImage rounded-lg">
+                {/* ✅ Skip Button */}
+                <div className="absolute top-4 right-4 z-20">
+                    <button
+                    onClick={() => router.push('/dashboard/home')}
+                    className="text-sm font-medium text-white bg-black/50 px-3 py-1 rounded-md"
+                    >
+                    Skip
+                    </button>
+                </div>
                 <Image alt='login' height={1200} width={1000} src="/images/loginImage.png" />
                 <div className="absolute loginContainer z-10 px-6 pb-10 w-[100%] text-center">
                     <div>

@@ -7,7 +7,7 @@ import 'react-phone-input-2/lib/style.css';
 import { HiOutlineChevronDown } from "react-icons/hi";
 import { MdArrowBack } from "react-icons/md";
 import { handleUpdateProfile } from '../../../api/profile';
-import { showSuccess } from '../../../../utils/toastService';
+import { showError, showSuccess } from '../../../../utils/toastService';
 
 export default function EditProfilePage() {
     const router = useRouter();
@@ -42,15 +42,16 @@ export default function EditProfilePage() {
     };
 
     const handleDelete = () => {
-        showSuccess('Profile deleted successfully!');
+        showError('You are not authorize to delete profile!');
     };
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
             try {
                 const data = JSON.parse(localStorage.getItem("loginData") || "{}")?.profile || {};
+                console.log(data, "data");
                 setUserId(data?.userId || "113");
-                setFirstName(data?.name || "");
+                setFirstName(data?.firstname || "");
                 setLastName(data?.lastname || "");
                 setEmail(data?.email || "");
                 setPhone(data?.mobileNo || "");

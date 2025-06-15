@@ -262,7 +262,9 @@ export default function PodcastClient() {
 
             <div className="w-full flex justify-around items-center py-3 mt-6">
                 <MdSpeed className="w-5 h-5 text-gray-600 cursor-pointer" onClick={() => setShowSpeedDialog(true)} />
+                {/* <Image height={28} width={28} alt="vector" src="/images/Vector.png" /> */}
                 <Clock3 className="w-5 h-5 text-gray-600 cursor-pointer" onClick={handleClockClick} />
+                {/* <Image height={28} width={28} alt="timer" src="/images/timer.png" /> */}
                 <Share2 className="w-5 h-5 text-gray-600 cursor-pointer" onClick={handleShareClick} />
                 <Download className="w-5 h-5 text-gray-600 cursor-pointer" onClick={handleDownload} />
             </div>

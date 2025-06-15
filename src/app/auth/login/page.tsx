@@ -21,12 +21,20 @@ export default function LoginPage() {
 
         const fp = await FingerprintJS.load();
         const result = await fp.get();
-        console.log(result.visitorId);
         setAuthData({
             mobileNo: mobileNo,
             deviceId: result.visitorId,
             isdCode: isdCode
         })
+
+        const tempAuth = {
+        mobileNo: mobileNo,
+        deviceId: result.visitorId,
+        isdCode: isdCode
+        };
+
+        // Save in localStorage for persistence between pages
+        localStorage.setItem("authData", JSON.stringify(tempAuth));
 
         try {
             const payload = {
@@ -106,7 +114,7 @@ export default function LoginPage() {
                         />
                     </div>
 
-                    <button className="w-full cursor-pointer py-3 rounded-md text-white font-semibold bg-gradient-to-r from-purple-500 to-pink-500" onClick={handleSendOtp}>
+                    <button className="w-full cursor-pointer py-3 rounded-2xl text-white font-semibold bg-gradient-to-r from-purple-500 to-pink-500" onClick={handleSendOtp}>
                         Send OTP
                     </button>
                     </div>

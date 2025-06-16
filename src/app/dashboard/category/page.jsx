@@ -51,7 +51,9 @@ export default function CategoryGrid() {
             {/* Top Category Heading */}
             <div className="flex items-center mb-6">
                 <Image className='mr-2' height={24} width={24} alt='category' src="/images/Category.png" />
-                <h1 className="text-2xl font-bold">Top Category</h1>
+                <div className="text-2xl text-gray-900 font-bold">
+                    Top Category
+                </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -65,7 +67,7 @@ export default function CategoryGrid() {
                             className='relative flex cursor-pointer'
                             key={index}
                         >
-                            <span className='absolute top-10 left-2 text-sm text-white'>{category.conName}</span>
+                            <span className='absolute top-10 left-2 text-sm text-white whitespace-normal break-words'>{category.conName}</span>
                             <Image width={200} height={200} src={category?.imgIrl} alt="category" />
                         </div>
                     ))
@@ -75,7 +77,7 @@ export default function CategoryGrid() {
             {/* All Category Heading */}
             <div className="flex items-center my-6">
                 <Image className='mr-2' height={24} width={24} alt='category' src="/images/Category.png" />
-                <h1 className="text-2xl font-bold">All Category</h1>
+                <div className="text-2xl text-gray-900 font-bold">All Category</div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">

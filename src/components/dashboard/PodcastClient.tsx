@@ -234,7 +234,7 @@ export default function PodcastClient() {
                 />
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
                     <span>{formatTime(currentTime)}</span>
-                    <span>{formatTime(duration)}</span>
+                    <span>{formatTime(duration ?? "00:00")}</span>
                 </div>
             </div>
 
@@ -250,7 +250,12 @@ export default function PodcastClient() {
                     className="p-4 rounded-full text-white shadow-lg"
                     onClick={() => episodeData?.is_billable === 1 ? confirm() : handlePlayPause(episodeData)}
                 >
-                    {isPlaying ? <FaPause className="text-2xl" /> : <FaPlay className="text-2xl" />}
+                    {isPlaying ? 
+                    <FaPause className="text-2xl" /> 
+                    : 
+                    <FaPlay className="text-2xl" />
+                    // <Image height={80} width={80} alt="play" src="/images/Play.png" />
+                    }
                 </button>
                 <button title="Forward 10s" onClick={() => {
                     if (audioRef.current) audioRef.current.currentTime = Math.min(audioRef.current.currentTime + 10, duration);
@@ -323,7 +328,7 @@ export default function PodcastClient() {
                         with StoryStream Pro
                     </p>
                     <div className="border border-gray-200"></div>
-                    <p className="text-gray-600 mt-3">
+                    <p className="text-gray-600 my-4">
                         Subscribe now to enjoy Unlimited Access
                     </p>
                     <button
@@ -337,7 +342,7 @@ export default function PodcastClient() {
                         Subscribe Now ({timer} Sec)
                     </button>
                     <div
-                        className="text-sm text-gray-600 mt-2 cursor-pointer hover:underline"
+                        className="text-sm text-gray-600 mt-4 cursor-pointer hover:underline"
                         onClick={() => setShowSubscriptionDialog(false)}
                     >
                         &larr; I’ll try this later, take me back

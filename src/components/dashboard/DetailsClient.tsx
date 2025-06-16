@@ -213,7 +213,7 @@ const DetailsClient = () => {
             <div className="text-center mt-4">
                 <h2 className="text-2xl font-bold">{podcastData?.title}</h2>
                 <p className="text-gray-800 font-semibold">{podcastData?.artist_name}</p>
-                <p className="text-sm text-gray-500">15 minutes</p>
+                <p style={{ color: "#A0A7B4"}} className="text-sm">15 minutes</p>
             </div>
 
             <div className="flex justify-center gap-1 mt-4 flex-wrap">
@@ -245,7 +245,7 @@ const DetailsClient = () => {
             </div>
 
             <div className="mt-6">
-                <h3 className="font-semibold text-lg">Description</h3>
+                <h3 className="font-semibold text-xl text-gray-900">Description</h3>
                 <p className="text-sm mt-2">
                     {renderDescription()}
                 </p>

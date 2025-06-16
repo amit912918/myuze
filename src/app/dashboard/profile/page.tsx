@@ -20,7 +20,7 @@ type MenuItemProps = {
     onClick?: () => void;
 };
 
-function MenuItem({ icon, imgSrc, label, value, textColor = "", onClick }: MenuItemProps) {
+function MenuItem({ icon, imgSrc, label, value, textColor = "text-gray-900", onClick }: MenuItemProps) {
     return (
         <div
             onClick={onClick}
@@ -33,9 +33,29 @@ function MenuItem({ icon, imgSrc, label, value, textColor = "", onClick }: MenuI
                         <Image src={imgSrc} alt="icon" width={24} height={24} />
                     </div>
                 )}
-                <span style={{ fontSize: "18px" }} className={`text-base ${textColor}`}>{label}</span>
+                <span 
+                style={{
+                fontWeight: 600,
+                fontSize: '18px',
+                lineHeight: '140%',
+                letterSpacing: '0.2px',
+                verticalAlign: 'middle',
+                }}
+                className={`text-base ${textColor}`}>
+                    {label}
+                </span>
             </div>
-            {value && <span style={{ fontSize: "18px" }} className="font-bold">{value}</span>}
+            {value && <span
+            style={{
+                fontWeight: 600,
+                fontSize: '18px',
+                lineHeight: '140%',
+                letterSpacing: '0.2px',
+                verticalAlign: 'middle',
+                }}
+                >
+                  {value}
+                </span>}
         </div>
     );
 }
@@ -69,9 +89,13 @@ export default function ProfilePage() {
         <div>
             {/* Top Bar */}
             <div className="flex justify-between items-center">
-                <h1 className="text-xl text-black font-semibold">Profile</h1>
+                <div className="flex items-center gap-3">
+                    <Image height={24} width={24} alt="banner" src="/images/Profile.png" />
+                    <h1 className="text-2xl text font-semibold">Profile</h1>
+                </div>
                 <div className="rounded-full cursor-pointer">
-                    <HiOutlineDotsCircleHorizontal className="text-black w-7 h-7" />
+                    {/* <HiOutlineDotsCircleHorizontal className="text-black w-7 h-7" /> */}
+                    <Image height={28} width={28} alt="banner" src="/images/Auto Layout Horizontal.png" />
                 </div>
             </div>
 

@@ -183,12 +183,12 @@ export default function SearchPage() {
                                                 <button
                                                     style={{ height: "32px", width: "79px", background: "radial-gradient(92.09% 394.93% at 7.91% 50%, #6B0DFF 0%, #FF6B79 100%)" }}
                                                     onClick={() => handleDetail(podcast?.conId)}
-                                                    className="text-white py-1 px-4 rounded-md flex items-center justify-center text-xs gap-x-2 transition hover:opacity-90"
+                                                    className="text-white py-1 px-4 rounded-md flex items-center justify-center text-xs gap-x-2 transition hover:opacity-90 cursor-pointer"
                                                 >
                                                     <FaPlay size={12} />
                                                     Play
                                                 </button>
-                                                <MdOutlinePlaylistAdd className="h-6 w-6 text-gray-500 font-semibold" />
+                                                <MdOutlinePlaylistAdd className="h-6 w-6 text-gray-700 font-semibold" />
                                                 <PiDownloadSimpleDuotone />
                                                 <FaEllipsisV className="text-gray-500" />
                                             </div>

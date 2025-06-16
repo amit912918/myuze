@@ -30,7 +30,7 @@ const Menubar = () => {
             {openPlayButton && <NowPlaying />}
 
             {/* Bottom Navigation */}
-            <nav style={{ backgroundColor: "#FFFFFF" }} className="fixed bottom-0 inset-x-0 m-auto mt-4 max-w-md w-full m-auto shadow-md px-6 py-2 z-50">
+            <nav style={{ backgroundColor: "#FFFFFF" , borderTopLeftRadius: "24px", borderTopRightRadius: "24px"}} className="fixed bottom-0 inset-x-0 m-auto mt-4 max-w-md w-full m-auto shadow-md px-6 py-2 z-50">
                 <div className="flex justify-between items-center">
 
                     {/* Home */}

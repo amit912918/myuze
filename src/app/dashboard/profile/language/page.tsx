@@ -28,7 +28,7 @@ export default function LanguageSelectPage() {
 
       {/* Language Icon */}
       <div className="flex flex-col items-center mt-6">
-        <img src="/profile/language.png" alt="language" className="h-20 w-20 mb-4" />
+        <img src="/images/Language_photo.jpeg" alt="language" className="h-20 w-20 mb-4" />
         <p className="font-bold text-lg">भाषा चुनें</p>
         <p className="text-sm text-gray-500">Please Select Language</p>
       </div>

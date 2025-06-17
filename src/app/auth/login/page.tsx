@@ -80,7 +80,7 @@ export default function LoginPage() {
                 {/* ✅ Skip Button */}
                 <div className="absolute top-4 right-4 z-20">
                     <button
-                    onClick={() => router.push('/dashboard/home')}
+                    onClick={() => router.push('/dashboard/profile')}
                     className="text-sm font-medium text-white bg-black/50 px-3 py-1 rounded-md"
                     >
                     Skip

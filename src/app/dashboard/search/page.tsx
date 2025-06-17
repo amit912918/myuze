@@ -3,7 +3,6 @@ import { FaPlay, FaEllipsisV } from "react-icons/fa";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import NotFoundPage from "../../../components/dashboard/NotFound";
-import { RiSearchFill } from "react-icons/ri";
 import { Mic, X } from "lucide-react";
 import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import { IoIosSearch } from "react-icons/io";
@@ -17,40 +16,13 @@ export default function SearchPage() {
     const [notFound, setNotFound] = useState(false);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
+    const [listening, setListening] = useState(false);
     const [defaultSearchData, setDefaultSearchData] = useState({
         rankingSearch: [],
         popularSearch: []
     });
 
-    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.target.value);
-        const result = await handleSearchApi(e.target.value);
-        setDefaultSearchData({
-            rankingSearch: result.response.result.result_ranking.podcasts_bucket.contents,
-            popularSearch: result.response.result.result_popular.podcasts_bucket.contents
-        });
-    };
-
-    const clearSearch = () => {
-        setSearch("");
-    };
-
-    const handleDetail = (conId: number) => {
-        router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
-    };
-
-    const handleSeeAll1 = () => {
-        localStorage.setItem('seeAllData', JSON.stringify(defaultSearchData?.rankingSearch));
-        router.push(`/dashboard/seeall?heading=${encodeURIComponent("Ranking Podcast")}`);
-    }
-
-    const handleSeeAll2 = () => {
-        localStorage.setItem('seeAllData', JSON.stringify(defaultSearchData?.popularSearch));
-        router.push(`/dashboard/seeall?heading=${encodeURIComponent("Popular Podcast")}`);
-    }
-
-    useEffect(() => {
-        const fetchData = async () => {
+    const fetchData = async () => {
             try {
                 setLoading(true);
                 const result = await handleDefaultSearchApi();
@@ -64,6 +36,66 @@ export default function SearchPage() {
                 setLoading(false);
             }
         };
+
+    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearch(value);
+        const result = await handleSearchApi(value);
+        setDefaultSearchData({
+            rankingSearch: result?.response?.result?.result_ranking?.podcasts_bucket?.contents,
+            popularSearch: result?.response?.result?.result_popular?.podcasts_bucket?.contents
+        });
+    };
+
+    const clearSearch = () => {
+        setSearch("");
+        fetchData();
+    };
+
+    const handleDetail = (conId: number) => {
+        router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
+    };
+
+    const handleSeeAll1 = () => {
+        localStorage.setItem('seeAllData', JSON.stringify(defaultSearchData?.rankingSearch));
+        router.push(`/dashboard/seeall?heading=${encodeURIComponent("Ranking Podcast")}`);
+    };
+
+    const handleSeeAll2 = () => {
+        localStorage.setItem('seeAllData', JSON.stringify(defaultSearchData?.popularSearch));
+        router.push(`/dashboard/seeall?heading=${encodeURIComponent("Popular Podcast")}`);
+    };
+
+    const startListening = () => {
+        const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+        if (!SpeechRecognition) {
+            alert("Speech recognition not supported in this browser.");
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.lang = 'en-US';
+
+        recognition.onstart = () => setListening(true);
+        recognition.onend = () => setListening(false);
+
+        recognition.onresult = (event: any) => {
+            const transcript = event.results[0][0].transcript;
+            setSearch(transcript);
+            handleSearch({ target: { value: transcript } } as React.ChangeEvent<HTMLInputElement>);
+        };
+
+        recognition.onerror = (event: any) => {
+            console.error("Speech recognition error:", event.error);
+            setListening(false);
+        };
+
+        recognition.start();
+    };
+
+    useEffect(() => {
         fetchData();
     }, []);
 
@@ -73,7 +105,6 @@ export default function SearchPage() {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-3">
-                    {/* <RiSearchFill className="w-6 h-6 text-gradient-to-r text-purple-700 text-pink-700" /> */}
                     <Image height={24} width={24} alt="search" src="/images/Search.png" />
                     <h1 className="text-xl font-semibold">Search</h1>
                 </div>
@@ -94,7 +125,10 @@ export default function SearchPage() {
                 {search && (
                     <X className="h-5 w-5 text-gray-500 cursor-pointer mx-2" onClick={clearSearch} />
                 )}
-                <Mic className="h-5 w-5 text-gray-500 cursor-pointer" />
+                <Mic
+                    className={`h-5 w-5 cursor-pointer ${listening ? 'text-purple-600 animate-pulse' : 'text-gray-500'}`}
+                    onClick={startListening}
+                />
             </div>
 
             {notFound ? <NotFoundPage /> : (
@@ -103,18 +137,15 @@ export default function SearchPage() {
                         <div className="flex justify-between items-center mb-2">
                             <h2 className="text-md font-semibold">Popular & Trending Authors</h2>
                             {!loading && (
-                                <button onClick={() => handleSeeAll1()} className="text-sm text-purple-600 font-semibold cursor-pointer">
+                                <button onClick={handleSeeAll1} className="text-sm text-purple-600 font-semibold cursor-pointer">
                                     See All
                                 </button>
                             )}
                         </div>
 
                         <div
-                        style={{
-                            scrollbarWidth: 'none',        // Firefox
-                            msOverflowStyle: 'none'        // IE 10+
-                        }}
-                        className="flex gap-4 overflow-x-auto pb-2"
+                            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                            className="flex gap-4 overflow-x-auto pb-2"
                         >
                             {loading
                                 ? shimmerArray.map((_, idx) => (
@@ -138,7 +169,7 @@ export default function SearchPage() {
                         <div className="flex justify-between items-center mb-2">
                             <h2 className="text-md font-semibold">Most Listened Podcasts</h2>
                             {!loading && (
-                                <button onClick={() => handleSeeAll2()} className="text-sm text-purple-600 font-semibold cursor-pointer">
+                                <button onClick={handleSeeAll2} className="text-sm text-purple-600 font-semibold cursor-pointer">
                                     See All
                                 </button>
                             )}

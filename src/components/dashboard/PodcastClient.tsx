@@ -253,7 +253,7 @@ export default function PodcastClient() {
                     {isPlaying ? 
                     <FaPause className="text-2xl" /> 
                     : 
-                    <FaPlay className="text-2xl" />
+                    <FaPlay className="text-2xl cursor-pointer" />
                     // <Image height={80} width={80} alt="play" src="/images/Play.png" />
                     }
                 </button>

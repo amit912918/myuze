@@ -21,8 +21,9 @@ const Menubar = () => {
     };
 
     useEffect(() => {
-        console.log(openPlayButton, 'Updated openPlayButton');
-    }, [openPlayButton]);
+        const currentDes: any = localStorage.getItem('menu');
+        setActiveMenu(currentDes);
+    }, []);
 
     return (
         <div className='mt-12'>

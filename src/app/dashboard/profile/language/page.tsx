@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { showSuccess } from '../../../../utils/toastService';
 
 export default function LanguageSelectPage() {
 
   const router = useRouter();
-  const [selectedLang, setSelectedLang] = useState<string | null>('hi');
+  const [selectedLang, setSelectedLang] = useState<string>('hi');
 
   const languages = [
     { label: 'English', code: 'A', value: 'en' },
@@ -16,13 +17,21 @@ export default function LanguageSelectPage() {
 
   const handleLanguageChange = (lang: any) => {
     setSelectedLang(lang);
-    localStorage.setItem('language', lang);
   }
+
+  const handleSetLanguage = () => {
+    localStorage.setItem('language', selectedLang);
+    showSuccess("Language changed successfully!");
+  }
+
+  useEffect(() => {
+     setSelectedLang(localStorage.getItem('language') || 'hi');
+  }, [])
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-between">
       {/* Back Arrow */}
-      <div className="w-full flex justify-start">
+      <div className="w-full flex justify-start cursor-pointer">
         <ArrowLeft onClick={() => router.back()} className="h-6 w-6" />
       </div>
 
@@ -57,7 +66,8 @@ export default function LanguageSelectPage() {
       {/* Continue Button */}
       <button
         disabled={!selectedLang}
-        className={`w-full max-w-md py-3 rounded-full mt-6 mb-10 text-white font-semibold text-center text-lg ${
+        onClick={handleSetLanguage}
+        className={`w-full cursor-pointer max-w-md py-3 rounded-full mt-6 mb-10 text-white font-semibold text-center text-lg ${
           selectedLang
             ? 'bg-gradient-to-r from-yellow-300 to-pink-400'
             : 'bg-gradient-to-r from-yellow-100 to-pink-100 cursor-not-allowed'

@@ -85,6 +85,12 @@ export default function ProfilePage() {
     setLoggedIn(isLoggedIn);
   }, []);
 
+  useEffect(() => {
+    const lang = localStorage.getItem('language')
+    const langName = lang === 'en' ? "English" : "Hindi";
+    setSelectedLanguage(langName);
+  }, [])
+
     return (
         <div>
             {/* Top Bar */}
@@ -172,7 +178,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Language Dialog */}
-            <Dialog
+            {/* <Dialog
                 header="Select Language"
                 visible={showLanguageDialog}
                 onHide={() => setShowLanguageDialog(false)}
@@ -193,7 +199,7 @@ export default function ProfilePage() {
                         </button>
                     ))}
                 </div>
-            </Dialog>
+            </Dialog> */}
         </div>
     );
 }

@@ -54,11 +54,11 @@ const NowPlaying = () => {
     const pathname = usePathname();
     const { setEpisodeId } = useDashboard();
 
-    // if (!isPlaying || !currentTrack || pathname?.includes('/podcast')) {
+    // if (!isPlaying || !currentTrack || pathname?.includes('/episode')) {
     //     return null; // don't show if not playing OR on podcast page
     // }
 
-    if (pathname?.includes('/podcast')) {
+    if (pathname?.includes('/episode')) {
         return null; // don't show if not playing OR on podcast page
     }
 
@@ -76,7 +76,7 @@ const NowPlaying = () => {
 
     const handleEpisode = (episode_id: any) => {
         setEpisodeId(episode_id);
-        router.push(`/dashboard/podcast?episode_id=${encodeURIComponent(episode_id)}`);
+        router.push(`/dashboard/episode?episode_id=${encodeURIComponent(episode_id)}`);
     }
 
     // useEffect(() => {

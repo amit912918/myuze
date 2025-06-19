@@ -125,11 +125,11 @@ export default function PodcastClient() {
     const handleAudioChange = (temp: any) => {
         if(temp === "plus" && currentAudio <= audioList.length - 1) {
             setCurrentAudio(currentAudio + 1);
-            router.push(`/dashboard/podcast?episode_id=${encodeURIComponent(audioList[currentAudio + 1])}`);
+            router.push(`/dashboard/episode?episode_id=${encodeURIComponent(audioList[currentAudio + 1])}`);
         }
         if(temp === "minus" && currentAudio >=0) {
             setCurrentAudio(currentAudio - 1);
-            router.push(`/dashboard/podcast?episode_id=${encodeURIComponent(audioList[currentAudio - 1])}`);
+            router.push(`/dashboard/episode?episode_id=${encodeURIComponent(audioList[currentAudio - 1])}`);
         }
     };
 

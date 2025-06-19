@@ -57,7 +57,7 @@ export default function LoginPage() {
     useEffect(() => {
             const isLoggedIn = localStorage.getItem('isLoggedIn');
             if (isLoggedIn === 'true') {
-                router.replace('/dashboard/home');
+                router.replace('/home');
             }
     }, [router]);
 
@@ -73,6 +73,11 @@ export default function LoginPage() {
         setMobileNo(numberWithoutStd);
     };
 
+    const moveToProfile = () => {
+        router.push('/profile');
+        localStorage.setItem('menu', 'profile');
+    }
+
 
     return (
         <div className="overFlowscroll">
@@ -80,8 +85,8 @@ export default function LoginPage() {
                 {/* ✅ Skip Button */}
                 <div className="absolute top-4 right-4 z-20">
                     <button
-                    onClick={() => router.push('/dashboard/profile')}
-                    className="text-sm font-medium text-white bg-black/50 px-3 py-1 rounded-md"
+                    onClick={moveToProfile}
+                    className="text-sm font-medium text-white bg-black/50 px-3 py-1 rounded-md cursor-pointer"
                     >
                     Skip
                     </button>

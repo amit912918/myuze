@@ -25,7 +25,7 @@ export default function SeeAllClient() {
 
     const handleDetail = (conId: number, conName: string, imgIrl: string) => {
         setDetailData({ conId, bkName: "bkName", conName, imgIrl });
-        router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
+        router.push(`/dashboard/podcast?conId=${encodeURIComponent(conId)}`);
     };
 
     return (

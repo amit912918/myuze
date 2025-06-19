@@ -147,7 +147,7 @@ export default function ProfilePage() {
                         </div>
                     }
                     // onClick={() => setShowLanguageDialog(true)}
-                    onClick={() => { router.push("/dashboard/profile/language")}}
+                    onClick={() => { router.push("/profile/language")}}
                 />
                 <MenuItem
                     icon={<FaHeadset />}

@@ -87,7 +87,7 @@ const DetailsClient = () => {
     const handleEpisode = (item: PodcastEpisodeDetail, index: number) => {
         setCurrentAudio(index);
         setEpisodeId(item.episode_id);
-        router.push(`/dashboard/podcast?episode_id=${encodeURIComponent(item.episode_id)}`);
+        router.push(`/dashboard/episode?episode_id=${encodeURIComponent(item.episode_id)}`);
     }
 
     const handleShareClick = async () => {

@@ -20,4 +20,32 @@ module.exports = {
     };
     return config;
   },
+  async rewrites() {
+    return [
+      {
+        source: '/profile',
+        destination: '/dashboard/profile',
+      },
+      {
+        source: '/home',
+        destination: '/dashboard/home',
+      },
+      {
+        source: '/search',
+        destination: '/dashboard/search',
+      },
+      {
+        source: '/category',
+        destination: '/dashboard/category',
+      },
+      {
+        source: '/library',
+        destination: '/dashboard/library',
+      },
+      {
+        source: '/profile/language',
+        destination: '/dashboard/profile/language',
+      },
+    ]
+    }
 };

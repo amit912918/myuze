@@ -41,7 +41,7 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
 
     const handleDetail = (conId: number, bkName: string, conName: string, imgIrl: string) => {
         setDetailData({ conId, bkName, conName, imgIrl });
-        router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
+        router.push(`/dashboard/podcast?conId=${encodeURIComponent(conId)}`);
     };
 
     const handleSeeAll = (item: SquareContent[]) => {

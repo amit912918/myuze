@@ -11,13 +11,13 @@ import { GoHomeFill } from "react-icons/go";
 
 const Menubar = () => {
     const router = useRouter();
-    const [activeMenu, setActiveMenu] = useState('profile');
+    const [activeMenu, setActiveMenu] = useState('');
     const { openPlayButton } = useDashboard();
 
     const handleMenuBar = (des: string) => {
         setActiveMenu(des);
         localStorage.setItem('menu', des);
-        router.push(`/dashboard/${des}`);
+        router.push(`/${des}`);
     };
 
     useEffect(() => {

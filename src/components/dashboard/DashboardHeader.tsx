@@ -38,7 +38,7 @@ const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
     }, [data]);
 
     const handleDetail = (conId: number) => {
-        router.push(`/dashboard/details?conId=${encodeURIComponent(conId)}`);
+        router.push(`/dashboard/podcast?conId=${encodeURIComponent(conId)}`);
     };
 
     if (loading) {

@@ -65,7 +65,7 @@ export default function EditProfilePage() {
     }, []);
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="h-[800px] flex flex-col">
             {/* Header */}
             <div className="flex space-x-16 items-center px-4 py-4">
                 <MdArrowBack onClick={() => router.back()} className="text-2xl text-black cursor-pointer" />
@@ -115,7 +115,7 @@ export default function EditProfilePage() {
                     enableSearch={true}
                 />
 
-                <select
+                {/* <select
                     value={gender}
                     onChange={(e) => setGender(e.target.value)}
                     className="w-full border rounded-xl py-3 px-4 dark:bg-gray-50 text-black dark:text-black focus:outline-none focus:ring-2 focus:ring-pink-300"
@@ -123,7 +123,7 @@ export default function EditProfilePage() {
                     <option value="M">Male</option>
                     <option value="F">Female</option>
                     <option value="O">Other</option>
-                </select>
+                </select> */}
             </div>
 
             {/* Fixed bottom buttons */}

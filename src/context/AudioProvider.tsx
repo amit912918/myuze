@@ -39,7 +39,7 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
 
     const handlePlayPause = (episodeData: any) => {
         if (episodeData.is_billable === 2) {
-            confirm()
+            // confirm()
             return;
         }
 

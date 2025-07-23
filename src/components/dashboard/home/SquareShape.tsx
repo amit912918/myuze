@@ -34,25 +34,24 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
 
     useEffect(() => {
         if (data?.contents?.length > 0) {
-            const timer = setTimeout(() => setLoading(false), 1000);
-            return () => clearTimeout(timer);
+            setLoading(false);
         }
     }, [data]);
 
     const handleDetail = (conId: number, bkName: string, conName: string, imgIrl: string) => {
         setDetailData({ conId, bkName, conName, imgIrl });
-        router.push(`/dashboard/podcast?conId=${encodeURIComponent(conId)}`);
+        router.push(`/home/podcast?conId=${encodeURIComponent(conId)}`);
     };
 
     const handleSeeAll = (item: SquareContent[]) => {
-        router.push(`/dashboard/seeall?heading=${encodeURIComponent(data.bkName)}`);
+        router.push(`/home/seeall?heading=${encodeURIComponent(data.bkName)}`);
         setSeeAllData(item);
         localStorage.setItem('seeAllData', JSON.stringify(item));
     };
 
     return (
         <div>
-            <div className="flex justify-between items-center my-3">
+            <div className="flex justify-between items-center my-6">
                 <h2 className="text-gray-900 text-xl font-semibold">{data.bkName}</h2>
                 <div
                     style={{ color: "#6B0DFF" }}
@@ -66,8 +65,8 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
             {loading ? (
                 <div 
                 style={{
-                    scrollbarWidth: 'none',        // Firefox
-                    msOverflowStyle: 'none'        // IE 10+
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none'
                 }} 
                 className="flex gap-4 overflow-x-auto no-scrollbar"
                 >
@@ -78,8 +77,8 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
             ) : (
                 <div 
                 style={{
-                    scrollbarWidth: 'none',        // Firefox
-                    msOverflowStyle: 'none'        // IE 10+
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none'
                 }}
                 className="overflow-x-auto whitespace-nowrap no-scrollbar"
                 >
@@ -92,13 +91,15 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
                                     handleDetail(item.conId, data.bkName, item.conName, item.imgIrl)
                                 }
                             >
-                                <Image
-                                    src={item.imgIrl || "/images/fallback.png"}
+                                {item.imgIrl ? <Image
+                                    src={item.imgIrl}
                                     alt={item.conName}
                                     width={150}
                                     height={150}
                                     className="rounded-lg object-cover"
-                                />
+                                /> : 
+                                <div className="min-w-[150px] h-[150px] rounded-lg bg-gray-300" />
+                                }
                                 <div className="absolute top-2 right-2">
                                     <Image
                                         style={{ borderRadius: "20%" }}

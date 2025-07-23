@@ -33,12 +33,12 @@ const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
 
     useEffect(() => {
         if (data?.contents?.length > 0) {
-                setLoading(false);
+            setLoading(false);
         }
     }, [data]);
 
     const handleDetail = (conId: number) => {
-        router.push(`/dashboard/podcast?conId=${encodeURIComponent(conId)}`);
+        router.push(`/home/podcast?conId=${encodeURIComponent(conId)}`);
     };
 
     if (loading) {

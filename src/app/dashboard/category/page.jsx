@@ -32,7 +32,7 @@ export default function CategoryGrid() {
             console.log("Error in login api", error);
             showError("Category data fetch failed");
         } finally {
-            setLoading(false); // 🔵 Done loading
+            setLoading(false);
         }
     };
 
@@ -58,7 +58,7 @@ export default function CategoryGrid() {
 
             <div className="grid grid-cols-2 gap-4">
                 {loading
-                    ? Array(4).fill(null).map((_, index) => (
+                    ? Array(2).fill(null).map((_, index) => (
                         <ShimmerCard key={index} width={200} height={100} />
                     ))
                     : topCategoryData?.map((category, index) => (
@@ -82,7 +82,7 @@ export default function CategoryGrid() {
 
             <div className="grid grid-cols-2 gap-4">
                 {loading
-                    ? Array(6).fill(null).map((_, index) => (
+                    ? Array(10).fill(null).map((_, index) => (
                         <ShimmerCard key={index} width={200} height={100} />
                     ))
                     : allCategoryData?.map((category, index) => (

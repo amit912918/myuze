@@ -74,7 +74,7 @@ export default function PodcastClient() {
     const searchParams = useSearchParams();
     const episode_id = searchParams?.get("episode_id");
 
-    const { audioRef, isPlaying, handlePlayPause, setAudioSrc, currentAudio, setCurrentAudio, audioList } = useAudio();
+    const { audioRef, isPlaying, setIsPlaying, handlePlayPause, setAudioSrc, currentAudio, setCurrentAudio, audioList } = useAudio();
     const [episodeData, setEpisodeData] = useState<Episode>(defaultEpisode);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
@@ -119,15 +119,16 @@ export default function PodcastClient() {
 
     const confirm = () => {
         setShowSubscriptionDialog(true);
-        setTimer(5); // Reset timer
+        setTimer(5);
     };
 
     const handleAudioChange = (temp: any) => {
-        if(temp === "plus" && currentAudio <= audioList.length - 1) {
+        setIsPlaying(false);
+        if(temp === "plus" && currentAudio < audioList.length - 1) {
             setCurrentAudio(currentAudio + 1);
             router.push(`/dashboard/episode?episode_id=${encodeURIComponent(audioList[currentAudio + 1])}`);
         }
-        if(temp === "minus" && currentAudio >=0) {
+        if(temp === "minus" && currentAudio > 0) {
             setCurrentAudio(currentAudio - 1);
             router.push(`/dashboard/episode?episode_id=${encodeURIComponent(audioList[currentAudio - 1])}`);
         }
@@ -148,6 +149,12 @@ export default function PodcastClient() {
                 setEpisodeData(ep);
                 localStorage.setItem("seeAllData", JSON.stringify(ep));
                 setAudioSrc(ep?.stream_url);
+                console.log(isPlaying, "isPlaying");
+                if(!isPlaying) {
+                    setTimeout(() => {
+                      handlePlayPause(ep)
+                    }, 200);
+                }
             } catch (error) {
                 console.error("Failed to fetch podcast:", error);
             }
@@ -190,7 +197,7 @@ export default function PodcastClient() {
                 <button onClick={() => router.back()}>
                     <MdArrowBack className="text-2xl cursor-pointer" />
                 </button>
-                <h1 className="font-semibold text-lg">Talking to Strangers</h1>
+                <h1 className="font-semibold text-lg">Now Playing</h1>
                 <button>
                     <HiOutlineDotsVertical className="text-2xl" />
                 </button>
@@ -234,7 +241,7 @@ export default function PodcastClient() {
                 />
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
                     <span>{formatTime(currentTime)}</span>
-                    <span>{formatTime(duration ?? "00:00")}</span>
+                    <span>{duration ? formatTime(duration) : "00:00"}</span>
                 </div>
             </div>
 
@@ -248,7 +255,7 @@ export default function PodcastClient() {
                 <button
                     style={{ background: "radial-gradient(92.09% 394.93% at 7.91% 50%, #6B0DFF 0%, #FF6B79 100%)" }}
                     className="p-4 rounded-full text-white shadow-lg"
-                    onClick={() => episodeData?.is_billable === 1 ? confirm() : handlePlayPause(episodeData)}
+                    onClick={() => episodeData?.is_billable === 0 ? confirm() : handlePlayPause(episodeData)}
                 >
                     {isPlaying ? 
                     <FaPause className="text-2xl" /> 
@@ -339,11 +346,11 @@ export default function PodcastClient() {
                         style={{ background: "radial-gradient(92.09% 394.93% at 7.91% 50%, #6B0DFF 0%, #FF6B79 100%)" }}
                         className="text-white py-3 px-6 rounded-xl text-lg font-medium w-full transition hover:opacity-90"
                     >
-                        Subscribe Now ({timer} Sec)
+                        Subscribe Now {timer > 1 ? `(${timer} Sec)` : "(Pro)"}
                     </button>
                     <div
                         className="text-sm text-gray-600 mt-4 cursor-pointer hover:underline"
-                        onClick={() => setShowSubscriptionDialog(false)}
+                        onClick={() => timer === 1 && setShowSubscriptionDialog(false)}
                     >
                         &larr; I’ll try this later, take me back
                     </div>

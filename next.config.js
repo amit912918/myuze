@@ -46,6 +46,10 @@ module.exports = {
         source: '/profile/language',
         destination: '/dashboard/profile/language',
       },
+      {
+        source: '/home/podcast/:path*',
+        destination: '/dashboard/podcast/:path*',
+      },
     ]
     }
 };

@@ -11,8 +11,9 @@ export default function LanguageSelectPage() {
   const [selectedLang, setSelectedLang] = useState<string>('hi');
 
   const languages = [
-    { label: 'English', code: 'A', value: 'en' },
-    { label: 'हिंदी', subLabel: 'Hindi', code: 'HI', value: 'hi' },
+    { label: 'English', code: 'EN', value: 'en' },
+    { label: 'हिंदी', code: 'HI', value: 'hi' },
+    // { label: 'हिंदी', subLabel: 'Hindi', code: 'HI', value: 'hi' },
   ];
 
   const handleLanguageChange = (lang: any) => {
@@ -29,17 +30,17 @@ export default function LanguageSelectPage() {
   }, [])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-between">
+    <div className="h-[600px] flex flex-col justify-between">
       {/* Back Arrow */}
       <div className="w-full flex justify-start cursor-pointer">
         <ArrowLeft onClick={() => router.back()} className="h-6 w-6" />
       </div>
 
       {/* Language Icon */}
-      <div className="flex flex-col items-center mt-6">
+      <div className="flex flex-col mt-6 ml-4">
         <img src="/images/Language_photo.jpeg" alt="language" className="h-20 w-20 mb-4" />
         <p className="font-bold text-lg">भाषा चुनें</p>
-        <p className="text-sm text-gray-500">Please Select Language</p>
+        <p className="text-lg">Please Select Language</p>
       </div>
 
       {/* Language Options */}
@@ -48,7 +49,7 @@ export default function LanguageSelectPage() {
           <div
             key={lang.value}
             onClick={() => handleLanguageChange(lang.value)}
-            className={`flex justify-between items-center px-4 py-4 rounded-xl border cursor-pointer transition-all ${
+            className={`flex justify-between items-center px-4 py-6 rounded-xl border cursor-pointer transition-all ${
               selectedLang === lang.value
                 ? 'bg-pink-400 text-white'
                 : 'bg-white border-pink-200 text-black'
@@ -56,7 +57,7 @@ export default function LanguageSelectPage() {
           >
             <div>
               <p className="font-semibold text-lg">{lang.label}</p>
-              {lang.subLabel && <p className="text-sm text-gray-600">{lang.subLabel}</p>}
+              {/* {lang.subLabel && <p className="text-sm text-gray-600">{lang.subLabel}</p>} */}
             </div>
             <span className="text-xl font-bold">{lang.code}</span>
           </div>
@@ -67,13 +68,13 @@ export default function LanguageSelectPage() {
       <button
         disabled={!selectedLang}
         onClick={handleSetLanguage}
-        className={`w-full cursor-pointer max-w-md py-3 rounded-full mt-6 mb-10 text-white font-semibold text-center text-lg ${
+        className={`w-full cursor-pointer max-w-md py-3 rounded-full mt-1 mb-10 text-white font-semibold text-center text-lg ${
           selectedLang
             ? 'bg-gradient-to-r from-yellow-300 to-pink-400'
             : 'bg-gradient-to-r from-yellow-100 to-pink-100 cursor-not-allowed'
         }`}
       >
-        जारी रखें
+        {selectedLang === "en" ? "Continue" : "जारी रखें"}
       </button>
     </div>
   );

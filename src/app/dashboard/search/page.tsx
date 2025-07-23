@@ -53,7 +53,7 @@ export default function SearchPage() {
     };
 
     const handleDetail = (conId: number) => {
-        router.push(`/dashboard/podcast?conId=${encodeURIComponent(conId)}`);
+        router.push(`/home/podcast?conId=${encodeURIComponent(conId)}`);
     };
 
     const handleSeeAll1 = () => {
@@ -99,7 +99,8 @@ export default function SearchPage() {
         fetchData();
     }, []);
 
-    const shimmerArray = Array(5).fill(0);
+    const shimmerArray1 = Array(3).fill(0);
+    const shimmerArray2 = Array(5).fill(0);
 
     return (
         <div className="space-y-6">
@@ -148,7 +149,7 @@ export default function SearchPage() {
                             className="flex gap-4 overflow-x-auto pb-2"
                         >
                             {loading
-                                ? shimmerArray.map((_, idx) => (
+                                ? shimmerArray1.map((_, idx) => (
                                     <div key={idx} className="w-[150px] h-[150px] bg-gray-300 animate-pulse rounded-lg" />
                                 ))
                                 : defaultSearchData?.rankingSearch?.map((author: any) => (
@@ -177,7 +178,7 @@ export default function SearchPage() {
 
                         <div className="space-y-4">
                             {loading
-                                ? shimmerArray.map((_, idx) => (
+                                ? shimmerArray2.map((_, idx) => (
                                     <div key={idx} className="flex items-center gap-4 animate-pulse">
                                         <div className="w-[150px] h-[150px] bg-gray-300 rounded-md" />
                                         <div className="flex-1 space-y-2">

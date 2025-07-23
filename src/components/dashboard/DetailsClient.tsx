@@ -37,6 +37,7 @@ interface PodcastDetail {
     artist_name: string | null;
     is_billable: number;
     ptype: string;
+    total_duration: string;
 }
 
 interface PodcastEpisodeDetail {
@@ -80,15 +81,18 @@ const DetailsClient = () => {
     const [episodeData, setEpisodeData] = useState<PodcastEpisodeDetail[]>();
     const [showFullDescription, setShowFullDescription] = useState(false);
 
-    const handlePlayButton = () => {
-        setOpenPlayButton(prev => !prev);
-    };
-
     const handleEpisode = (item: PodcastEpisodeDetail, index: number) => {
         setCurrentAudio(index);
         setEpisodeId(item.episode_id);
         router.push(`/dashboard/episode?episode_id=${encodeURIComponent(item.episode_id)}`);
     }
+
+    const handlePlayButton = () => {
+        // setOpenPlayButton(prev => !prev);
+        if (episodeData && episodeData.length > 0) {
+           handleEpisode(episodeData[0], 0);
+        }
+    };
 
     const handleShareClick = async () => {
         const shareUrl = window.location.href;
@@ -108,27 +112,27 @@ const DetailsClient = () => {
         }
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const result = await handlePodcastPaging({
-                    conId: Number(conId),
-                    page: 1,
-                    debug: false,
-                    test: '1122',
-                });
-                const podcast_details = result.response.podcast.podcast_details;
-                setPodcastData(podcast_details);
-                setBookDetails(result.response.podcast.book_details);
-                console.log(result, "fsd")
-                const episodeIds = result.response.podcast.podcast_episode_details.map((item: any) => item.episode_id);
-                setAudioList(episodeIds);
-                setEpisodeData(result.response.podcast.podcast_episode_details);
-            } catch (error) {
-                console.error("Failed to fetch podcast:", error);
-            }
-        };
+    const fetchData = async () => {
+        try {
+            const result = await handlePodcastPaging({
+                conId: Number(conId),
+                page: 1,
+                debug: false,
+                test: '1122',
+            });
+            const podcast_details = result.response.podcast.podcast_details;
+            setPodcastData(podcast_details);
+            setBookDetails(result.response.podcast.book_details);
+            const episodeIds = result.response.podcast.podcast_episode_details.map((item: any) => item.episode_id);
+            console.log(episodeIds, "episodeIds");
+            setAudioList(episodeIds);
+            setEpisodeData(result.response.podcast.podcast_episode_details);
+        } catch (error) {
+            console.error("Failed to fetch podcast:", error);
+        }
+    };
 
+    useEffect(() => {
         fetchData();
     }, [detailData, conId]);
 
@@ -170,53 +174,52 @@ const DetailsClient = () => {
     return (
         <div>
             <div className="relative rounded-2xl overflow-hidden max-h-[400px]">
-                {podcastData?.img_local_uri ? (
-                    <Image
-                        src={podcastData?.img_local_uri}
-                        alt="Podcast Cover"
-                        height={400}
-                        width={428}
-                        className="w-full h-[400px] object-cover"
-                    />
-                ) : (
-                    <div
-                        role="status"
-                        className="w-full h-[400px] bg-gray-300 dark:bg-gray-700 animate-pulse flex items-center justify-center"
-                    >
-                        <svg
-                            className="w-10 h-10 text-gray-200 dark:text-gray-600"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 16 20"
-                        >
-                            <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
-                            <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
-                        </svg>
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                )}
+            {/* Black shadow on top */}
+            <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black/30 to-transparent z-10" />
 
-                <div className="absolute top-4 left-4 text-white">
-                    <ArrowLeft
-                        onClick={() => router.back()}
-                        size={28}
-                        className="cursor-pointer"
-                    />
+            {podcastData?.img_local_uri ? (
+                <Image
+                src={podcastData?.img_local_uri}
+                alt="Podcast Cover"
+                height={400}
+                width={428}
+                className="w-full h-[400px] object-cover"
+                />
+            ) : (
+                <div
+                role="status"
+                className="w-full h-[400px] bg-gray-300 dark:bg-gray-700 animate-pulse flex items-center justify-center"
+                >
+                {/* your loading SVG */}
                 </div>
+            )}
 
-                <div className="absolute top-4 right-4 text-white">
-                    <Share2 onClick={handleShareClick} size={28} className="cursor-pointer" />
-                </div>
+            {/* Back button */}
+            <div className="absolute top-4 left-4 text-white z-20">
+                <ArrowLeft
+                onClick={() => router.back()}
+                className="cursor-pointer w-[25px] h-[30px]"
+                />
             </div>
+
+            {/* Share button */}
+            <div className="absolute top-4 right-4 text-white z-20">
+                <Share2 
+                onClick={handleShareClick} 
+                // size={28} 
+                className="cursor-pointer w-[25px] h-[30px]" />
+            </div>
+            </div>
+
 
             <div className="text-center mt-4">
-                <h2 className="text-2xl font-bold">{podcastData?.title}</h2>
-                <p className="text-gray-800 font-semibold">{podcastData?.artist_name}</p>
-                <p style={{ color: "#A0A7B4"}} className="text-sm">15 minutes</p>
+                <h2 className="text-2xl font-bold mx-4">{podcastData?.title}</h2>
+                {podcastData?.ptype === "book" && <><p className="text-gray-800 font-semibold">{podcastData?.artist_name}</p>
+                <p style={{ color: "#A0A7B4"}} className="text-sm">{bookDetails?.duration_display_mins} mins</p>
+                </>}
             </div>
 
-            <div className="flex justify-center gap-1 mt-4 flex-wrap">
+            {podcastData?.ptype === "book" && <div className="flex justify-center gap-1 mt-4 flex-wrap">
                 <div className="flex items-center gap-1 px-3 py-1 rounded-md text-sm">
                     <User size={14} /> {bookDetails?.categories || "Self Growth"}
                 </div>
@@ -224,9 +227,9 @@ const DetailsClient = () => {
                     <BookOpen size={14} /> {podcastData?.total_episode} Chapters
                 </div>
                 <div className="flex items-center gap-1 px-3 py-1 rounded-md text-sm">
-                    <Lightbulb size={14} /> {bookDetails?.insights?.length || 16} Insights
+                    <Lightbulb size={14} /> {bookDetails?.insights_count || 16} Insights
                 </div>
-            </div>
+            </div>}
 
             <div className="flex justify-between mt-6 gap-3">
                 <button 
@@ -244,12 +247,12 @@ const DetailsClient = () => {
                 </button>
             </div>
 
-            <div className="mt-6">
+            {podcastData?.ptype === "book" && <div className="mt-6">
                 <h3 className="font-semibold text-xl text-gray-900">Description</h3>
                 <p className="text-sm mt-2">
                     {renderDescription()}
                 </p>
-            </div>
+            </div>}
 
             <div className="mt-6">
                 <h3 className="font-semibold text-lg">{podcastData?.total_episode} Chapters</h3>

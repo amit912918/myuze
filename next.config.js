@@ -50,6 +50,10 @@ module.exports = {
         source: '/home/podcast/:path*',
         destination: '/dashboard/podcast/:path*',
       },
+      {
+        source: '/home/seeall/:path*',
+        destination: '/dashboard/seeall/:path*',
+      },
     ]
     }
 };

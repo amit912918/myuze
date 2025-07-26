@@ -58,12 +58,12 @@ export default function SearchPage() {
 
     const handleSeeAll1 = () => {
         localStorage.setItem('seeAllData', JSON.stringify(defaultSearchData?.rankingSearch));
-        router.push(`/dashboard/seeall?heading=${encodeURIComponent("Ranking Podcast")}`);
+        router.push(`/home/seeall?heading=${encodeURIComponent("Ranking Podcast")}`);
     };
 
     const handleSeeAll2 = () => {
         localStorage.setItem('seeAllData', JSON.stringify(defaultSearchData?.popularSearch));
-        router.push(`/dashboard/seeall?heading=${encodeURIComponent("Popular Podcast")}`);
+        router.push(`/home/seeall?heading=${encodeURIComponent("Popular Podcast")}`);
     };
 
     const startListening = () => {

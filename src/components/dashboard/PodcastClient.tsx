@@ -149,12 +149,12 @@ export default function PodcastClient() {
                 setEpisodeData(ep);
                 localStorage.setItem("seeAllData", JSON.stringify(ep));
                 setAudioSrc(ep?.stream_url);
-                console.log(isPlaying, "isPlaying");
-                if(!isPlaying) {
-                    setTimeout(() => {
-                      handlePlayPause(ep)
-                    }, 200);
-                }
+                // console.log(isPlaying, "isPlaying");
+                // if(!isPlaying) {
+                //     setTimeout(() => {
+                //       handlePlayPause(ep)
+                //     }, 200);
+                // }
             } catch (error) {
                 console.error("Failed to fetch podcast:", error);
             }

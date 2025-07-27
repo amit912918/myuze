@@ -1,4 +1,4 @@
-'use client'; // Only for app directory (remove if using pages/ directory)
+'use client';
 import { FaArrowLeft, FaPlay, FaPause, FaForward, FaBackward } from "react-icons/fa";
 import { useState } from "react";
 import Image from "next/image";

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import React from 'react';
 import useDashboard from '../../../hooks/useDashboard';
 import { useRouter } from 'next/navigation';
+import slugify from 'slugify';
 
 type SquareContent = {
     conId: number;
@@ -40,13 +41,13 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
 
     const handleDetail = (conId: number, bkName: string, conName: string, imgIrl: string) => {
         setDetailData({ conId, bkName, conName, imgIrl });
-        router.push(`/home/podcast?conId=${encodeURIComponent(conId)}`);
+        router.push(`/home/podcast/${encodeURIComponent(conId)}/${slugify(conName, { lower: true })}`);
     };
 
     const handleSeeAll = (item: SquareContent[]) => {
-        router.push(`/home/seeall?heading=${encodeURIComponent(data.bkName)}`);
         setSeeAllData(item);
         localStorage.setItem('seeAllData', JSON.stringify(item));
+        router.push(`/home/seeall/${slugify(data.bkName, { lower: true })}`);
     };
 
     return (

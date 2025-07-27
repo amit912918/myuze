@@ -6,6 +6,7 @@ import { handleCategory, handleCategoryDetail } from '../../api/category';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { showError } from '../../../utils/toastService';
+import slugify from 'slugify';
 
 // Shimmer component
 const ShimmerCard = ({ width = 200, height = 50 }) => (
@@ -39,7 +40,7 @@ export default function CategoryGrid() {
     const handleSeeAll = async (heading, conId) => {
         const result = await handleCategoryDetail(conId);
         localStorage.setItem('seeAllData', JSON.stringify(result.response.data.contents));
-        router.push(`/dashboard/seeall?heading=${encodeURIComponent(heading)}`);
+        router.push(`/home/seeall/${slugify(heading, { lower: true })}`);
     };
 
     useEffect(() => {

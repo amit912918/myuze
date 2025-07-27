@@ -3,14 +3,13 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { IoArrowBackOutline } from "react-icons/io5";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import useDashboard from '../../hooks/useDashboard';
+import slugify from 'slugify';
 
-export default function SeeAllClient() {
+export default function SeeAllClient({ heading }: any) {
     const router = useRouter();
     const { setDetailData } = useDashboard();
-    const searchParams = useSearchParams();
-    const heading = searchParams?.get('heading');
 
     const [seeAllData, setSeeAllData] = useState<any[]>([]);
 
@@ -25,7 +24,7 @@ export default function SeeAllClient() {
 
     const handleDetail = (conId: number, conName: string, imgIrl: string) => {
         setDetailData({ conId, bkName: "bkName", conName, imgIrl });
-        router.push(`/dashboard/podcast?conId=${encodeURIComponent(conId)}`);
+        router.push(`/home/podcast/${encodeURIComponent(conId)}/${slugify(conName, { lower: true })}`);
     };
 
     return (

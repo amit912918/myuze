@@ -27,10 +27,6 @@ module.exports = {
         destination: '/dashboard/profile',
       },
       {
-        source: '/home',
-        destination: '/dashboard/home',
-      },
-      {
         source: '/search',
         destination: '/dashboard/search',
       },
@@ -48,11 +44,11 @@ module.exports = {
       },
       {
         source: '/home/podcast/:path*',
-        destination: '/dashboard/podcast/:path*',
+        destination: '/podcast/:path*',
       },
       {
         source: '/home/seeall/:path*',
-        destination: '/dashboard/seeall/:path*',
+        destination: '/seeall/:path*',
       },
     ]
     }

@@ -45,7 +45,6 @@ export default function LoginPage() {
             };
 
             const res = await handleLogin(payload);
-            console.log(res.response, "result");
             showSuccess('Otp sent successfully!');
             router.push('/auth/verification');
         } catch (error) {

@@ -38,9 +38,10 @@ export default function CategoryGrid() {
     };
 
     const handleSeeAll = async (heading, conId) => {
-        const result = await handleCategoryDetail(conId);
+        const lang = localStorage.getItem('language');
+        const result = await handleCategoryDetail(conId, lang);
         localStorage.setItem('seeAllData', JSON.stringify(result.response.data.contents));
-        router.push(`/home/seeall/${slugify(heading, { lower: true })}`);
+        router.push(`/home/seeall/${slugify(heading || "unknown", { lower: true })}`);
     };
 
     useEffect(() => {

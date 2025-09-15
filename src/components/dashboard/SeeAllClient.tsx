@@ -15,16 +15,18 @@ export default function SeeAllClient({ heading }: any) {
 
     useEffect(() => {
         const data = localStorage.getItem('seeAllData');
+        console.log(data, "data====");
         if (data) {
-            setTimeout(() => {
-                setSeeAllData(JSON.parse(data));
-            }, 500); // simulate slight delay for shimmer
+            setSeeAllData(JSON.parse(data));
+            // setTimeout(() => {
+            //     setSeeAllData(JSON.parse(data));
+            // }, 500); // simulate slight delay for shimmer
         }
     }, []);
 
     const handleDetail = (conId: number, conName: string, imgIrl: string) => {
         setDetailData({ conId, bkName: "bkName", conName, imgIrl });
-        router.push(`/home/podcast/${encodeURIComponent(conId)}/${slugify(conName, { lower: true })}`);
+        router.push(`/home/podcast/${encodeURIComponent(conId)}/${slugify(conName || "unknown", { lower: true })}`);
     };
 
     return (
@@ -42,12 +44,12 @@ export default function SeeAllClient({ heading }: any) {
                             <div className="mt-2 h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
                         </div>
                     ))
-                    : seeAllData?.map((item: any, idx: number) => (
+                    : (seeAllData)?.map((item: any, idx: number) => (
                         <div key={idx} className="text-center">
                             <div onClick={() => handleDetail(item.conId || item.podcast_id, item.conName, item.imgIrl)} className="relative w-full aspect-square rounded-lg overflow-hidden cursor-pointer">
                                 <Image
                                     src={item.imgIrl}
-                                    alt={item.conName}
+                                    alt={item.conName || "conName"}
                                     fill
                                     className="object-cover"
                                 />

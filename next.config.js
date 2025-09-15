@@ -47,6 +47,10 @@ module.exports = {
         destination: '/podcast/:path*',
       },
       {
+        source: '/dashboard/episode/:path*',
+        destination: '/episode/:path*',
+      },
+      {
         source: '/home/seeall/:path*',
         destination: '/seeall/:path*',
       },

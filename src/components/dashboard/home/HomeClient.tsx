@@ -56,8 +56,8 @@ const HomeClient = () => {
 
     const getHomeData = async () => {
         try {
-            const res = await handleHome();
-            console.log(res.response.home, "result");
+            const lang = localStorage.getItem("language")
+            const res = await handleHome(lang);
             setHomeData(res.response.home)
             // router.push('/auth/verification');
         } catch (error) {

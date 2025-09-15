@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import slugify from 'slugify';
 
 interface SpotlightContent {
     conId: number;
@@ -37,8 +38,9 @@ const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
         }
     }, [data]);
 
-    const handleDetail = (conId: number) => {
-        router.push(`/home/podcast?conId=${encodeURIComponent(conId)}`);
+    const handleDetail = (conId: number, conName: string) => {
+        // router.push(`/home/podcast?conId=${encodeURIComponent(conId)}`);
+        router.push(`/home/podcast/${encodeURIComponent(conId)}/${slugify(conName || "unknown", { lower: true })}`);
     };
 
     if (loading) {
@@ -67,14 +69,14 @@ const HeaderSlider = ({ data }: { data: SpotlightBlock }) => {
                         <div className="relative h-[336px]">
                             <Image
                                 src={slide.imgIrl}
-                                alt={slide.conName}
+                                alt={slide.conName || "headerimg"}
                                 fill
                                 className="rounded-xl object-cover"
                             />
                             <div className="absolute inset-0 flex items-center justify-center mt-[55%]">
                                 <button
-                                    onClick={() => handleDetail(slide.conId)}
-                                    className="bg-white text-black font-semibold px-4 py-2 shadow-sm hover:shadow-md rounded-md"
+                                    onClick={() => handleDetail(slide.conId, slide.conName)}
+                                    className="bg-white text-black font-semibold px-4 py-2 shadow-sm hover:shadow-md rounded-md cursor-pointer"
                                 >
                                     Listen Now
                                 </button>

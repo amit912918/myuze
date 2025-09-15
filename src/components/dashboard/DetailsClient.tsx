@@ -12,10 +12,11 @@ import {
     CheckCircle
 } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import useDashboard from '../../hooks/useDashboard';
 import { handlePodcastPaging } from '../../app/api/podcast';
 import { useAudio } from '../../hooks/useAudio';
+import slugify from 'slugify';
 
 interface PodcastDetail {
     podcast_id: number;
@@ -81,9 +82,11 @@ const DetailsClient = ({ conId, title }: any) => {
     const [loading, setLoading] = useState(true);
 
     const handleEpisode = (item: PodcastEpisodeDetail, index: number) => {
+        console.log(item, "item");
         setCurrentAudio(index);
         setEpisodeId(item.episode_id);
-        router.push(`/dashboard/episode?episode_id=${encodeURIComponent(item.episode_id)}`);
+        router.push(`/episode/${encodeURIComponent(item.episode_id)}/${slugify(item.title, { lower: true })}`);
+        // router.push(`/episode?episode_id=${encodeURIComponent(item.episode_id)}`);
     }
 
     const handlePlayButton = () => {
@@ -111,11 +114,13 @@ const DetailsClient = ({ conId, title }: any) => {
 
     const fetchData = async () => {
         try {
+            const lang: any = localStorage.getItem("language")
             const result = await handlePodcastPaging({
                 conId: Number(conId),
                 page: 1,
                 debug: false,
                 test: '1122',
+                lang: lang
             });
             const podcast_details = result.response.podcast.podcast_details;
             setPodcastData(podcast_details);

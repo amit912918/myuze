@@ -10,6 +10,7 @@ import { Dialog } from "primereact/dialog";
 import useDashboard from "../../hooks/useDashboard";
 import { getEpisodeDetail } from "../../app/api/podcast";
 import { useAudio } from "../../hooks/useAudio";
+import slugify from "slugify";
 
 interface Episode {
     episode_id: number;
@@ -69,10 +70,10 @@ const defaultEpisode: Episode = {
     is_billable: 0,
 };
 
-export default function PodcastClient() {
+export default function PodcastClient({ episode_id, title }: any) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const episode_id = searchParams?.get("episode_id");
+    // const episode_id = searchParams?.get("episode_id");
 
     const { audioRef, isPlaying, setIsPlaying, handlePlayPause, setAudioSrc, currentAudio, setCurrentAudio, audioList } = useAudio();
     const [episodeData, setEpisodeData] = useState<Episode>(defaultEpisode);
@@ -123,14 +124,17 @@ export default function PodcastClient() {
     };
 
     const handleAudioChange = (temp: any) => {
+        console.log(audioList, "audioList");
         setIsPlaying(false);
         if(temp === "plus" && currentAudio < audioList.length - 1) {
             setCurrentAudio(currentAudio + 1);
-            router.push(`/dashboard/episode?episode_id=${encodeURIComponent(audioList[currentAudio + 1])}`);
+            router.push(`/episode/${encodeURIComponent(audioList[currentAudio + 1])}/${slugify(currentAudio.toString(), { lower: true })}`);
+            // router.push(`/episode?episode_id=${encodeURIComponent(audioList[currentAudio + 1])}`);
         }
         if(temp === "minus" && currentAudio > 0) {
             setCurrentAudio(currentAudio - 1);
-            router.push(`/dashboard/episode?episode_id=${encodeURIComponent(audioList[currentAudio - 1])}`);
+            router.push(`/episode/${encodeURIComponent(audioList[currentAudio - 1])}/${slugify(currentAudio.toString(), { lower: true })}`);
+            // router.push(`/episode?episode_id=${encodeURIComponent(audioList[currentAudio - 1])}`);
         }
     };
 
@@ -144,10 +148,11 @@ export default function PodcastClient() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await getEpisodeDetail(Number(episode_id));
+                const lang = localStorage.getItem("language")
+                const result = await getEpisodeDetail(Number(episode_id), lang);
                 const ep = result.response.podcast.podcast_episode_details[0];
                 setEpisodeData(ep);
-                localStorage.setItem("seeAllData", JSON.stringify(ep));
+                localStorage.setItem("episodeData", JSON.stringify(ep));
                 setAudioSrc(ep?.stream_url);
                 // console.log(isPlaying, "isPlaying");
                 // if(!isPlaying) {

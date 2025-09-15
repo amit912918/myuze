@@ -46,6 +46,7 @@ import { useAudio } from '../../hooks/useAudio';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import useDashboard from '../../hooks/useDashboard';
+import slugify from 'slugify';
 
 const NowPlaying = () => {
 
@@ -76,7 +77,8 @@ const NowPlaying = () => {
 
     const handleEpisode = (episode_id: any) => {
         setEpisodeId(episode_id);
-        router.push(`/dashboard/episode?episode_id=${encodeURIComponent(episode_id)}`);
+        router.push(`/episode/${encodeURIComponent(episode_id)}/${slugify("1", { lower: true })}`);
+        // router.push(`/episode?episode_id=${encodeURIComponent(episode_id)}`);
     }
 
     // useEffect(() => {
@@ -88,16 +90,16 @@ const NowPlaying = () => {
             <div className="flex items-center cursor-pointer" onClick={() => handleEpisode(JSON.parse(localStorage.getItem('seeAllData') || "")?.episode_id)}>
                 <div className="relative w-12 h-12 rounded-lg overflow-hidden">
                     <Image
-                        src={JSON.parse(localStorage.getItem('seeAllData') || "").img_local_uri || '/images/download.png'}
-                        alt={JSON.parse(localStorage.getItem('seeAllData') || "")?.title}
+                        src={JSON.parse(localStorage.getItem('episodeData') || "").img_local_uri || '/images/download.png'}
+                        alt={JSON.parse(localStorage.getItem('episodeData') || "")?.title || "playicon"}
                         fill
                         sizes="48px"
                         className="object-cover cursor-pointer"
                     />
                 </div>
                 <div className="ml-3">
-                    <h3 className="text-sm font-semibold text-black truncate w-[150px]">{JSON.parse(localStorage.getItem('seeAllData') || "")?.title}</h3>
-                    <p className="text-xs text-gray-500">{JSON.parse(localStorage.getItem('seeAllData') || "")?.subtitle}</p>
+                    <h3 className="text-sm font-semibold text-black truncate w-[150px]">{JSON.parse(localStorage.getItem('episodeData') || "")?.title}</h3>
+                    <p className="text-xs text-gray-500">{JSON.parse(localStorage.getItem('episodeData') || "")?.subtitle}</p>
                 </div>
             </div>
             <button

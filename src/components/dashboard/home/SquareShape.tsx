@@ -41,13 +41,13 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
 
     const handleDetail = (conId: number, bkName: string, conName: string, imgIrl: string) => {
         setDetailData({ conId, bkName, conName, imgIrl });
-        router.push(`/home/podcast/${encodeURIComponent(conId)}/${slugify(conName, { lower: true })}`);
+        router.push(`/home/podcast/${encodeURIComponent(conId)}/${slugify(conName || "unknown", { lower: true })}`);
     };
 
     const handleSeeAll = (item: SquareContent[]) => {
         setSeeAllData(item);
         localStorage.setItem('seeAllData', JSON.stringify(item));
-        router.push(`/home/seeall/${slugify(data.bkName, { lower: true })}`);
+        router.push(`/home/seeall/${slugify(data.bkName || "unknown", { lower: true })}`);
     };
 
     return (
@@ -94,7 +94,7 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
                             >
                                 {item.imgIrl ? <Image
                                     src={item.imgIrl}
-                                    alt={item.conName}
+                                    alt={item.conName || "squareshape"}
                                     width={150}
                                     height={150}
                                     className="rounded-lg object-cover"

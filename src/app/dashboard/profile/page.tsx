@@ -24,7 +24,7 @@ function MenuItem({ icon, imgSrc, label, value, textColor = "text-gray-900", onC
     return (
         <div
             onClick={onClick}
-            className="flex items-center justify-between py-3 cursor-pointer px-2 rounded"
+            className="flex items-center justify-between py-3 cursor-pointer px-2 rounded select-none"
         >
             <div className="flex items-center space-x-3">
                 {/* {icon && <div className="text-gray-400">{icon}</div>} */}

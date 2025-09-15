@@ -54,13 +54,13 @@ const SquareShape = ({ data }: { data: SquareBlock }) => {
         <div>
             <div className="flex justify-between items-center my-6">
                 <h2 className="text-gray-900 text-xl font-semibold">{data.bkName}</h2>
-                <div
+                <button
                     style={{ color: "#6B0DFF" }}
                     onClick={() => handleSeeAll(data.contents)}
                     className="font-semibold cursor-pointer"
                 >
                     See All
-                </div>
+                </button>
             </div>
 
             {loading ? (

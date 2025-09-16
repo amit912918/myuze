@@ -83,8 +83,7 @@ const DetailsClient = ({ conId, title }: any) => {
     const [loading, setLoading] = useState(true);
 
     const handleEpisode = (item: PodcastEpisodeDetail, index: number) => {
-        console.log(item, "item");
-        setIsPlaying(false);
+        // setIsPlaying(false);
         setCurrentAudio(index);
         setEpisodeId(item.episode_id);
         router.push(`/episode/${encodeURIComponent(item.episode_id)}/${slugify(item.title, { lower: true })}`);

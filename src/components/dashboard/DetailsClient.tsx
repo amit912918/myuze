@@ -73,6 +73,7 @@ interface PodcastEpisodeDetail {
 const DetailsClient = ({ conId, title }: any) => {
     const router = useRouter();
 
+    const { setIsPlaying } = useAudio();
     const { setEpisodeId, detailData, setOpenPlayButton } = useDashboard();
     const { setCurrentAudio, setAudioList } = useAudio();
     const [bookDetails, setBookDetails] = useState<any>(null);
@@ -83,6 +84,7 @@ const DetailsClient = ({ conId, title }: any) => {
 
     const handleEpisode = (item: PodcastEpisodeDetail, index: number) => {
         console.log(item, "item");
+        setIsPlaying(false);
         setCurrentAudio(index);
         setEpisodeId(item.episode_id);
         router.push(`/episode/${encodeURIComponent(item.episode_id)}/${slugify(item.title, { lower: true })}`);

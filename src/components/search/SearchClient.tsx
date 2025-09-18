@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import slugify from "slugify";
 import { handleDefaultSearchApi, handleSearchApi } from "../../app/api/search";
 import NotFoundPage from "../dashboard/NotFound";
+import { showSuccess } from "../../utils/toastService";
 
 export default function SearchClient() {
     const router = useRouter();
@@ -38,19 +39,23 @@ export default function SearchClient() {
             }
         };
 
-    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setSearch(value);
-        const result = await handleSearchApi(value);
-        setDefaultSearchData({
-            rankingSearch: result?.response?.result?.result_ranking?.podcasts_bucket?.contents,
-            popularSearch: result?.response?.result?.result_popular?.podcasts_bucket?.contents
-        });
-    };
-
     const clearSearch = () => {
         setSearch("");
         fetchData();
+    };
+
+    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if(!value) {
+            clearSearch();
+            return;
+        }
+        setSearch(value);
+        const result = await handleSearchApi(value);
+        setDefaultSearchData({
+            rankingSearch: [],
+            popularSearch: result?.response?.result?.podcasts_bucket?.contents
+        });
     };
 
     const handleDetail = (conId: number, conName: string) => {
@@ -71,7 +76,8 @@ export default function SearchClient() {
         const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
         if (!SpeechRecognition) {
-            alert("Speech recognition not supported in this browser.");
+            // alert("Speech recognition not supported in this browser.");
+            showSuccess('Speech recognition not supported in this browser.');
             return;
         }
 
@@ -89,7 +95,7 @@ export default function SearchClient() {
         };
 
         recognition.onerror = (event: any) => {
-            console.error("Speech recognition error:", event.error);
+            console.log("Speech recognition error:", event.error);
             setListening(false);
         };
 
@@ -136,14 +142,14 @@ export default function SearchClient() {
             {notFound ? <NotFoundPage /> : (
                 <>
                     <div>
-                        <div className="flex justify-between items-center mb-2">
+                        {defaultSearchData?.rankingSearch?.length !== 0 && <div className="flex justify-between items-center mb-2">
                             <h2 className="text-md font-semibold">Popular & Trending Authors</h2>
                             {!loading && (
                                 <button onClick={handleSeeAll1} className="text-sm text-purple-600 font-semibold cursor-pointer">
                                     See All
                                 </button>
                             )}
-                        </div>
+                        </div>}
 
                         <div
                             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -195,7 +201,7 @@ export default function SearchClient() {
                                         </div>
                                     </div>
                                 ))
-                                : defaultSearchData?.rankingSearch?.map((podcast: any) => (
+                                : defaultSearchData?.popularSearch?.map((podcast: any) => (
                                     <div key={podcast.conId} className="flex items-center gap-4">
                                         <Image
                                             src={podcast.imgIrl}

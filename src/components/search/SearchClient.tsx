@@ -25,19 +25,19 @@ export default function SearchClient() {
     });
 
     const fetchData = async () => {
-            try {
-                setLoading(true);
-                const result = await handleDefaultSearchApi();
-                setDefaultSearchData({
-                    rankingSearch: result.response.result.result_ranking.podcasts_bucket.contents,
-                    popularSearch: result.response.result.result_popular.podcasts_bucket.contents
-                });
-                setLoading(false);
-            } catch (error) {
-                console.error("Failed to fetch podcast:", error);
-                setLoading(false);
-            }
-        };
+        try {
+            setLoading(true);
+            const result = await handleDefaultSearchApi();
+            setDefaultSearchData({
+                rankingSearch: result.response.result.result_ranking.podcasts_bucket.contents,
+                popularSearch: result.response.result.result_popular.podcasts_bucket.contents
+            });
+            setLoading(false);
+        } catch (error) {
+            console.error("Failed to fetch podcast:", error);
+            setLoading(false);
+        }
+    };
 
     const clearSearch = () => {
         setSearch("");
@@ -46,7 +46,7 @@ export default function SearchClient() {
 
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        if(!value) {
+        if (!value) {
             clearSearch();
             return;
         }
@@ -76,7 +76,6 @@ export default function SearchClient() {
         const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
         if (!SpeechRecognition) {
-            // alert("Speech recognition not supported in this browser.");
             showSuccess('Speech recognition not supported in this browser.');
             return;
         }
@@ -138,6 +137,28 @@ export default function SearchClient() {
                     onClick={startListening}
                 />
             </div>
+
+            {/* Listening card */}
+            {listening && (
+                <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex justify-center items-center z-50">
+                    <div className="bg-white rounded-2xl shadow-xl p-6 w-[320px] text-center relative border border-purple-200">
+                        <button
+                            className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                            onClick={() => setListening(false)}
+                        >
+                            <X className="h-5 w-5" />
+                        </button>
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center animate-pulse">
+                                <Mic className="h-8 w-8 text-purple-600" />
+                            </div>
+                            <p className="text-sm font-medium text-gray-700">
+                                Listening... Speak now
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {notFound ? <NotFoundPage /> : (
                 <>

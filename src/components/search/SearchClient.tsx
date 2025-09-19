@@ -111,32 +111,46 @@ export default function SearchClient() {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-6">
                     <Image height={24} width={24} alt="search" src="/images/Search.png" />
                     <h1 className="text-xl font-semibold">Search</h1>
                 </div>
-                <div className="rounded-full cursor-pointer">
+                {/* <div className="rounded-full cursor-pointer">
                     <HiOutlineDotsCircleHorizontal className="w-7 h-7" />
-                </div>
+                </div> */}
             </div>
 
-            <div style={{ backgroundColor: "#F5F5F5" }} className="rounded-2xl px-4 py-1 flex items-center">
-                <IoIosSearch className="h-6 w-6 text-gray-500 cursor-pointer mr-1" />
-                <input
-                    type="text"
-                    value={search}
-                    onChange={handleSearch}
-                    placeholder="Search"
-                    className="w-full px-3 py-2 dark:bg-gray-100 text-black dark:text-black outline-none"
+            <div
+            style={{
+                background: "radial-gradient(92.09% 394.93% at 7.91% 50%, #F3E8FF 0%, #FFE4E8 100%)", // lighter version of gradient
+            }}
+            className="rounded-2xl px-4 py-1 flex items-center"
+            >
+            <IoIosSearch className="h-8 w-8 text-gray-500 cursor-pointer mr-1" />
+
+            <input
+                type="text"
+                value={search}
+                onChange={handleSearch}
+                placeholder="Search Shows, Books, Podcasts"
+                className="w-full px-3 py-2 bg-transparent text-black outline-none placeholder-gray-500 placeholder:text-sm"
+            />
+
+            {search && (
+                <X
+                className="h-8 w-8 text-gray-500 cursor-pointer mx-2"
+                style={{ color: "#6B0DFF" }} // mic always dark purple
+                onClick={clearSearch}
                 />
-                {search && (
-                    <X className="h-5 w-5 text-gray-500 cursor-pointer mx-2" onClick={clearSearch} />
-                )}
-                <Mic
-                    className={`h-5 w-5 cursor-pointer ${listening ? 'text-purple-600 animate-pulse' : 'text-gray-500'}`}
-                    onClick={startListening}
-                />
+            )}
+
+            <Mic
+                className={`h-8 w-8 cursor-pointer ${listening ? 'animate-pulse' : ''}`}
+                style={{ color: "#6B0DFF" }} // mic always dark purple
+                onClick={startListening}
+            />
             </div>
+
 
             {/* Listening card */}
             {listening && (
